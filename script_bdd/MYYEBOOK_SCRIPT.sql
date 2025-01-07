@@ -5,85 +5,64 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema MYYEBOOK
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema myyebook
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema MYYEBOOK
+-- Schema myyebook
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `MYYEBOOK` DEFAULT CHARACTER SET utf8 ;
-USE `MYYEBOOK` ;
+CREATE SCHEMA IF NOT EXISTS `myyebook` DEFAULT CHARACTER SET utf8mb3 ;
+USE `myyebook` ;
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`AUTEUR`
+-- Table `myyebook`.`auteur`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`AUTEUR` (
+CREATE TABLE IF NOT EXISTS `myyebook`.`auteur` (
   `AUT_ID` INT NOT NULL,
   `AUT_NOM` VARCHAR(45) NOT NULL,
   `AUT_PRENOM` VARCHAR(45) NOT NULL,
-  `AUT_IMG` VARCHAR(45) NULL,
+  `AUT_IMG` LONGBLOB NULL DEFAULT NULL,
   PRIMARY KEY (`AUT_ID`),
   UNIQUE INDEX `AUT_ID_UNIQUE` (`AUT_ID` ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`CATAGORIE`
+-- Table `myyebook`.`catagorie`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`CATAGORIE` (
+CREATE TABLE IF NOT EXISTS `myyebook`.`catagorie` (
   `CAT_ID` INT NOT NULL,
   `CAT_LIBELLE` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`CAT_ID`),
   UNIQUE INDEX `CAT_ID_UNIQUE` (`CAT_ID` ASC) VISIBLE,
   UNIQUE INDEX `CAT_LIBELLE_UNIQUE` (`CAT_LIBELLE` ASC) VISIBLE)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`LIVRE`
+-- Table `myyebook`.`compte`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`LIVRE` (
-  `LIV_ID` INT NOT NULL,
-  `LIV_TITRE` VARCHAR(45) NOT NULL,
-  `LIV_RESUME` TEXT(255) NOT NULL,
-  `LIV_IMAGE` LONGBLOB NULL,
-  `LIV_QUANTITE` INT NOT NULL,
-  `AUTEUR_AUT_ID` INT NOT NULL,
-  `CATAGORIE_CAT_ID` INT NOT NULL,
-  PRIMARY KEY (`LIV_ID`),
-  UNIQUE INDEX `LIV_ID_UNIQUE` (`LIV_ID` ASC) VISIBLE,
-  INDEX `fk_LIVRE_AUTEUR1_idx` (`AUTEUR_AUT_ID` ASC) VISIBLE,
-  INDEX `fk_LIVRE_CATAGORIE1_idx` (`CATAGORIE_CAT_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_LIVRE_AUTEUR1`
-    FOREIGN KEY (`AUTEUR_AUT_ID`)
-    REFERENCES `MYYEBOOK`.`AUTEUR` (`AUT_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_LIVRE_CATAGORIE1`
-    FOREIGN KEY (`CATAGORIE_CAT_ID`)
-    REFERENCES `MYYEBOOK`.`CATAGORIE` (`CAT_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `myyebook`.`compte` (
+  `CPT_ID` INT NOT NULL,
+  `CPT_LOGIN` CHAR(10) NOT NULL,
+  `CPT_PASS` CHAR(255) NOT NULL,
+  `CPT_ROLE` SET('LIBRAIRE', 'CLIENT') NOT NULL,
+  PRIMARY KEY (`CPT_ID`),
+  UNIQUE INDEX `CPT_ID_UNIQUE` (`CPT_ID` ASC) VISIBLE,
+  UNIQUE INDEX `CPT_LOGIN_UNIQUE` (`CPT_LOGIN` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`COMPTE`
+-- Table `myyebook`.`client`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`COMPTE` (
-  `SEC_ID` INT NOT NULL,
-  `SEC_LOGIN` CHAR(10) NOT NULL,
-  `SEC_PASS` CHAR(255) NOT NULL,
-  UNIQUE INDEX `SEC_ID_UNIQUE` (`SEC_ID` ASC) VISIBLE,
-  PRIMARY KEY (`SEC_ID`),
-  UNIQUE INDEX `SEC_LOGIN_UNIQUE` (`SEC_LOGIN` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `MYYEBOOK`.`CLIENT`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`CLIENT` (
+CREATE TABLE IF NOT EXISTS `myyebook`.`client` (
   `CLI_ID` INT NOT NULL,
   `CLI_NOM` VARCHAR(45) NOT NULL,
   `CLI_PRENOM` VARCHAR(45) NOT NULL,
@@ -94,16 +73,15 @@ CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`CLIENT` (
   INDEX `fk_CLIENT_COMPTE1_idx` (`COMPTE_SEC_ID` ASC) VISIBLE,
   CONSTRAINT `fk_CLIENT_COMPTE1`
     FOREIGN KEY (`COMPTE_SEC_ID`)
-    REFERENCES `MYYEBOOK`.`COMPTE` (`SEC_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `myyebook`.`compte` (`CPT_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`LIBRAIRE`
+-- Table `myyebook`.`libraire`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`LIBRAIRE` (
+CREATE TABLE IF NOT EXISTS `myyebook`.`libraire` (
   `LIB_ID` INT NOT NULL,
   `LIB_NOM` VARCHAR(45) NOT NULL,
   `LIB_PRENOM` VARCHAR(45) NOT NULL,
@@ -113,16 +91,40 @@ CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`LIBRAIRE` (
   INDEX `fk_LIBRAIRE_COMPTE1_idx` (`COMPTE_SEC_ID` ASC) VISIBLE,
   CONSTRAINT `fk_LIBRAIRE_COMPTE1`
     FOREIGN KEY (`COMPTE_SEC_ID`)
-    REFERENCES `MYYEBOOK`.`COMPTE` (`SEC_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `myyebook`.`compte` (`CPT_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `MYYEBOOK`.`CLIENT_has_LIVRE`
+-- Table `myyebook`.`livre`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`CLIENT_has_LIVRE` (
+CREATE TABLE IF NOT EXISTS `myyebook`.`livre` (
+  `LIV_ID` INT NOT NULL,
+  `LIV_TITRE` VARCHAR(45) NOT NULL,
+  `LIV_RESUME` TEXT NOT NULL,
+  `LIV_IMAGE` LONGBLOB NULL DEFAULT NULL,
+  `LIV_QUANTITE` INT NOT NULL,
+  `AUTEUR_AUT_ID` INT NOT NULL,
+  `CATAGORIE_CAT_ID` INT NOT NULL,
+  PRIMARY KEY (`LIV_ID`),
+  UNIQUE INDEX `LIV_ID_UNIQUE` (`LIV_ID` ASC) VISIBLE,
+  INDEX `fk_LIVRE_AUTEUR1_idx` (`AUTEUR_AUT_ID` ASC) VISIBLE,
+  INDEX `fk_LIVRE_CATAGORIE1_idx` (`CATAGORIE_CAT_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_LIVRE_AUTEUR1`
+    FOREIGN KEY (`AUTEUR_AUT_ID`)
+    REFERENCES `myyebook`.`auteur` (`AUT_ID`),
+  CONSTRAINT `fk_LIVRE_CATAGORIE1`
+    FOREIGN KEY (`CATAGORIE_CAT_ID`)
+    REFERENCES `myyebook`.`catagorie` (`CAT_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `myyebook`.`emprunt`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `myyebook`.`emprunt` (
   `CLIENT_CLI_ID` INT NOT NULL,
   `LIVRE_LIV_ID` INT NOT NULL,
   `LIBRAIRE_LIB_ID` INT NOT NULL,
@@ -132,20 +134,15 @@ CREATE TABLE IF NOT EXISTS `MYYEBOOK`.`CLIENT_has_LIVRE` (
   INDEX `fk_CLIENT_has_LIVRE_LIBRAIRE1_idx` (`LIBRAIRE_LIB_ID` ASC) VISIBLE,
   CONSTRAINT `fk_CLIENT_has_LIVRE_CLIENT`
     FOREIGN KEY (`CLIENT_CLI_ID`)
-    REFERENCES `MYYEBOOK`.`CLIENT` (`CLI_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_CLIENT_has_LIVRE_LIVRE1`
-    FOREIGN KEY (`LIVRE_LIV_ID`)
-    REFERENCES `MYYEBOOK`.`LIVRE` (`LIV_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `myyebook`.`client` (`CLI_ID`),
   CONSTRAINT `fk_CLIENT_has_LIVRE_LIBRAIRE1`
     FOREIGN KEY (`LIBRAIRE_LIB_ID`)
-    REFERENCES `MYYEBOOK`.`LIBRAIRE` (`LIB_ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    REFERENCES `myyebook`.`libraire` (`LIB_ID`),
+  CONSTRAINT `fk_CLIENT_has_LIVRE_LIVRE1`
+    FOREIGN KEY (`LIVRE_LIV_ID`)
+    REFERENCES `myyebook`.`livre` (`LIV_ID`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
