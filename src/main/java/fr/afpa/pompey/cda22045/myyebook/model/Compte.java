@@ -1,13 +1,13 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Account {
+public class Compte {
     private Integer secId;
     private String secLogin;
     private String secPass;
 
-    public Account() {}
+    public Compte() {}
 
-    public Account(Integer secId, String secLogin, String secPass) {
+    public Compte(Integer secId, String secLogin, String secPass) {
         setSecId(secId);
         setSecLogin(secLogin);
         setSecPass(secPass);

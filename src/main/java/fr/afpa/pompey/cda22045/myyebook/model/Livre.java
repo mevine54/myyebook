@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Book {
+public class Livre {
     private Integer livId;
     private String livTitle;
     private String livSummary;
@@ -8,9 +8,9 @@ public class Book {
     private int livQuantity;
 
     // Constructeur
-    public Book() {}
+    public Livre() {}
 
-    public Book(Integer livId, String livTitle, String livSummary, byte[] livImage, int livQuantity) {
+    public Livre(Integer livId, String livTitle, String livSummary, byte[] livImage, int livQuantity) {
         if (livTitle == null || livSummary == null || livQuantity < 0) {
             throw new IllegalArgumentException("Données invalides");
         }

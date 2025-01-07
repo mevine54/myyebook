@@ -1,13 +1,13 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Author {
+public class Auteur {
     private Integer autId;
     private String autName;
     private byte[] autPhoto;
 
-    public Author() {}
+    public Auteur() {}
 
-    public Author(Integer autId, String autName, byte[] autPhoto) {
+    public Auteur(Integer autId, String autName, byte[] autPhoto) {
         if (autId != null && autName != null && autPhoto != null) {
             throw new IllegalArgumentException("autId and autName are both null");
         }

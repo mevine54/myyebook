@@ -1,12 +1,12 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Borrow {
+public class Emprunter {
     private Integer cliId;
     private Integer livId;
 
-    public Borrow() {}
+    public Emprunter() {}
 
-    public Borrow(Integer cliId, Integer livId) {
+    public Emprunter(Integer cliId, Integer livId) {
         setCliId(cliId);
         setLivId(livId);
     }
