@@ -9,16 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDAO {
-    private Connection connection;
 
-    public ClientDAO(Connection connection) {
-        this.connection = connection;
-    }
+
+public class ClientDAO {
 
     public void save(Client client) throws SQLException {
         String sql = "INSERT INTO Client (cli_id, cli_nom, cli_prenom, cli_email) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (   Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, client.getCliId());
             statement.setString(2, client.getCliNom());
             statement.setString(3, client.getCliPrenom());
@@ -29,7 +27,8 @@ public class ClientDAO {
 
     public Client findById(int cliId) throws SQLException {
         String sql = "SELECT * FROM Client WHERE cli_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (   Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, cliId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -47,7 +46,8 @@ public class ClientDAO {
     public List<Client> findAll() throws SQLException {
         List<Client> clients = new ArrayList<>();
         String sql = "SELECT * FROM Client";
-        try (PreparedStatement statement = connection.prepareStatement(sql);
+        try (   Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
@@ -64,7 +64,8 @@ public class ClientDAO {
 
     public void update(Client client) throws SQLException {
         String sql = "UPDATE Client SET cli_nom = ?, cli_prenom = ?, cli_email = ? WHERE cli_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (   Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, client.getCliNom());
             statement.setString(2, client.getCliPrenom());
             statement.setString(3, client.getCliEmail());
@@ -75,7 +76,8 @@ public class ClientDAO {
 
     public void delete(int cliId) throws SQLException {
         String sql = "DELETE FROM Client WHERE cli_id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (   Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, cliId);
             statement.executeUpdate();
         }

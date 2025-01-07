@@ -17,7 +17,7 @@ public class CompteDAO {
     }
 
     public void save(Compte compte) throws SQLException {
-        String sql = "INSERT INTO Compte (sec_id, sec_login, sec_pass) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Compte (cpt_id, cpt_login, cpt_pass) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, compte.getSecId());
             statement.setString(2, compte.getSecLogin());
@@ -27,7 +27,7 @@ public class CompteDAO {
     }
 
     public Compte findById(int secId) throws SQLException {
-        String sql = "SELECT * FROM Compte WHERE sec_id = ?";
+        String sql = "SELECT * FROM Compte WHERE cpt_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, secId);
             ResultSet resultSet = statement.executeQuery();
@@ -60,7 +60,7 @@ public class CompteDAO {
     }
 
     public void update(Compte compte) throws SQLException {
-        String sql = "UPDATE Compte SET sec_login = ?, sec_pass = ? WHERE sec_id = ?";
+        String sql = "UPDATE Compte SET cpt_login = ?, cpt_pass = ? WHERE cpt_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, compte.getSecLogin());
             statement.setString(2, compte.getSecPass());
@@ -70,7 +70,7 @@ public class CompteDAO {
     }
 
     public void delete(int secId) throws SQLException {
-        String sql = "DELETE FROM Compte WHERE sec_id = ?";
+        String sql = "DELETE FROM Compte WHERE cpt_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, secId);
             statement.executeUpdate();
