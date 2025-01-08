@@ -1,48 +1,30 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/bootstrap5.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>JSP - Hello World</title>
-</head>
-<body>
-<header>HEADER</header>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+                    aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand fs-2 fw-bold" href="#">MYYEBOOK</a>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <form class="form-control p-0" role="search">
+                    <input class="form-control m-0" type="search" placeholder="Rechercher un livre..." aria-label=""
+                           style="height: 60px;">
+                </form>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                    <img src="assets/images/img.png" class="rounded-circle img-thumbnail img-nav"
+                         alt="Image d'un livre">
+                    Emprunts
+                </div>
+                <div class="d-flex flex-wrap justify-content-center">
+                    <img src="assets/images/img.png" class="rounded-circle img-thumbnail img-nav"
+                         alt="Image d'un livre">
+                    Enreg./Conn.
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
-<main>
+    </nav>
+</header>

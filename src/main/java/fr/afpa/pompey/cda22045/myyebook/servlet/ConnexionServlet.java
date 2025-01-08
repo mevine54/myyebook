@@ -20,11 +20,10 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         // TODO : CHECK IF USER IS CONNECTED
-        // if user connected redirect to user-acccount
+        // if user connected redirect :  client -> /index.jsp | libraire -> "/libraire/:id_libraire/livre"
 
 
 
-        // TODO:
         this.getServletContext().getRequestDispatcher("/JSP/page/connexion.jsp").forward(request, response );
 
 
@@ -32,6 +31,13 @@ public class ConnexionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO: Check user and redirect
+
+
+        String utilisateur = request.getParameter("utilisateur");
+        String mdp = request.getParameter("mdp");
+        System.out.println( "utilisateur: " + utilisateur + " mdp: " + mdp );
+
 
     }
 

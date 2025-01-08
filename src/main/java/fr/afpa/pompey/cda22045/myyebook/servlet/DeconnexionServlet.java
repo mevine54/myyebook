@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import jakarta.servlet.http.HttpServlet;
 
-@WebServlet(name = "loginServlet", value = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "DeconnexionServlet", value = "/DeconnexionServlet")
+public class DeconnexionServlet extends HttpServlet {
 
 
     @Override
@@ -18,19 +18,13 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
-        // TODO : CHECK IF USER IS CONNECTED
-        // if user connected redirect to user-acccount
-
-
-        // TODO:
-        this.getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response );
-
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO: Deconnecte et Redirige vers l'accueil
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO: Deconnecte et Redirige vers l'accueil
 
     }
 
