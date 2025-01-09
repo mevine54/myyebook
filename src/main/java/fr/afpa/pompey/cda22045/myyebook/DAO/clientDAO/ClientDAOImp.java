@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.DAO.clientDAO;
 
-import fr.afpa.pompey.cda22045.myyebook.daoM.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 
 import java.sql.Connection;
@@ -41,8 +41,9 @@ public class ClientDAOImp implements ClientDAO {
 
         try (   Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement statement = connection.prepareStatement(sql);
-                ResultSet resultSet = statement.executeQuery()) {
+                ) {
 
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 clients.add(new Client(
                         resultSet.getInt("cli_id"),

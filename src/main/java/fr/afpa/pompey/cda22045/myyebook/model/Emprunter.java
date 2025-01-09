@@ -1,37 +1,37 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
 public class Emprunter {
+
+    private Integer empId;
+    private LocalDate empDate;
     private Integer cliId;
     private Integer livId;
+    private Integer libId;
 
     public Emprunter() {}
 
-    public Emprunter(Integer cliId, Integer livId) {
-        setCliId(cliId);
-        setLivId(livId);
-    }
+    public Emprunter(@NotNull Integer empId,@NotNull LocalDate empDate, @NotNull Integer libId, @NotNull Integer cliId, @NotNull Integer livId) {
 
-    public Integer getCliId() {
-        return cliId;
-    }
-
-    public void setCliId(Integer cliId) {
-        if (cliId == null) {
-            throw new NullPointerException("cliId ne peut pas être null");
-        }
+        this.empId = empId;
+        this.empDate = empDate;
+        this.libId = libId;
         this.cliId = cliId;
-    }
-
-    public Integer getLivId() {
-        return livId;
-    }
-
-    public void setLivId(Integer livId) {
-        if (livId == null) {
-            throw new NullPointerException("livId ne peut pas être null");
-        }
         this.livId = livId;
     }
+
+
+
+
 
     @Override
     public String toString() {
