@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<c:url value="/accueil" var="accueilUrl"/>
 <header>
     <nav class="navbar navbar-expand-lg bg-info">
         <div class="container">
@@ -7,7 +8,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <a class="navbar-brand fs-2 fw-bold d-flex" href="${pageContext.request.contextPath}/accueil" >
+            <a class="navbar-brand fs-2 fw-bold d-flex" href="${accueilUrl}" >
                 <div class="text-white">MYYE</div>
                 <div class="test-dark">BOOK</div>
             </a>

@@ -12,11 +12,12 @@
 <body>
 <%@include file="WEB-INF/JSP/header.jsp" %>
 <main>
+
     <!-- *********** DEBUT DE CONTENU *********** -->
     <div class="container">
         <div class="fs-3 my-3">Nos sélections</div>
         <div class="d-flex justify-content-between mx-3">
-            <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover" >
+            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover" >
                 <div class="card" style="width: 18rem;">
                     <img src="assets/images/img.png" class="card-img-top" alt="...">
                     <div class="card-body">

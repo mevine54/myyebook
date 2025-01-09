@@ -7,7 +7,7 @@
 <footer class="bg-info mt-auto py-3">
     <div class="container">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="${pageContext.request.contextPath}/accueil" class="nav-link px-2 text-muted">Accueil</a></li>
+            <li class="nav-item"><a href="${accueilUrl}" class="nav-link px-2 text-muted">Accueil</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Créer un compte</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">A Propos</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">RGPD</a></li>
