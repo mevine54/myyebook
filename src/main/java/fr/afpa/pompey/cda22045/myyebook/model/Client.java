@@ -1,66 +1,85 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Client {
-    private Integer cliId;
-    private String cliNom;
-    private String cliPrenom;
-    private String cliEmail;
+import lombok.Getter;
 
-    public Client() {}
+@Getter
+public class Client extends Compte {
+    private Integer id;
+    private String nom;
+    private String prenom;
+    private String email;
 
-    public Client(Integer cliId, String cliNom, String cliPrenom, String cliEmail) {
-        setCliId(cliId);
-        setCliNom(cliNom);
-        setCliPrenom(cliPrenom);
-        setCliEmail(cliEmail);
+    public Client() {
     }
 
-    public Integer getCliId() {
-        return cliId;
+    public Client(Integer id, String login, String password, String nom, String prenom, String email) {
+        super(null, login, password);
+        setCompteId(id);
+        setNom(nom);
+        setPrenom(prenom);
+        setEmail(email);
     }
 
-    public void setCliId(Integer cliId) {
-        if (cliId == null) {
-            throw new NullPointerException("cliId ne peut pas être null");
+    public Client(Integer id, Compte compte, String nom, String prenom, String email) {
+        super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
+        setCompteId(id);
+        setNom(nom);
+        setPrenom(prenom);
+        setEmail(email);
+    }
+
+    public void setCompteId(Integer compteId) {
+        if (compteId != null && compteId <= 0) {
+            throw new IllegalArgumentException("L'Id ne peut pas etre inferieur ou egal a zero");
         }
-        this.cliId = cliId;
+        this.id = compteId;
     }
 
-    public String getCliNom() {
-        return cliNom;
-    }
-
-    public void setCliNom(String cliNom) {
-        if (cliNom == null || cliNom.length() > 50) {
-            throw new IllegalArgumentException("cliNom ne peut pas être null et doit avoir au maximum 50 caractères");
+    public void setNom(String nom) {
+        if (nom == null) {
+            throw new IllegalArgumentException("Le nom du client ne peut pas etre null");
         }
-        this.cliNom = cliNom;
-    }
-
-    public String getCliPrenom() {
-        return cliPrenom;
-    }
-
-    public void setCliPrenom(String cliPrenom) {
-        if (cliPrenom == null || cliPrenom.length() > 50) {
-            throw new IllegalArgumentException("cliPrenom ne peut pas être null et doit avoir au maximum 50 caractères");
+        nom = nom.trim();
+        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{2,50}$";
+        if (!nom.matches(regex)) {
+            throw new IllegalArgumentException("Le nom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de 2 à 50 caractères");
         }
-        this.cliPrenom = cliPrenom;
+        this.nom = nom;
     }
 
-    public String getCliEmail() {
-        return cliEmail;
-    }
-
-    public void setCliEmail(String cliEmail) {
-        if (cliEmail == null || cliEmail.length() > 50) {
-            throw new IllegalArgumentException("cliEmail ne peut pas être null et doit avoir au maximum 50 caractères");
+    public void setPrenom(String prenom) {
+        if (prenom == null) {
+            throw new IllegalArgumentException("Le prenom du client ne peut pas etre null");
         }
-        this.cliEmail = cliEmail;
+        prenom = prenom.trim();
+        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{2,50}$";
+        if (!prenom.matches(regex)) {
+            throw new IllegalArgumentException("Le prenom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de 2 à 50 caractères");
+        }
+        this.prenom = prenom;
+    }
+
+
+
+
+    public void setEmail(String email) {
+        if (email == null) {
+            throw new IllegalArgumentException("L Email ne peut pas être null");
+        } else if ((email != null) && email.trim().toLowerCase().matches("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")) {
+            this.email = email.trim().toLowerCase();
+        } else {
+            throw new IllegalArgumentException("L'addresse mail n'est pas valide: " + this.email);
+        }
+
     }
 
     @Override
     public String toString() {
-        return "Client [cliId=" + cliId + ", cliNom=" + cliNom + ", cliPrenom=" + cliPrenom + ", cliEmail=" + cliEmail + "]";
+        return "Client{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

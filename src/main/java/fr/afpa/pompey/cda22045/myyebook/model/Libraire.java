@@ -1,53 +1,67 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-public class Libraire {
+
+import lombok.Getter;
+
+@Getter
+public class Libraire extends Compte {
     private Integer libId;
-    private String libNom;
-    private String libPrenom;
+    private String nom;
+    private String prenom;
 
-    public Libraire() {}
+    public Libraire() {
+    }
 
-    public Libraire(Integer libId, String libNom, String libPrenom) {
+    public Libraire(Integer libId, String login , String password ,String nom, String prenom) {
+        setLogin(login);
+        setPassword(password);
         setLibId(libId);
-        setLibNom(libNom);
-        setLibPrenom(libPrenom);
+        setNom(nom);
+        setPrenom(prenom);
     }
 
-    public Integer getLibId() {
-        return libId;
+    public Libraire(Integer libId, Compte compte ,String nom, String prenom) {
+        super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
+        setCompteId(libId);
+        setNom(nom);
+        setPrenom(prenom);
     }
+
 
     public void setLibId(Integer libId) {
-        if (libId == null) {
-            throw new NullPointerException("libId ne peut pas être null");
+        if ( libId != null &&  libId <= 0) {
+            throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
         }
         this.libId = libId;
     }
 
-    public String getLibNom() {
-        return libNom;
-    }
-
-    public void setLibNom(String libNom) {
-        if (libNom == null || libNom.length() > 50) {
-            throw new IllegalArgumentException("libNom ne peut pas être null et doit avoir au maximum 50 caractères");
+    public void setNom(String nom) {
+        if (nom == null) {
+            throw new IllegalArgumentException("Le nom du client ne peut pas etre null");
         }
-        this.libNom = libNom;
-    }
-
-    public String getLibPrenom() {
-        return libPrenom;
-    }
-
-    public void setLibPrenom(String libPrenom) {
-        if (libPrenom == null || libPrenom.length() > 50) {
-            throw new IllegalArgumentException("libPrenom ne peut pas être null et doit avoir au maximum 50 caractères");
+        nom = nom.trim();
+        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{2,50}$";
+        if (!nom.matches(regex)) {
+            throw new IllegalArgumentException("Le nom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de 2 à 50 caractères");
         }
-        this.libPrenom = libPrenom;
+        this.nom = nom;
     }
 
-    @Override
-    public String toString() {
-        return "Libraire [libId=" + libId + ", libNom=" + libNom + ", libPrenom=" + libPrenom + "]";
+    public void setPrenom(String prenom) {
+        if (prenom == null) {
+            throw new IllegalArgumentException("Le prenom du client ne peut pas etre null");
+        }
+        prenom = prenom.trim();
+        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{2,50}$";
+        if (!prenom.matches(regex)) {
+            throw new IllegalArgumentException("Le prenom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de 2 à 50 caractères");
+        }
+        this.prenom = prenom;
     }
+
+
+
+
+
+
 }

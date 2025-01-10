@@ -1,81 +1,69 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
 public class Livre {
-    private Integer livId;
-    private String livTitre;
-    private String livResume;
-    private byte[] livImage;
-    private int livQuantite;
+    private Integer id;
+    private String titre;
+    private String resume;
+    private String image;
+    private int quantite;
 
     // Constructeur
     public Livre() {}
 
-    public Livre(Integer livId, String livTitre, String livResume, byte[] livImage, int livQuantite) {
-        if (livTitre == null || livResume == null || livQuantite < 0) {
-            throw new IllegalArgumentException("Données invalides");
+    public Livre(Integer id, String titre, String resume, String image, int quantite) {
+
+    }
+
+    public void setId(Integer id) {
+        if ( id <= 1) {
+            throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
         }
-        setLivId(livId);
-        setLivTitre(livTitre);
-        setLivResume(livResume);
-        setLivImage(livImage);
-        setLivQuantite(livQuantite);
+        this.id = id;
     }
 
-    public Integer getLivId() {
-        return livId;
-    }
-
-    public void setLivId(Integer livId) {
-        if (livId == null) {
-            throw new IllegalArgumentException("L'id ne peut être vide");
-        }
-        this.livId = livId;
-    }
-
-    public String getLivTitre() {
-        return livTitre;
-    }
-
-    public void setLivTitre(String livTitre) {
-        if (livTitre == null) {
+    public void setTitre(String titre) {
+        if (titre == null) {
             throw new IllegalArgumentException("Le titre ne peut pas être null");
         }
-        this.livTitre = livTitre;
+        this.titre = titre;
     }
 
-    public String getLivResume() {
-        return livResume;
-    }
-
-    public void setLivResume(String livResume) {
-        if (livResume == null) {
-            throw new IllegalArgumentException("Le résumé ne peut pas être null");
+    public void setResume(String resume) {
+        if (resume == null) {
+            throw new IllegalArgumentException("Le resume ne peut pas être null");
         }
-        this.livResume = livResume;
+        this.resume = resume;
     }
 
-    public byte[] getLivImage() {
-        return livImage;
+    public void setImage(String image) {
+        if (image == null) {
+            throw new IllegalArgumentException("Le chemin de la photo de l'auteur ne peut pas etre null");
+        } else if (image.length() < 5) {
+            throw new IllegalArgumentException("Le chemin de la photo de l'auteur est trop court");
+        }
+        this.image = image;
     }
 
-    public void setLivImage(byte[] livImage) {
-        this.livImage = livImage;
-    }
-
-    public int getLivQuantite() {
-        return livQuantite;
-    }
-
-    public void setLivQuantite(int livQuantite) {
-        if (livQuantite < 0) {
+    public void setQuantite(int quantite) {
+        if (quantite < 0) {
             throw new IllegalArgumentException("La quantité ne peut pas être négative");
         }
-        this.livQuantite = livQuantite;
+        this.quantite = quantite;
     }
 
-    @Override
-    public String toString() {
-        return "Book [title=" + livTitre + ", summary=" + livResume + ", image=" + (livImage != null ? "Image présente" : "Pas d'image") + ", quantity=" + livQuantite + "]";
-    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

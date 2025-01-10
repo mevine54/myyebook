@@ -7,15 +7,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ClientTest {
+public class LibraireTest {
 
-    private Client client;
+    private Libraire libraire;
     private Compte compte;
 
     @BeforeEach
     void setUp() {
         compte = new Compte(1,"monlogin","motdepasseSecure11");
-        client = new Client(null,compte,"nomclient","prenomclient","email@example.com");
+        libraire = new Libraire(null,compte,"nomlibraire","prenomlibraire");
     }
 
     @ParameterizedTest
@@ -26,7 +26,7 @@ public class ClientTest {
             "Dupont ",
     })
     void setNomValid(String cliNom) {
-        assertDoesNotThrow(() -> client.setNom(cliNom));
+        assertDoesNotThrow(() -> libraire.setNom(cliNom));
     }
 
     @ParameterizedTest
@@ -40,7 +40,7 @@ public class ClientTest {
             "@"
     })
     void setNomInvalid(String cliNom) {
-        assertThrows(IllegalArgumentException.class, () -> client.setNom(cliNom));
+        assertThrows(IllegalArgumentException.class, () -> libraire.setNom(cliNom));
     }
 
     @ParameterizedTest
@@ -51,7 +51,7 @@ public class ClientTest {
             "Dupont ",
     })
     void setPrenomValid(String cliPrenom) {
-        assertDoesNotThrow(() -> client.setNom(cliPrenom));
+        assertDoesNotThrow(() -> libraire.setNom(cliPrenom));
     }
 
     @ParameterizedTest
@@ -65,23 +65,8 @@ public class ClientTest {
             "@"
     })
     void setPrenomInvalid(String cliPrenom) {
-        assertThrows(IllegalArgumentException.class, () -> client.setPrenom(cliPrenom));
+        assertThrows(IllegalArgumentException.class, () -> libraire.setPrenom(cliPrenom));
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"test@example.com", "user.name@domain.co", "valid.email@sub.domain.com"})
-    public void testEmailValid(String email) {
-        assertDoesNotThrow(() -> client.setEmail(email));
-    }
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "invalid-email",
-            "user@domain",
-            "user@.com",
-            "user@domain..com"
-    })
-    public void testEmailInvalid(String email) {
-        assertThrows(IllegalArgumentException.class, () -> client.setEmail(email));
-    }
 
 }

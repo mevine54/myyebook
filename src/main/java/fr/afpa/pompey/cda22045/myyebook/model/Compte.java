@@ -1,53 +1,65 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+import lombok.*;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Compte {
-    private Integer secId;
-    private String secLogin;
-    private String secPass;
 
-    public Compte() {}
+    private Integer compteId;
+    private String login;
+    private String password;
 
-    public Compte(Integer secId, String secLogin, String secPass) {
-        setSecId(secId);
-        setSecLogin(secLogin);
-        setSecPass(secPass);
-    }
-
-    public Integer getSecId() {
-        return secId;
-    }
-
-    public void setSecId(Integer secId) {
-        if (secId == null) {
-            throw new NullPointerException("secId ne peut pas être null");
+    public void setCompteId(Integer compteId) {
+        if ( compteId!=null && compteId <= 0) {
+            throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
         }
-        this.secId = secId;
+        this.compteId = compteId;
     }
 
-    public String getSecLogin() {
-        return secLogin;
-    }
+    public void setLogin(String login) {
+        int maxLen = 20;
+        int minLen = 4;
+        String regex = "^[a-zA-Z0-9]{" + minLen + "," + maxLen + "}$";
 
-    public void setSecLogin(String secLogin) {
-        if (secLogin == null || secLogin.length() > 10) {
-            throw new IllegalArgumentException("secLogin ne peut pas être null et doit avoir au maximum 10 caractères");
+        if (login == null) {
+            throw new IllegalArgumentException("L'identifiant ne peut pas être null");
+        } else if (login.length() < minLen) {
+            throw new IllegalArgumentException("L'identifiant doit avoir au minimum " + minLen + " caractères");
+        } else if (login.length() > maxLen) {
+            throw new IllegalArgumentException("L'identifiant doit avoir au maximum " + maxLen + " caractères");
+        } else if (!login.matches(regex)) {
+            throw new IllegalArgumentException("L'identifiant ne doit contenir que des lettres et des chiffres");
         }
-        this.secLogin = secLogin;
+        this.login = login;
     }
 
-    public String getSecPass() {
-        return secPass;
-    }
+    public void setPassword(String password) {
+        int maxLen = 150;
+        int minLen = 8;
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{" + minLen + "," + maxLen + "}$";
 
-    public void setSecPass(String secPass) {
-        if (secPass == null || secPass.length() > 255) {
-            throw new IllegalArgumentException("secPass ne peut pas être null et doit avoir au maximum 255 caractères");
+        if (password == null) {
+            throw new IllegalArgumentException("Le mot de passe ne peut pas être null");
+        } else if (password.length() < minLen) {
+            throw new IllegalArgumentException("Le mot de passe doit avoir au minimum " + minLen + " caractères");
+        } else if (password.length() > maxLen) {
+            throw new IllegalArgumentException("Le mot de passe doit avoir au maximum " + maxLen + " caractères");
+        } else if (!password.matches(regex)) {
+            throw new IllegalArgumentException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial: @$!%*?& ");
         }
-        this.secPass = secPass;
+        // TODO: Hash password
+        this.password = password;
     }
 
     @Override
     public String toString() {
-        return "Compte [secId=" + secId + ", secLogin=" + secLogin + ", secPass=" + (secPass != null ? "********" : "null") + "]";
+        return "Compte{" +
+                "cptId=" + compteId +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
