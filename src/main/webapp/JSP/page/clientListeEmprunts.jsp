@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+ <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Mes Emprunts - MyyeBook</title>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column vh-100">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
     <div class="container mb-auto">

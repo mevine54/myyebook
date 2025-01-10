@@ -4,7 +4,7 @@
     LocalDate date = LocalDate.now();
 %>
 
-<footer class="bg-info mt-auto py-3">
+<footer class="bg-info py-3">
     <div class="container">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li class="nav-item"><a href="${accueilUrl}" class="nav-link px-2 text-muted">Accueil</a></li>
