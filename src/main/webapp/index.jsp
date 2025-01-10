@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
-<body>
+<body class="d-flex flex-column vh-100 justify-content-between">
 <%@include file="WEB-INF/JSP/header.jsp" %>
 <main>
 

@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "MonCompteClientServlet", value = "/MonCompteClient")
+@WebServlet(name = "MonCompteClientServlet", value = "/monCompteClient")
 public class MonCompteClientServlet extends HttpServlet {
 
     @Override

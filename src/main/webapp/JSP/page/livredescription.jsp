@@ -14,7 +14,7 @@
     <%-- TODO: A modifier le titre du document en récupérant les info du controller --%>
     <title>Livre : TitreDuLivre - MyyeBook</title>
 </head>
-<body>
+<body class="d-flex flex-column vh-100">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
     <!-- *********** DEBUT DE CONTENU *********** -->
