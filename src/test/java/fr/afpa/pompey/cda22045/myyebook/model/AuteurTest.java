@@ -1,6 +1,11 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMaximaleException;
+import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMinimaleException;
+import fr.afpa.pompey.cda22045.myyebook.exception.NullValueException;
+import fr.afpa.pompey.cda22045.myyebook.exception.RegexValidationException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -21,24 +26,37 @@ public class AuteurTest {
             "Sartre",
             "Dupont ",
     })
-    void setAutNomValid(String autNom) {
-        assertDoesNotThrow(() -> auteur.setNom(autNom));
+    void setNomValid(String nom) {
+        assertDoesNotThrow(() -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "12345",
+            "Jean123",
+    })
+    void setNomRegexInvalid(String nom) {
+        assertThrows(RegexValidationException.class, () -> auteur.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
+    })
+    void setNomLongueurMaxInvalid(String nom) {
+        assertThrows(LongueurMaximaleException.class, () -> auteur.setNom(nom));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "A",
-            "12345",
-            "Jean123",
-            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
             "",
             " ",
             "@"
     })
-    void setAutNomInvalid(String autNom) {
-        assertThrows(IllegalArgumentException.class, () -> auteur.setNom(autNom));
+    void setAutNomLongueurMinInvalid(String nom) {
+        assertThrows(LongueurMinimaleException.class, () -> auteur.setNom(nom));
     }
-
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -47,38 +65,48 @@ public class AuteurTest {
             "Sartre",
             "Dupont ",
     })
-    void setPrenomValid(String cliPrenom) {
-        assertDoesNotThrow(() -> auteur.setNom(cliPrenom));
+    void setPrenomValid(String prenom) {
+        assertDoesNotThrow(() -> auteur.setPrenom(prenom));
     }
+
 
     @ParameterizedTest
     @ValueSource(strings = {
             "12345",
             "Jean123",
-            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
             "mlmlk@"
     })
-    void setPrenomInvalid(String cliPrenom) {
-        assertThrows(IllegalArgumentException.class, () -> auteur.setPrenom(cliPrenom));
+    void setPrenomInvalid(String prenom) {
+        assertThrows(RegexValidationException.class, () -> auteur.setPrenom(prenom));
     }
 
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Jonmsdfsdrfsdfsdfsdvxcvxcvxcvxcvxcvxqsdfsdfsdfsdqfsdfsdfsdqfsqdfsdfsdf",
+            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
+    })
+    void setPrenomLongueurMaximaleInvalid(String prenom) {
+        assertThrows(LongueurMaximaleException.class, () -> auteur.setPrenom(prenom));
+    }
+
+
         @ParameterizedTest
-    @ValueSource(strings = {"photo.jpg", "image.png", "portrait.jpeg"})
+    @ValueSource(strings = {"/photo.jpg", "/image.png", "/portrait.jpeg"})
     void setAutPhotoValid(String autPhoto) {
         assertDoesNotThrow(() -> auteur.setPhoto(autPhoto));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "abc", "null" })
-    void setAutPhotoInvalid(String autPhoto) {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            auteur.setPhoto(autPhoto.equals("null") ? null : autPhoto);
-        });
-        if (autPhoto.equals("null")) {
-            assertEquals("Le chemin de la photo de l'auteur ne peut pas etre null", exception.getMessage());
-        } else if (autPhoto.length() < 5) {
-            assertEquals("Le chemin de la photo de l'auteur est trop court", exception.getMessage());
-        }
+    @ValueSource(strings = { "a.jpg", "1.bmp" })
+    void setAutPhotoLongueurMinimalInvalid(String autPhoto) {
+        assertThrows(LongueurMinimaleException.class, () -> auteur.setPhoto(autPhoto));
     }
 
+    @Test
+    void setAutPhotoNullInvalid() {
+        assertThrows(NullValueException.class, () -> auteur.setPhoto(null));
+
+    }
 }

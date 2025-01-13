@@ -1,5 +1,8 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMaximaleException;
+import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMinimaleException;
+import fr.afpa.pompey.cda22045.myyebook.exception.RegexValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,8 +17,9 @@ public class ClientTest {
 
     @BeforeEach
     void setUp() {
-        compte = new Compte(1,"monlogin","motdepasseSecure11");
-        client = new Client(null,compte,"nomclient","prenomclient","email@example.com");
+        compte = new Compte(1,"monlogin","motdepasseSecure1!");
+
+        client = new Client(null,compte,"nomclient","prenomclient","email@example.com","12 rue blabla","ville","54000");
     }
 
     @ParameterizedTest
@@ -25,23 +29,40 @@ public class ClientTest {
             "Sartre",
             "Dupont ",
     })
-    void setNomValid(String cliNom) {
-        assertDoesNotThrow(() -> client.setNom(cliNom));
+    void setNomValid(String nom) {
+        assertDoesNotThrow(() -> client.setNom(nom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "12345",
+            "Jean123",
+
+    })
+    void setNomInvalid(String nom) {
+        assertThrows(RegexValidationException.class, () -> client.setNom(nom));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "A",
-            "12345",
-            "Jean123",
-            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
             "",
             " ",
             "@"
     })
-    void setNomInvalid(String cliNom) {
-        assertThrows(IllegalArgumentException.class, () -> client.setNom(cliNom));
+    void setNomLongueurMinInvalid(String nom) {
+        assertThrows(LongueurMinimaleException.class, () -> client.setNom(nom));
     }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
+    })
+    void setNomLongueurMaxInvalid(String nom) {
+        assertThrows(LongueurMaximaleException.class, () -> client.setNom(nom));
+    }
+
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -50,22 +71,37 @@ public class ClientTest {
             "Sartre",
             "Dupont ",
     })
-    void setPrenomValid(String cliPrenom) {
-        assertDoesNotThrow(() -> client.setNom(cliPrenom));
+    void setPrenomValid(String prenom) {
+        assertDoesNotThrow(() -> client.setPrenom(prenom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "A*",
+            "12345",
+            "Jean123",
+            "rtyrty@"
+    })
+    void setPrenomRegexInvalid(String prenom) {
+        assertThrows(RegexValidationException.class, () -> client.setPrenom(prenom));
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
             "A",
-            "12345",
-            "Jean123",
-            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
-            "",
-            " ",
-            "@"
+            "r",
+            "o",
     })
-    void setPrenomInvalid(String cliPrenom) {
-        assertThrows(IllegalArgumentException.class, () -> client.setPrenom(cliPrenom));
+    void setPrenomLongueurMinInvalid(String prenom) {
+        assertThrows(LongueurMinimaleException.class, () -> client.setPrenom(prenom));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
+    })
+    void setPrenomLongueurMaxInvalid(String prenom) {
+        assertThrows(LongueurMaximaleException.class, () -> client.setPrenom(prenom));
     }
 
     @ParameterizedTest
@@ -73,6 +109,8 @@ public class ClientTest {
     public void testEmailValid(String email) {
         assertDoesNotThrow(() -> client.setEmail(email));
     }
+
+
     @ParameterizedTest
     @ValueSource(strings = {
             "invalid-email",
@@ -81,7 +119,11 @@ public class ClientTest {
             "user@domain..com"
     })
     public void testEmailInvalid(String email) {
-        assertThrows(IllegalArgumentException.class, () -> client.setEmail(email));
+        assertThrows(RegexValidationException.class, () -> client.setEmail(email));
     }
+
+    //TODO: adresse
+    //TODO: city
+    //TODO: code postale
 
 }

@@ -1,5 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+import fr.afpa.pompey.cda22045.myyebook.exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -19,7 +20,7 @@ public class CompteTest {
     @ParameterizedTest
     @ValueSource(ints = {0, -1, -10})
     public void id_InfZeroInvalid(Integer id) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IdTropPetitException.class, () -> {
             compte.setCompteId(id);
         });
     }
@@ -27,7 +28,7 @@ public class CompteTest {
     @ParameterizedTest
     @ValueSource(strings = {"az", "", "0"})
     public void login_MinLongueurInvalid(String login) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(LongueurMinimaleException.class, () -> {
             compte.setLogin(login);
         });
     }
@@ -35,7 +36,7 @@ public class CompteTest {
     @ParameterizedTest
     @ValueSource(strings = {"azyututyutyutyutyutyutyutyuytutyu", "dfgdfgaqazazeazezaezazae041ret1rgffd0"})
     public void login_MaxLongueurInvalid(String login) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(LongueurMaximaleException.class, () -> {
             compte.setLogin(login);
         });
     }
@@ -43,7 +44,7 @@ public class CompteTest {
     @ParameterizedTest
     @ValueSource(strings = {"az@L", "f11gd@", "#0Mkk"})
     public void password_MinLongueurInvalid(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(LongueurMinimaleException.class, () -> {
             compte.setPassword(password);
         });
     }
@@ -57,7 +58,7 @@ public class CompteTest {
             password += password;
         }
         String finalPassword = password;
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(LongueurMaximaleException.class, () -> {
             compte.setPassword(finalPassword);
         });
     }
@@ -73,11 +74,20 @@ public class CompteTest {
     @ParameterizedTest
     @ValueSource(strings = {"azL4777777777", "f1gd@@@@@@@@@", "#0MMMMMMMMMM"})
     public void password_CaractereManquantInvalid(String password) {
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(RegexValidationException.class, () -> {
             compte.setPassword(password);
         });
     }
 
+
+    //TODO TEST adresse
+
+
+
+    //TODO TEST ville
+
+
+    //TODO TEST codepostale
 }
 
 
