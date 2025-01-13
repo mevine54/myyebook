@@ -16,6 +16,7 @@ public class LivreModificationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         this.getServletContext().getRequestDispatcher("/JSP/page/modification_livre.jsp").forward(request, response);
     }
 
@@ -24,8 +25,13 @@ public class LivreModificationServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String auteur = request.getParameter("auteur");
         String categorie = request.getParameter("categorie");
+        String resume = request.getParameter("resume");
 
-        System.out.println("nom: " + nom + ", auteur: " + auteur + ", categorie: " + categorie );
+        /*
+            Gerer la chargment d'image
+        */
+
+        System.out.println("nom: " + nom + ", auteur: " + auteur + ", categorie: " + categorie + ", resume: " + resume);
     }
 
     @Override

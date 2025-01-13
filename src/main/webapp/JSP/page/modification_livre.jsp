@@ -13,11 +13,11 @@
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
-    <div class="container mt-5 h-100 d-flex flex-column flex-justify-center" >
+    <div class="container mt-5 h-90 d-flex flex-column flex-justify-center" >
         <div class="d-flex justify-content-center mb-3">
             <h2>Modification du livre </h2>
         </div>
-        <form class="h-100 mx-auto col-7 d-flex flex-column justify-content-between" method="POST" action="libraire-enregistrer">
+        <form class="h-100 mx-auto col-7 d-flex flex-column justify-content-between" method="POST" action="LivreModification">
             <div class="row mb-3">
                 <div class="col">
                     <label for="nom" class="form-label">Nom du livre</label>
@@ -31,7 +31,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="categorie" class="form-label">Categories</label>
-                    <select class="form-select" for="categorie" id="categorie" name="categorie" required>
+                    <select class="form-select" id="categorie" name="categorie" required>
                         <option selected disabled>Veuillez selectionez une option</option>
 
                         <!-- A modifier et remplacer avec une list JAVA -->
@@ -40,6 +40,10 @@
                         <option value="3">Three</option>
 
                     </select>
+                </div>
+                <div class="mt-3 d-flex flex-column">
+                    <label for="img">Choisissez une nouvelle couverture</label>
+                    <input type="file" class="bi-building-fill-exclamation" id="img" accept="image/png, image/jpeg" >
                 </div>
             </div>
 <%--            <h3>Resumé</h3>--%>
@@ -50,8 +54,9 @@
 <%--                    <input class="h-50" type="text" class="form-control" id="resume" name="resume" required>--%>
                 </div>
             </div>
-            <div class="d-flex justify-content-center">
-                <button type="submit" class="btn btn-primary">Recherche</button>
+            <div class=" d-flex justify-content-around">
+                <button type="submit" class="btn btn-primary">Validez</button>
+                <button type="reset" class="btn btn-secondary">Annulez</button>
             </div>
         </form>
     </div>
