@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livre : Titre du livre</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="d-flex flex-column vh-100">
     <!-- *********** DEBUT DE HEADER *********** -->
     <header>
         <nav class="navbar navbar-expand-lg bg-info">
-            <div class="container">
+            <div class="container-fluid container-lg">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -20,17 +22,18 @@
                     <div class="test-dark">BOOK</div>
                 </a>
                 <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                    <form class="form-control p-0" role="search">
+                    <form class="form-control p-0 mt-2 mt-md-0" role="search">
                         <input class="form-control m-0" type="search" placeholder="Rechercher un livre..." aria-label="" style="height: 60px;">
                     </form>
-                    
-                    <div class="d-flex flex-wrap justify-content-center">
-                        <img src="assets/imagelivre.jpg" class="rounded-circle img-thumbnail" style="object-fit: contain; width: 60px;" alt="Image d'un livre">
-                        Emprunts
-                    </div>
-                    <div class="d-flex flex-wrap justify-content-center">
-                        <img src="assets/imagelivre.jpg" class="rounded-circle img-thumbnail" style="object-fit: contain; width: 60px;" alt="Image d'un livre">
-                        Enreg./Conn.
+                    <div class="d-flex justify-content-center flex-column flex-lg-row">
+                        <a href="#" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                            <img src="assets/imagelivre.jpg" class="rounded-circle img-thumbnail me-2" style="object-fit: contain; width: 60px;" alt="Image d'un livre">
+                            Mes Emprunts
+                        </a>
+                        <a href="#" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover ">
+                            <img src="assets/imagelivre.jpg" class="rounded-circle img-thumbnail me-2" style="object-fit: contain; width: 60px;" alt="Image d'un livre">
+                            Enreg./Conn.
+                        </a>
                     </div>
                 </div>
             </div>
@@ -42,25 +45,25 @@
     <!-- *********** DEBUT DE CONTENU *********** -->
     <div class="container">
         <div class="row my-5">
-            <div class="col-3">
+            <div class="col-lg-3">
                 <img src="assets/couverturelivre.jpg" alt="" class="img-fluid">
             </div>
             <div class="col-9 d-flex flex-column">
-                <div class="fs-3">
+                <div class="fs-3 fw-bold">
                     Titre du livre
                 </div>
                 <div class="fs-5">
                     Nom de l'auteur
                 </div>
                 <div class="">
-                    <div class="mb-auto">
+                    <div class="mb-lg-auto">
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis labore culpa natus recusandae, error consequatur, nihil doloribus modi commodi dolorem ducimus sequi quidem et, provident inventore quod perferendis nemo non?
                         </p>
                     </div>
-                    <div class="mt-auto">
-                        <div class="d-flex justify-content-end align-items-end h-100">
-                            <button type="button" class="btn btn-info">Emprunter ce livre</button>
+                    <div class="">
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-outline-info fw-bold rounded-0">Emprunter ce livre</button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +74,7 @@
     <!--  ************ PARTIE : LES LIVRES SIMILAIRES ************ -->
     <div class="container bg-secondary-subtle my-3 py-1">
         <div class="fs-3 fw-bold">Les livres similaires</div>
-        <div class="d-flex flex-wrap">
+        <div class="d-flex overflow-x-auto">
             <div class="my-2 mx-2">
                 <div class="card" style="width: 150px;">
                     <img src="assets/couverturelivre.jpg" class="card-img-top" alt="...">
@@ -123,22 +126,21 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Créer un compte</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">A Propos</a></li>
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">RGPD</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
             </ul>
             
             <div class="d-flex justify-content-center fs-2">
                 <div class="row">
                     <div class="col">
-                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-facebook link-opacity-100-hover"></i></a>
                     </div>
                     <div class="col">
-                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-twitter link-opacity-100-hover"></i></a>
                     </div>
                     <div class="col">
-                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-instagram link-opacity-100-hover"></i></a>
                     </div>
                     <div class="col">
-                        <a href=""><i class="bi bi-linkedin"></i></a>
+                        <a href="#"><i class="bi bi-linkedin link-opacity-100-hover"></i></a>
                     </div>
                 </div>
             </div>
@@ -146,5 +148,7 @@
         </div>
     </footer>
     <!-- *********** FIN DE FOOTER *********** -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>
