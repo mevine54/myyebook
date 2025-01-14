@@ -1,4 +1,6 @@
-
+.barnav{
+    height: 60px;
+}
 
 .img-nav{
     object-fit: contain;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>MyyeBook - Connectez-vous pour Lire</title>
 </head>
-<body>
+<body class="d-flex flex-column vh-100">
 <%--<jsp:include page="../../WEB-INF/JSP/header.jsp">--%>
 <%--    <jsp:param name="voirRechecheLivre" value="true" />--%>
 <%--    <jsp:param name="param" value="true" />--%>
@@ -17,19 +18,17 @@
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
         <div class="container">
-            <form class=" mx-auto col-7" method="POST" action="connexion">
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <label for="utilisateur" class="form-label">Nom d'utilisateur</label>
-                        <input type="text" class="form-control" id="utilisateur" name="utilisateur" required>
-                    </div>
-                    <div class="col-12">
-                        <label for="mdp" class="form-label">Mot de passe</label>
-                        <input type="password" class="form-control" id="mdp" name="mdp" required>
-                    </div>
+            <form class="col-lg-5 mx-auto border border-info p-5 text-center mt-5" method="POST" action="connexion">
+                <div class="col">
+                    <label for="utilisateur" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-control" id="utilisateur" name="utilisateur" required>
                 </div>
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                <div class="col mt-3">
+                    <label for="mdp" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="mdp" name="mdp" required>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-outline-info fw-bold rounded-0">Se connecter</button>
                 </div>
             </form>
         </div>

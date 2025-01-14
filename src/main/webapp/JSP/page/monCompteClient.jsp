@@ -16,51 +16,52 @@
 <body class="d-flex flex-column vh-100 justify-content-between">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
-    <div class="container">
+    <!-- *********** DEBUT DE CONTENU *********** -->
+    <div class="container mt-3">
 
         <div class="d-flex justify-content-center mb-3">
             <h2>Mon compte</h2>
         </div>
 
-        <form class=" mx-auto col-7"  method="POST" action="">
-            <div class="row mb-3">
+        <form class="mx-auto col-lg-7"  method="" action="">
+            <div class="row">
                 <h4>Informations personnelles</h4>
-<%--                <jsp:useBean id="user" type="fr.afpa.pompey.cda22045.myyebook.servlet.MonCompteClientServlet" scope="request"/>--%>
-                <div class="col">
+                <div class="col-lg mt-2 mt-lg-0">
                     <label for="nom" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="nom" name="nom" value="Jean" required>
+                    <input type="text" class="form-control" id="nom" required>
                 </div>
-                <div class="col">
+                <div class="col-lg mt-2 mt-lg-0">
                     <label for="prenom" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" id="prenom" value="Dupont" required>
+                    <input type="text" class="form-control" id="prenom" required>
                 </div>
             </div>
             <div class="row mb-3">
-                <div class="col">
+                <div class="col-lg mt-2">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" value="jeandupont@mail.com" required>
+                    <input type="email" class="form-control" id="email" required>
                 </div>
             </div>
             <h4>Adresse</h4>
-            <div class="row mb-3">
-                <div class="col-12 mb-3">
+            <div class="row">
+                <div class="col-12 mb-lg-3">
                     <label for="rue" class="form-label">Rue</label>
-                    <input type="text" class="form-control" id="rue" value="Nom de la rue" required>
+                    <input type="text" class="form-control" id="rue" required>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 mt-2 mt-lg-0">
                     <label for="codepostal" class="form-label">Code postal</label>
-                    <input type="text" class="form-control" id="codepostal" value="54000" required>
+                    <input type="text" class="form-control" id="codepostal" required>
                 </div>
-                <div class="col-6">
+                <div class="col-lg-6 mt-2 mt-lg-0">
                     <label for="ville" class="form-label">Ville</label>
-                    <input type="text" class="form-control" id="ville" value="Nancy" required>
+                    <input type="text" class="form-control" id="ville" required>
                 </div>
             </div>
-            <div class="">
-                <button type="submit" class="btn btn-primary">Modifier</button>
+            <div class=" d-flex justify-content-center">
+                <button type="submit" class="btn btn-outline-info fw-bold rounded-0 mt-lg-3 mb-3 mt-3">Modifier</button>
             </div>
         </form>
     </div>
+    <!-- *********** FIN DE CONTENU *********** -->
 </main>
 <%@include file="../../WEB-INF/JSP/footer.jsp" %>
 </body>

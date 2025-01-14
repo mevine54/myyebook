@@ -1,4 +1,5 @@
- <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -12,7 +13,7 @@
 <body class="d-flex flex-column vh-100">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
-    <div class="container mb-auto">
+    <div class="container">
         <div class="text-center mb-3">
             <h3 class="mt-3">Mes Empruntes</h3>
         </div>
@@ -22,7 +23,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nom du livre</th>
+                    <th>Livre</th>
                     <th>Auteur</th>
                     <th>Statut</th>
                 </tr>
@@ -35,18 +36,6 @@
                     <td>Antoine de Saint-Exupéry</td>
                     <%-- TODO: le client a la possibilité d'annuler la demande d'emprunts--%>
                     <td class="text-info fw-bold">Demande d'emprunts en cours</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Harry Potter</td>
-                    <td>J.K. Rowling</td>
-                    <td class="text-success fw-bold">Emprunté</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Le Seigneur des Anneaux</td>
-                    <td>J.R.R. Tolkien</td>
-                    <td class="text-success fw-bold">Emprunté</td>
                 </tr>
                 </tbody>
             </table>
