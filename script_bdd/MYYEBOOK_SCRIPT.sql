@@ -1,150 +1,96 @@
--- MySQL Workbench Forward Engineering
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+DROP DATABASE IF EXISTS myyebook;
+CREATE DATABASE myyebook;
+USE myyebook;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
--- -----------------------------------------------------
--- Schema myyebook
--- -----------------------------------------------------
+CREATE TABLE Auteur(
+   aut_id INT AUTO_INCREMENT,
+   aut_nom VARCHAR(50) NOT NULL,
+   aut_prenom VARCHAR(50),
+   aut_photo VARCHAR(250) NOT NULL,
+   PRIMARY KEY(aut_id)
+);
 
--- -----------------------------------------------------
--- Schema myyebook
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `myyebook` DEFAULT CHARACTER SET utf8mb3 ;
-USE `myyebook` ;
+CREATE TABLE Compte(
+   cpt_id INT AUTO_INCREMENT,
+   cpt_login VARCHAR(20) NOT NULL,
+   cpt_mdp VARCHAR(300) NOT NULL,
+   cpt_role SET( 'ROLE_CLIENT','ROLE_LIBRAIRE') NOT NULL ,
+   PRIMARY KEY(cpt_id),
+   UNIQUE(cpt_login)
+);
 
--- -----------------------------------------------------
--- Table `myyebook`.`auteur`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`auteur` (
-  `AUT_ID` INT NOT NULL,
-  `AUT_NOM` VARCHAR(45) NOT NULL,
-  `AUT_PRENOM` VARCHAR(45) NOT NULL,
-  `AUT_IMG` LONGBLOB NULL DEFAULT NULL,
-  PRIMARY KEY (`AUT_ID`),
-  UNIQUE INDEX `AUT_ID_UNIQUE` (`AUT_ID` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+CREATE TABLE Categorie(
+   cat_id INT AUTO_INCREMENT,
+   cat_nom VARCHAR(100) NOT NULL,
+   PRIMARY KEY(cat_id),
+   UNIQUE(cat_nom)
+);
 
+CREATE TABLE Client(
+   cli_id INT AUTO_INCREMENT,
+   cli_nom VARCHAR(50) NOT NULL,
+   cli_prenom VARCHAR(50) NOT NULL,
+   cli_email VARCHAR(50) NOT NULL,
+   cli_adresse VARCHAR(250) NOT NULL,
+   cli_ville VARCHAR(50) NOT NULL,
+   cli_code_postale VARCHAR(8),
+   cpt_id INT NOT NULL,
+   PRIMARY KEY(cli_id),
+   UNIQUE(cpt_id),
+   FOREIGN KEY(cpt_id) REFERENCES Compte(cpt_id)
+);
 
--- -----------------------------------------------------
--- Table `myyebook`.`catagorie`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`catagorie` (
-  `CAT_ID` INT NOT NULL,
-  `CAT_LIBELLE` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`CAT_ID`),
-  UNIQUE INDEX `CAT_ID_UNIQUE` (`CAT_ID` ASC) VISIBLE,
-  UNIQUE INDEX `CAT_LIBELLE_UNIQUE` (`CAT_LIBELLE` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+CREATE TABLE Libraire(
+   lib_id INT AUTO_INCREMENT,
+   lib_nom VARCHAR(50) NOT NULL,
+   lib_prenom VARCHAR(50) NOT NULL,
+   cpt_id INT NOT NULL,
+   PRIMARY KEY(lib_id),
+   UNIQUE(cpt_id),
+   FOREIGN KEY(cpt_id) REFERENCES Compte(cpt_id)
+);
 
+CREATE TABLE Livre(
+   liv_id INT AUTO_INCREMENT,
+   liv_titre VARCHAR(100) NOT NULL,
+   liv_resume VARCHAR(2000) NOT NULL,
+   liv_photo VARCHAR(250) NOT NULL,
+   liv_en_avant BOOLEAN NOT NULL DEFAULT false,
+   aut_id INT NOT NULL,
+   cat_id INT NOT NULL,
+   PRIMARY KEY(liv_id),
+   FOREIGN KEY(aut_id) REFERENCES Auteur(aut_id),
+   FOREIGN KEY(cat_id) REFERENCES Categorie(cat_id)
+);
 
--- -----------------------------------------------------
--- Table `myyebook`.`compte`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`compte` (
-  `CPT_ID` INT NOT NULL,
-  `CPT_LOGIN` CHAR(10) NOT NULL,
-  `CPT_PASS` CHAR(255) NOT NULL,
-  `CPT_ROLE` SET('LIBRAIRE', 'CLIENT') NOT NULL,
-  PRIMARY KEY (`CPT_ID`),
-  UNIQUE INDEX `CPT_ID_UNIQUE` (`CPT_ID` ASC) VISIBLE,
-  UNIQUE INDEX `CPT_LOGIN_UNIQUE` (`CPT_LOGIN` ASC) VISIBLE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
+CREATE TABLE Exemplaire(
+   exe_id INT AUTO_INCREMENT,
+   liv_id INT NOT NULL,
+   PRIMARY KEY(exe_id),
+   FOREIGN KEY(liv_id) REFERENCES Livre(liv_id)
+);
 
+CREATE TABLE Reservation(
+   res_id INT AUTO_INCREMENT,
+   res_date DATETIME,
+   liv_id INT NOT NULL,
+   cli_id INT NOT NULL,
+   PRIMARY KEY(res_id),
+   FOREIGN KEY(liv_id) REFERENCES Livre(liv_id),
+   FOREIGN KEY(cli_id) REFERENCES Client(cli_id)
+);
 
--- -----------------------------------------------------
--- Table `myyebook`.`client`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`client` (
-  `CLI_ID` INT NOT NULL,
-  `CLI_NOM` VARCHAR(45) NOT NULL,
-  `CLI_PRENOM` VARCHAR(45) NOT NULL,
-  `CLI_EMAIL` VARCHAR(100) NOT NULL,
-  `COMPTE_SEC_ID` INT NOT NULL,
-  PRIMARY KEY (`CLI_ID`),
-  UNIQUE INDEX `CLI_ID_UNIQUE` (`CLI_ID` ASC) VISIBLE,
-  INDEX `fk_CLIENT_COMPTE1_idx` (`COMPTE_SEC_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_CLIENT_COMPTE1`
-    FOREIGN KEY (`COMPTE_SEC_ID`)
-    REFERENCES `myyebook`.`compte` (`CPT_ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `myyebook`.`libraire`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`libraire` (
-  `LIB_ID` INT NOT NULL,
-  `LIB_NOM` VARCHAR(45) NOT NULL,
-  `LIB_PRENOM` VARCHAR(45) NOT NULL,
-  `COMPTE_SEC_ID` INT NOT NULL,
-  PRIMARY KEY (`LIB_ID`),
-  UNIQUE INDEX `LIB_ID_UNIQUE` (`LIB_ID` ASC) VISIBLE,
-  INDEX `fk_LIBRAIRE_COMPTE1_idx` (`COMPTE_SEC_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_LIBRAIRE_COMPTE1`
-    FOREIGN KEY (`COMPTE_SEC_ID`)
-    REFERENCES `myyebook`.`compte` (`CPT_ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `myyebook`.`livre`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`livre` (
-  `LIV_ID` INT NOT NULL,
-  `LIV_TITRE` VARCHAR(45) NOT NULL,
-  `LIV_RESUME` TEXT NOT NULL,
-  `LIV_IMAGE` LONGBLOB NULL DEFAULT NULL,
-  `LIV_QUANTITE` INT NOT NULL,
-  `AUTEUR_AUT_ID` INT NOT NULL,
-  `CATAGORIE_CAT_ID` INT NOT NULL,
-  PRIMARY KEY (`LIV_ID`),
-  UNIQUE INDEX `LIV_ID_UNIQUE` (`LIV_ID` ASC) VISIBLE,
-  INDEX `fk_LIVRE_AUTEUR1_idx` (`AUTEUR_AUT_ID` ASC) VISIBLE,
-  INDEX `fk_LIVRE_CATAGORIE1_idx` (`CATAGORIE_CAT_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_LIVRE_AUTEUR1`
-    FOREIGN KEY (`AUTEUR_AUT_ID`)
-    REFERENCES `myyebook`.`auteur` (`AUT_ID`),
-  CONSTRAINT `fk_LIVRE_CATAGORIE1`
-    FOREIGN KEY (`CATAGORIE_CAT_ID`)
-    REFERENCES `myyebook`.`catagorie` (`CAT_ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `myyebook`.`emprunt`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `myyebook`.`emprunt` (
-  `CLIENT_CLI_ID` INT NOT NULL,
-  `LIVRE_LIV_ID` INT NOT NULL,
-  `LIBRAIRE_LIB_ID` INT NOT NULL,
-  PRIMARY KEY (`CLIENT_CLI_ID`, `LIVRE_LIV_ID`, `LIBRAIRE_LIB_ID`),
-  INDEX `fk_CLIENT_has_LIVRE_LIVRE1_idx` (`LIVRE_LIV_ID` ASC) VISIBLE,
-  INDEX `fk_CLIENT_has_LIVRE_CLIENT_idx` (`CLIENT_CLI_ID` ASC) VISIBLE,
-  INDEX `fk_CLIENT_has_LIVRE_LIBRAIRE1_idx` (`LIBRAIRE_LIB_ID` ASC) VISIBLE,
-  CONSTRAINT `fk_CLIENT_has_LIVRE_CLIENT`
-    FOREIGN KEY (`CLIENT_CLI_ID`)
-    REFERENCES `myyebook`.`client` (`CLI_ID`),
-  CONSTRAINT `fk_CLIENT_has_LIVRE_LIBRAIRE1`
-    FOREIGN KEY (`LIBRAIRE_LIB_ID`)
-    REFERENCES `myyebook`.`libraire` (`LIB_ID`),
-  CONSTRAINT `fk_CLIENT_has_LIVRE_LIVRE1`
-    FOREIGN KEY (`LIVRE_LIV_ID`)
-    REFERENCES `myyebook`.`livre` (`LIV_ID`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE TABLE Emprunter(
+   emp_id INT AUTO_INCREMENT PRIMARY KEY,
+   res_id INT,
+   emp_date_emprunt DATETIME NOT NULL,
+   emp_date_retour DATETIME,
+   cli_id INT NOT NULL,
+   lib_id INT NOT NULL,
+   exe_id INT NOT NULL,
+   FOREIGN KEY(res_id) REFERENCES Reservation(res_id),
+   FOREIGN KEY(cli_id) REFERENCES Client(cli_id),
+   FOREIGN KEY(lib_id) REFERENCES Libraire(lib_id),
+   FOREIGN KEY(exe_id) REFERENCES Exemplaire(exe_id)
+);
