@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
-<body class="d-flex flex-column justify-content-between vh-100">
+<body class="d-flex flex-column vh-100">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
-<main>
+<main class="mt-4">
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
-        <div class="container bc-" >
+        <div class="container" >
             <div class="d-flex justify-content-center mb-3">
                 <h2>Créer un compte <strong>libraire</strong> </h2>
             </div>

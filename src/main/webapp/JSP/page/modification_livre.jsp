@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Modification du livre</title>
 </head>
-<body class="d-flex flex-column justify-content-between vh-100">
+<body class="d-flex flex-column vh-100">
 <%@include file="../../WEB-INF/JSP/header.jsp" %>
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
