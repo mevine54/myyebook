@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CompteDAOImpTest {
 
@@ -20,6 +21,16 @@ public class CompteDAOImpTest {
         try {
             Compte compte = compteDAOImp.get(1);
             System.out.println(compte);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
+
+    @Test
+    void getAllValid() {
+        try {
+            List<Compte> comptes  = compteDAOImp.getAll();
+            System.out.println(comptes);
         } catch (SQLException e) {
             System.out.println("Exception SQL: " + e.getMessage() );
         }
