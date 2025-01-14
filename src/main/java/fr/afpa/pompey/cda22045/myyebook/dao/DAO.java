@@ -14,7 +14,7 @@ import java.util.List;
 public interface DAO<T> {
 
 
-    static Connection connection = DatabaseConnection.getConnection();
+    static Connection connection = DatabaseConnection.getInstanceDB();
     /**
      * Get t.
      *

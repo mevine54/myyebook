@@ -18,7 +18,6 @@ public class CompteDAOImp implements CompteDAO {
         String sql = "SELECT * FROM compte WHERE cpt_id = ?";
 
         try(
-                Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(sql))
         {
             ps.setInt(1, id);
@@ -37,10 +36,9 @@ public class CompteDAOImp implements CompteDAO {
     @Override
     public List<Compte> getAll() throws SQLException {
         List<Compte> comptes = new ArrayList<>();
-        String sql = "SELECT * FROM compte ";
+        String sql = "SELECT * FROM compte";
 
         try(
-                Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(sql))
         {
             ResultSet resultSet = ps.executeQuery();
@@ -59,23 +57,57 @@ public class CompteDAOImp implements CompteDAO {
 
     @Override
     public int insert(Compte compte) throws SQLException {
-        return 0;
+        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
+        int compteId = 0;
+        try(
+                PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setString(1, compte.getLogin());
+            ps.setString(2, compte.getPassword());
+            int i = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return compteId;
     }
 
     @Override
     public int update(Compte compte) throws SQLException {
-        return 0;
+        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp =  ? WHERE cpt_id = ?;";
+        int compteId = 0;
+        try(
+                PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setString(1, compte.getLogin());
+            ps.setString(2, compte.getPassword());
+            ps.setInt(3, compte.getCompteId() );
+            int i = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return compteId;
     }
 
     @Override
     public int delete(Integer id) throws SQLException {
-        return 0;
+        String sql = "DELETE FROM compte WHERE cpt_id = ?";
+
+        try(
+                PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setInt(1, id);
+            int i = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+
     }
 
     @Override
     public Compte getParLogin(String login) throws SQLException {
         Compte compte = new Compte();
-        String sql = "SELECT * FROM compte WHERE login = ?";
+        String sql = "SELECT * FROM compte WHERE cpt_login = ?";
 
         try(
                 Connection connection = DatabaseConnection.getInstanceDB();
