@@ -18,7 +18,7 @@ public class Reservation {
     public Reservation(Integer resId) {
     }
 
-    public Reservation(Integer resId, Client client, Livre livree) {
+    public Reservation(Integer resId, Client client, Livre livre) {
         setResId(resId);
         setClient(client);
         setLivre(livre);
@@ -29,6 +29,10 @@ public class Reservation {
         setClient(client);
         setLivre(livre);
         setDatetime(datetime);
+    }
+
+    public Reservation() {
+
     }
 
     public void setResId(Integer resId) {
