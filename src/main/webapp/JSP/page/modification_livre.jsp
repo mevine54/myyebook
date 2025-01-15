@@ -10,7 +10,7 @@
     <title>Modification du livre</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<%@include file="../../WEB-INF/JSP/header.jsp" %>
+<c:url value="../../WEB-INF/JSP/header.jsp" />
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
     <div class="container mt-5 h-90 d-flex flex-column flex-justify-center" >
@@ -63,6 +63,6 @@
 
 
 </main>
-<%@include file="../../WEB-INF/JSP/footer.jsp" %>
+<c:url value="../../WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

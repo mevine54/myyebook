@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Ajout de la librairie JSTL -->
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:url value="/assets/images/img.png" var="couv_livre"/>
+<c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
+<c:url value="/assets/css/style.css" var="style"/>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,10 +12,12 @@
           content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="assets/css/bootstrap5.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="${bootstrap}">
+    <link rel="stylesheet" href="${style}">
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body class="d-flex flex-column vh-100 justify-content-between">
-<%@include file="WEB-INF/JSP/header.jsp" %>
+<c:url value="WEB-INF/JSP/header.jsp" />
 <main>
 
     <!-- *********** DEBUT DE CONTENU *********** -->
@@ -22,7 +26,7 @@
         <div class="d-flex justify-content-between overflow-x-auto px-lg-5">
             <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded">
                 <div class="card" style="width: 18rem;">
-                    <img src="assets/images/img.png" class="card-img-top" alt="...">
+                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Titre du livre</h5>
                         <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
@@ -31,7 +35,7 @@
             </a>
             <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
                 <div class="card" style="width: 18rem;">
-                    <img src="assets/images/img.png" class="card-img-top" alt="...">
+                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Titre du livre</h5>
                         <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
@@ -40,7 +44,7 @@
             </a>
             <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
                 <div class="card" style="width: 18rem;">
-                    <img src="assets/images/img.png" class="card-img-top" alt="...">
+                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Titre du livre</h5>
                         <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
@@ -49,7 +53,7 @@
             </a>
             <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
                 <div class="card" style="width: 18rem;">
-                    <img src="assets/images/img.png" class="card-img-top" alt="...">
+                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Titre du livre</h5>
                         <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
@@ -64,7 +68,7 @@
                 <div class="card mb-3 shadow rounded">
                     <div class="row g-0">
                         <div class="col-lg-2 col-5 h-25">
-                            <img src="${couv_livre}" class="img-fluid rounded-start " alt="couverture du livre">
+                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start " alt="...">
                         </div>
                         <div class="col-lg col-5">
                             <div class="card-body">
@@ -81,7 +85,7 @@
                 <div class="card mb-3 shadow rounded">
                     <div class="row g-0">
                         <div class="col-lg-2 col-5 h-25">
-                            <img src="${couv_livre}" class="img-fluid rounded-start " alt="couverture du livre">
+                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start " alt="...">
                         </div>
                         <div class="col-lg col-5">
                             <div class="card-body">
@@ -98,6 +102,7 @@
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<%@include file="WEB-INF/JSP/footer.jsp" %>
+<c:url value="WEB-INF/JSP/footer.jsp" />
+<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <title>Mes Emprunts - MyyeBook</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<%@include file="../../WEB-INF/JSP/header.jsp" %>
+<c:url value="../../WEB-INF/JSP/header.jsp" />
 <main>
     <div class="container">
         <div class="text-center mb-3">
@@ -42,6 +42,6 @@
         </div>
     </div>
 </main>
-<%@include file="../../WEB-INF/JSP/footer.jsp" %>
+<c:url value="../../WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

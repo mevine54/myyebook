@@ -17,7 +17,7 @@
     <title>Livre : TitreDuLivre - MyyeBook</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<%@include file="../../WEB-INF/JSP/header.jsp" %>
+<c:url value="../../WEB-INF/JSP/header.jsp" />
 <main>
     <div class="container">
         <div class="row my-5">
@@ -94,6 +94,6 @@
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<%@include file="../../WEB-INF/JSP/footer.jsp" %>
+<c:url value="../../WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

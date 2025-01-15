@@ -10,10 +10,11 @@
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<%@include file="../../WEB-INF/JSP/header.jsp" %>
+<c:url value="../../WEB-INF/JSP/header.jsp" />
 <main>
+    <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
     <!-- *********** DEBUT DE CONTENU *********** -->
-    <div class="container">
+     <div class="container">
         <div class="d-flex justify-content-center mb-3 mt-2">
             <div class="fs-2">Créer un compte</div>
         </div>
@@ -56,6 +57,6 @@
 
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<%@include file="../../WEB-INF/JSP/footer.jsp" %>
+<c:url value="../../WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

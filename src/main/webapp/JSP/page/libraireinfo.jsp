@@ -16,7 +16,7 @@
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body>
-<%@include file="../../WEB-INF/JSP/header.jsp" %>
+<c:url value="../../WEB-INF/JSP/header.jsp" />
 <main>
     <div class="container">
 
@@ -69,6 +69,6 @@
         </form>
     </div>
 </main>
-<%@include file="../../WEB-INF/JSP/footer.jsp" %>
+<c:url value="../../WEB-INF/JSP/footer.jsp" />
 </body>
 </html>
