@@ -14,7 +14,7 @@
     <title>Mon compte - MyyeBook</title>
 </head>
 <body class="d-flex flex-column vh-100 justify-content-between">
-<c:url value="../../WEB-INF/JSP/header.jsp" />
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <!-- *********** DEBUT DE CONTENU *********** -->
     <div class="container mt-3">
@@ -63,6 +63,6 @@
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<c:url value="../../WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

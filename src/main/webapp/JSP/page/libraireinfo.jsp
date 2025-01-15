@@ -16,7 +16,8 @@
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body>
-<c:url value="../../WEB-INF/JSP/header.jsp" />
+<c:import url="/WEB-INF/JSP/header.jsp" />
+
 <main>
     <div class="container">
 
@@ -69,6 +70,7 @@
         </form>
     </div>
 </main>
-<c:url value="../../WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp" />
+
 </body>
 </html>

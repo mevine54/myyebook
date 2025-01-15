@@ -10,7 +10,7 @@
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<c:url value="../../WEB-INF/JSP/header.jsp" />
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main class="mt-4">
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
         <div class="container" >
@@ -57,6 +57,6 @@
 
     
 </main>
-<c:url value="../../WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

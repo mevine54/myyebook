@@ -10,7 +10,7 @@
     <title>Modification du livre</title>
 </head>
 <body class="d-flex flex-column vh-100">
-<c:url value="../../WEB-INF/JSP/header.jsp" />
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
     <h1>Liste des Livres emprunté</h1>
@@ -66,6 +66,6 @@
     </table>
 
 </main>
-<c:url value="../../WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

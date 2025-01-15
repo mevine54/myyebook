@@ -17,7 +17,8 @@
     <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
 </head>
 <body class="d-flex flex-column vh-100 justify-content-between">
-<c:url value="WEB-INF/JSP/header.jsp" />
+<c:import url="/WEB-INF/JSP/header.jsp" />
+
 <main>
 
     <!-- *********** DEBUT DE CONTENU *********** -->
@@ -102,7 +103,7 @@
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<c:url value="WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 <script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>
 </body>
 </html>

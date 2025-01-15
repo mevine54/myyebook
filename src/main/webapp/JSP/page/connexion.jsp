@@ -14,7 +14,7 @@
 <%--    <jsp:param name="voirRechecheLivre" value="true" />--%>
 <%--    <jsp:param name="param" value="true" />--%>
 <%--</jsp:include>--%>
-<c:url value="../../WEB-INF/JSP/header.jsp"/>
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
         <div class="container">
@@ -35,7 +35,7 @@
 </main>
 
 
-<c:url value="../../WEB-INF/JSP/footer.jsp"/>
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 <%--<%@include file="../footer.jsp"%>--%>
 </body>
 </html>
