@@ -1,5 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <c:url value="/accueil" var="accueilUrl"/>
+<%--<c:url value="/mesemprunts" var="mesempruntsUrl" />--%>
+<c:url value="/connexion" var="connexionUrl" />
+<c:url value="/client-enregistrer" var="client-enregistrerUrl" />
 
 <header>
     <nav class="navbar navbar-expand-lg bg-info">
@@ -19,16 +24,20 @@
                 </form>
 
                 <div class="d-flex justify-content-center flex-column flex-lg-row">
-                    <a href="#" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                    <c:if test="${empty role}">
+                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
                         <img src="assets/images/img.png" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
-                        Mes Emprunts
+                        Se connecter
                     </a>
-                    <a href="#" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                    </c:if>
+                    <c:if test="${empty role}">
+                    <a href="${client-enregistrerUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
                         <img src="assets/images/img.png" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
                         Enreg./Conn.
                     </a>
+                    </c:if>
                 </div>
             </div>
         </div>
