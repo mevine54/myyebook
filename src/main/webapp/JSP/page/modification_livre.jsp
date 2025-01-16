@@ -42,10 +42,15 @@
 
                     </select>
                 </div>
-                <div class="mt-3 d-flex flex-column">
-                    <label for="img">Choisissez une nouvelle couverture</label>
-                    <input type="file" class="bi-building-fill-exclamation" id="img" accept="image/png, image/jpeg" >
+                <div class="mt-3 input-group mb-3">
+                    <label class="input-group-text" for="img" >Choisissez une nouvelle couverture</label>
+                    <input type="file" id="img"  class="form-control bi-building-fill-exclamation" id="inputGroupFile01"  accept="image/png, image/jpeg" >
                 </div>
+
+<%--                <div class="mt-3 d-flex flex-column">--%>
+<%--                    <label for="img">Choisissez une nouvelle couverture</label>--%>
+<%--                    <input type="file" class="bi-building-fill-exclamation" id="img" accept="image/png, image/jpeg" >--%>
+<%--                </div>--%>
             </div>
 <%--            <h3>Resumé</h3>--%>
             <div class="row mb-3">
