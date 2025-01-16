@@ -4,7 +4,10 @@
 <c:url value="/accueil" var="accueilUrl"/>
 <%--<c:url value="/mesemprunts" var="mesempruntsUrl" />--%>
 <c:url value="/connexion" var="connexionUrl" />
-<c:url value="/client-enregistrer" var="client-enregistrerUrl" />
+<c:url value="/client-enregistrer" var="clientenregistrerUrl" />
+<c:set value="false" var="isConnected"/>
+
+
 
 <header>
     <nav class="navbar navbar-expand-lg bg-info">
@@ -15,6 +18,7 @@
             </button>
 
             <a class="navbar-brand fs-2 fw-bold d-flex" href="${accueilUrl}" >
+
                 <div class="text-white">MYYE</div>
                 <div class="text-dark">BOOK</div>
             </a>
@@ -25,17 +29,17 @@
 
                 <div class="d-flex justify-content-center flex-column flex-lg-row">
                     <c:if test="${empty role}">
-                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
-                        <img src="assets/images/img.png" class="rounded-circle img-thumbnail me-2 img-nav"
+                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover style="width: 50px; height: 50px;">
+                        <img src="<c:url value='/assets/images/person-plus.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
                         Se connecter
                     </a>
                     </c:if>
                     <c:if test="${empty role}">
-                    <a href="${client-enregistrerUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
-                        <img src="assets/images/img.png" class="rounded-circle img-thumbnail me-2 img-nav"
+                    <a href="${clientenregistrerUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                        <img src="<c:url value='/assets/images/door-open.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
-                        Enreg./Conn.
+                        S'inscrire
                     </a>
                     </c:if>
                 </div>

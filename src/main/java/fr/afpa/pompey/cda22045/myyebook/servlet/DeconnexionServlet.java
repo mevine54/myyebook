@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import jakarta.servlet.http.HttpServlet;
 
-@WebServlet(name = "DeconnexionServlet", value = "/DeconnexionServlet")
+@WebServlet(name = "DeconnexionServlet", value = "/deconnexion")
 public class DeconnexionServlet extends HttpServlet {
 
 
