@@ -18,6 +18,10 @@ public class Livre {
 
     // Constructeur
     public Livre() {}
+//
+//    public Livre(Integer id) {
+//        setId(id);
+//    }
 
     public Livre(Integer id, String titre, String resume, String image, Auteur auteur, Categorie categorie) {
         setId(id);
@@ -28,8 +32,9 @@ public class Livre {
         setCategorie(categorie);
     }
 
+
     public void setId(Integer id) {
-        if ( id <= 1) {
+        if ( id <= 0) {
             throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
         }
         this.id = id;
@@ -79,6 +84,12 @@ public class Livre {
             throw new IllegalArgumentException("La categorie ne peut pas être null");
         }
         this.categorie = categorie;
+    }
+
+    @Override
+    public String toString() {
+        return  this.id +
+                "";
     }
 
 }
