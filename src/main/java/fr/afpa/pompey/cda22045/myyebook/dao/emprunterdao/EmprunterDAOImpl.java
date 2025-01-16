@@ -2,101 +2,25 @@ package fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao;
 
 import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.*;
+import jdk.jfr.Timespan;
 
 import javax.xml.transform.Result;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmprunterDAOImpl implements EmprunterDAO{
 
-//    @Override
-//    public List<Emprunter> getParExemplaire(int exe_id) throws SQLException {
-//        List<Emprunter> emprunterList = new ArrayList<>();
-//        String sql = "SELECT * " +
-//                    "FROM Emprunter " +
-//                    "INNER JOIN Client ON Emprunter.cli_id = Client.cli_id " +
-//                    "INNER JOIN Exemplaire ON Emprunter.exe_id = Exemplaire.exe_id " +
-//                    "WHERE exe_id = ?";
-//
-//        try (Connection connection = DatabaseConnection.getInstanceDB();
-//             PreparedStatement ps = connection.prepareStatement(sql)) {
-//            ps.setInt(1, exe_id);
-//            ResultSet resultSet = ps.executeQuery();
-//            while (resultSet.next()) {
-//                Emprunter emprunter = new Emprunter();
-//                emprunter.setId(resultSet.getInt("emp_id"));
-//                emprunter.setDatetimeEmprunt(resultSet.getTime("emp_date_emprunt")); //TODO : A REVOIR
-//                emprunter.setDatetimeRetour(resultSet.getDate("emp_date_retour")); //TODO : A REVOIR
-//                emprunterList.add(emprunter);
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return List.of();
-//    }
-//
-//    @Override
-//    public List<Emprunter> getParClient(int cli_id) throws SQLException {
-//        return List.of();
-//    }
-//
-//    @Override
-//    public Integer getNbEmprunt() throws SQLException {
-//        return 0;
-//    }
-
-    @Override
-    public Emprunter get(Integer id) throws SQLException {
-        String sql = "SELECT * FROM Emprunter e\n" +
-                "INNER JOIN Client c ON e.cli_id = c.cli_id\n" +
-                "INNER JOIN Exemplaire ex ON e.exe_id = ex.exe_id\n" +
-                "INNER JOIN Reservation r ON e.res_id = r.res_id\n" +
-                "INNER JOIN Libraire l ON e.lib_id = l.lib_id\n" +
-                "WHERE emp_id = ?";
-
-        try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet resultSet = ps.executeQuery();
-            if(resultSet.next()) {
-                Emprunter emprunter = new Emprunter();
-                emprunter.setId(resultSet.getInt("emp_id"));
-                emprunter.setDatetimeEmprunt(resultSet.getDate("emp_date_emprunt")); //TODO : A REVOIR
-                emprunter.setDatetimeRetour(resultSet.getDate("emp_date_retour")); //TODO : A REVOIR
-
-                Reservation reservation = getReservationById(resultSet.getInt("res_id"));
-                Client client = getClientById(resultSet.getInt("cli_id"));
-                Libraire libraire = getLibraireById(resultSet.getInt("lib_id"));
-                Exemplaire exemplaire = getExemplaireById(resultSet.getInt("exe_id"));
-
-                return emprunter;
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @Override
-    public List<Emprunter> getAll() throws SQLException {
-        return List.of();
-    }
-
     @Override
     public int insert(Emprunter emprunter) throws SQLException {
-        String sql = "INSERT INTO Emprunter (cli_id, exe_id, emp_date_emprunt, emp_date_retour) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Emprunter (cli_id, emp_date_emprunt, emp_date_retour, cli_id, lib_id, exe_id) VALUES (?, ?, ?, ?)";
 
         try(Connection connection = DatabaseConnection.getInstanceDB();
             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, emprunter.getClient().getClientId());
             ps.setInt(2, emprunter.getExemplaire().getExemplaireId());
-            ps.setDate(3, emprunter.getDatetimeEmprunt()); //TODO : A REVOIR
-            ps.setDate(4, emprunter.getDatetimeRetour()); //TODO : A REVOIR
+            ps.setTimestamp(3, Timestamp.valueOf(emprunter.getDatetimeEmprunt())); //TODO : A REVOIR
+            ps.setTimestamp(4, Timestamp.valueOf(emprunter.getDatetimeRetour())); //TODO : A REVOIR
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -112,8 +36,8 @@ public class EmprunterDAOImpl implements EmprunterDAO{
         PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, emprunter.getClient().getClientId());
             ps.setInt(2, emprunter.getExemplaire().getExemplaireId());
-            ps.setDate(3, emprunter.getDatetimeEmprunt()); //TODO : A REVOIR
-            ps.setDate(4, emprunter.getDatetimeRetour()); //TODO : A REVOIR
+            ps.setTimestamp(3, Timestamp.valueOf(emprunter.getDatetimeEmprunt())); //TODO : A REVOIR
+            ps.setTimestamp(4, Timestamp.valueOf(emprunter.getDatetimeRetour())); //TODO : A REVOIR
             ps.setInt(5, emprunter.getReservation().getResId());
             ps.setInt(6, emprunter.getId());
             return ps.executeUpdate();
@@ -135,6 +59,85 @@ public class EmprunterDAOImpl implements EmprunterDAO{
         }
     }
 
+    @Override
+    public Emprunter get(Integer id) throws SQLException {
+        Emprunter emprunter = null;
+        String sql = "SELECT * FROM Emprunter e\n" +
+                "INNER JOIN Client c ON e.cli_id = c.cli_id\n" +
+                "INNER JOIN Exemplaire ex ON e.exe_id = ex.exe_id\n" +
+                "INNER JOIN Reservation r ON e.res_id = r.res_id\n" +
+                "INNER JOIN Libraire l ON e.lib_id = l.lib_id\n" +
+                "INNER JOIN Livre li ON ex.liv_id = li.liv_id\n" +
+                "INNER JOIN Auteur a ON li.aut_id = a.aut_id\n" +
+                "WHERE emp_id = ?";
+
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                emprunter = new Emprunter();
+                emprunter.setId(resultSet.getInt("emp_id"));
+                emprunter.setDatetimeEmprunt(resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime()); //TODO : A REVOIR
+                emprunter.setDatetimeRetour(resultSet.getTimestamp("emp_date_retour").toLocalDateTime()); //TODO : A REVOIR
+
+                Reservation reservation = getReservationById(resultSet.getInt("res_id"));
+                Client client = getClientById(resultSet.getInt("cli_id"));
+                Libraire libraire = getLibraireById(resultSet.getInt("lib_id"));
+                Exemplaire exemplaire = getExemplaireById(resultSet.getInt("exe_id"));
+                Livre livre = getLivreById(exemplaire.getLivre().getId());
+                Auteur auteur = getAuteurById(livre.getAuteur().getAuteurId());
+                emprunter.setReservation(reservation);
+                emprunter.setClient(client);
+                emprunter.setLibraire(libraire);
+                emprunter.setExemplaire(exemplaire);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return emprunter;
+
+    }
+
+    @Override
+    public List<Emprunter> getAll() throws SQLException {
+        List<Emprunter> emprunterList = new ArrayList<>();
+        String sql = "SELECT * FROM Emprunter e\n" +
+                "INNER JOIN Client c ON e.cli_id = c.cli_id\n" +
+                "INNER JOIN Exemplaire ex ON e.exe_id = ex.exe_id\n" +
+                "INNER JOIN Reservation r ON e.res_id = r.res_id\n" +
+                "INNER JOIN Libraire l ON e.lib_id = l.lib_id\n" +
+                "INNER JOIN Livre li ON ex.liv_id = li.liv_id\n" +
+                "INNER JOIN Auteur a ON li.aut_id = a.aut_id";
+
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                Emprunter emprunter = new Emprunter();
+                emprunter.setId(resultSet.getInt("emp_id"));
+                emprunter.setDatetimeEmprunt(resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime()); //TODO : A REVOIR
+                emprunter.setDatetimeRetour(resultSet.getTimestamp("emp_date_retour").toLocalDateTime()); //TODO : A REVOIR
+
+                Reservation reservation = getReservationById(resultSet.getInt("res_id"));
+                Client client = getClientById(resultSet.getInt("cli_id"));
+                Libraire libraire = getLibraireById(resultSet.getInt("lib_id"));
+                Exemplaire exemplaire = getExemplaireById(resultSet.getInt("exe_id"));
+                Livre livre = getLivreById(exemplaire.getLivre().getId());
+                Auteur auteur = getAuteurById(livre.getAuteur().getAuteurId());
+                emprunter.setReservation(reservation);
+                emprunter.setClient(client);
+                emprunter.setLibraire(libraire);
+                emprunter.setExemplaire(exemplaire);
+                emprunterList.add(emprunter);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return emprunterList;
+    }
+
+
     private Reservation getReservationById(int res_id) {
         Reservation reservation = null;
         String sql = "SELECT * FROM Reservation WHERE res_id = ?";
@@ -144,7 +147,7 @@ public class EmprunterDAOImpl implements EmprunterDAO{
             ResultSet resultSet = ps.executeQuery();
             if(resultSet.next()) {
                 reservation.setResId(resultSet.getInt("res_id"));
-                reservation.setDatetime(resultSet.getDate("res_date")); //TODO : A REVOIR
+                reservation.setDatetime(resultSet.getTimestamp("res_date").toLocalDateTime()); //TODO : A REVOIR
                 reservation.getLivre().setId(resultSet.getInt("liv_id"));
                 reservation.getClient().setClientId(resultSet.getInt("cli_id"));
             }
@@ -207,5 +210,61 @@ public class EmprunterDAOImpl implements EmprunterDAO{
             throw new RuntimeException(e);
         }
         return exemplaire;
+    }
+
+    private Livre getLivreById(int liv_id) {
+        Livre livre = null;
+        String sql = "SELECT * FROM Livre WHERE liv_id = ?";
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, liv_id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                livre.setId(resultSet.getInt("liv_id"));
+                livre.setTitre(resultSet.getString("liv_titre"));
+                livre.setResume(resultSet.getString("liv_resume"));
+                livre.setImage(resultSet.getString("liv_image"));
+                livre.setAuteur(getAuteurById(resultSet.getInt("aut_id")));
+                livre.setCategorie(getCategorieById(resultSet.getInt("cat_id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return livre;
+    }
+
+    private Categorie getCategorieById(int cat_id) {
+        Categorie categorie = null;
+        String sql = "SELECT * FROM Categorie WHERE cat_id = ?";
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cat_id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                categorie.setId(resultSet.getInt("cat_id"));
+                categorie.setNom(resultSet.getString("cat_nom"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return categorie;
+    }
+
+    private Auteur getAuteurById(int aut_id) {
+        Auteur auteur = null;
+        String sql = "SELECT * FROM Auteur WHERE aut_id = ?";
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, aut_id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()) {
+                auteur.setAuteurId(resultSet.getInt("aut_id"));
+                auteur.setNom(resultSet.getString("aut_nom"));
+                auteur.setPrenom(resultSet.getString("aut_prenom"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return auteur;
     }
 }
