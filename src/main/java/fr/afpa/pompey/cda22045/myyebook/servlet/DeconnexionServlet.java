@@ -2,16 +2,14 @@ package fr.afpa.pompey.cda22045.myyebook.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-
-import jakarta.servlet.http.HttpServlet;
 
 @WebServlet(name = "DeconnexionServlet", value = "/deconnexion")
 public class DeconnexionServlet extends HttpServlet {
-
 
     @Override
     public void init() {
@@ -19,17 +17,19 @@ public class DeconnexionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO: Deconnecte et Redirige vers l'accueil
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        response.sendRedirect("index.jsp");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO: Deconnecte et Redirige vers l'accueil
-
+        doGet(request, response);
     }
 
     @Override
     public void destroy() {
     }
-
 }

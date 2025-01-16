@@ -2,16 +2,14 @@ package fr.afpa.pompey.cda22045.myyebook.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-
-import jakarta.servlet.http.HttpServlet;
 
 @WebServlet(name = "enregistrerClientServlet", value = "/client-enregistrer")
 public class ClientEnregistrerServlet extends HttpServlet {
-
 
     @Override
     public void init() {
@@ -19,12 +17,17 @@ public class ClientEnregistrerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO : CHECK IF USER IS CONNECTED
-        // if user connected redirect :  client -> /index.jsp | libraire -> "/libraire/:id_libraire/livre"
-
-
-        // ELSE
-        this.getServletContext().getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
+        HttpSession session = null;//request.getSession(false);
+        if (session != null) {
+            String role = (String) session.getAttribute("role");
+            if ("ROLE_CLIENT".equals(role)) {
+                response.sendRedirect("index.jsp");
+            } else if ("ROLE_ADMIN".equals(role)) {
+                response.sendRedirect("libraireinfo.jsp");
+            }
+        } else {
+            this.getServletContext().getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
+        }
     }
 
     @Override
@@ -35,13 +38,25 @@ public class ClientEnregistrerServlet extends HttpServlet {
         String utilisateur = request.getParameter("utilisateur");
         String mdp1 = request.getParameter("mdp1");
         String mdp2 = request.getParameter("mdp2");
-        System.out.println(" nom: " + nom + ", prenom: " + prenom + ", utilisateur: " + utilisateur + ", email: " + email + ", mdp: " + mdp1 + ", mdp2: " + mdp2 );
 
-        // TODO:  Verifier info et rediriger
+        System.out.println("nom: " + nom + ", prenom: " + prenom + ", utilisateur: " + utilisateur + ", email: " + email + ", mdp: " + mdp1 + ", mdp2: " + mdp2);
+
+        // Vérifier les informations d'inscription (à implémenter)
+        boolean isRegistered = registerUser(nom, prenom, email, utilisateur, mdp1, mdp2);
+
+        if (isRegistered) {
+            response.sendRedirect("connexion.jsp");
+        } else {
+            response.sendRedirect("clientenregistrer.jsp?error=true");
+        }
+    }
+
+    private boolean registerUser(String nom, String prenom, String email, String utilisateur, String mdp1, String mdp2) {
+        // Implémentez la logique d'enregistrement ici
+        return true; // Exemple de retour
     }
 
     @Override
     public void destroy() {
     }
-
 }
