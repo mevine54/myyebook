@@ -69,8 +69,8 @@ public class Emprunter {
 
         if (datetimeEmprunt == null) {
             throw new NullValueException("la date d emprunt ne peut pas être null");
-        } else if (datetimeEmprunt.isBefore(LocalDateTime.now())) {
-            throw new IncoherenteDateException("La date d'emprunt ne peut pas être dans le passé");
+        } else if (datetimeEmprunt.isAfter(LocalDateTime.now())) {
+            throw new IncoherenteDateException("La date d'emprunt ne peut pas être dans le futur");
         }
 
         this.datetimeEmprunt = datetimeEmprunt;

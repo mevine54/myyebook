@@ -31,7 +31,7 @@ public class Libraire extends Compte {
 
     public Libraire(Integer libId, Compte compte ,String nom, String prenom) {
         super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
-        setCompteId(libId);
+        setLibId(libId);
         setNom(nom);
         setPrenom(prenom);
     }

@@ -49,7 +49,7 @@ public class CompteDAOImpTest {
     @Test
     void insertValid() {
         try {
-            Compte compte = new Compte("login12", "password2M@");
+            Compte compte = new Compte("login13", "password2M@");
             Integer id  = compteDAOImp.insert(compte);
             System.out.println("L'id du compte insere est "+ id);
         } catch (SQLException e) {

@@ -20,8 +20,10 @@ public class ReservationDAOImp implements ReservationDAO {
     @Override
     public Reservation get(Integer id) throws SQLException {
         Reservation reservation = new Reservation();
-        String selectResId = "select * from reservation where res_id = ?";
-
+        String selectResId = "SELECT * FROM reservation r " +
+                "JOIN livre l ON r.liv_id = l.liv_id " +
+                "JOIN client c ON r.cli_id = c.cli_id " +
+                "WHERE r.res_id = ?";
         try(
                 Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(selectResId))
@@ -32,8 +34,15 @@ public class ReservationDAOImp implements ReservationDAO {
             while (rs.next()) {
                 reservation.setResId(rs.getInt("res_id"));
                 reservation.setDatetime(rs.getTimestamp("res_date").toLocalDateTime());
-                reservation.setLivre(rs.getObject("liv_id", Livre.class));
-                reservation.setClient(rs.getObject("cli_id", Client.class));
+
+                Livre livre = new Livre();
+                livre.setId(rs.getInt("liv_id"));
+
+                Client client = new Client();
+                client.setClientId(rs.getInt("cli_id"));
+
+                reservation.setLivre(livre);  // Association du livre
+                reservation.setClient(client);  // Association du client
             }
 
         } catch (SQLException e) {
@@ -53,7 +62,7 @@ public class ReservationDAOImp implements ReservationDAO {
     public List<Reservation> getAll() throws SQLException {
         List<Reservation> reservations = new ArrayList<>();
         String selectAllRes = "SELECT * FROM reservation r " +
-                "JOIN livre l ON r.liv_id = l.liv_id" +
+                "JOIN livre l ON r.liv_id = l.liv_id " +
                 "JOIN client c ON r.cli_id = c.cli_id ";
 
         try (
@@ -61,13 +70,23 @@ public class ReservationDAOImp implements ReservationDAO {
                 PreparedStatement ps = connection.prepareStatement(selectAllRes)
         ) {
             ResultSet rs = ps.executeQuery();
+
+
             while (rs.next()) {
-                reservations.add(new Reservation(
+                Livre livre = new Livre();
+                livre.setId(rs.getInt("liv_id"));
+
+                Client client = new Client();
+                client.setClientId(rs.getInt("cli_id"));
+
+                Reservation reservation = new Reservation(
                         rs.getInt("res_id"),
-                        (Client) rs.getObject("cli_id"),
-                        (Livre) rs.getObject("liv_id"),
+                        client,
+                        livre,
                         rs.getTimestamp("res_date").toLocalDateTime()
-                ));
+                );
+
+                reservations.add(reservation);
             }
         } catch (SQLException e) {
             throw new SQLException("Impossible de trouver las reservations", e);
@@ -87,13 +106,16 @@ public class ReservationDAOImp implements ReservationDAO {
      */
     @Override
     public int insert(Reservation reservation) throws SQLException {
-        String insertRes = "INSERT INTO reservation(res_date) VALUES(?)";
+        String insertRes = "INSERT INTO reservation(res_date, liv_id, cli_id) VALUES(?,?,?)";
         int newID = 0;
 
         try (   Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(insertRes, Statement.RETURN_GENERATED_KEYS)
         ) {
-            ps.setDate(1, Date.valueOf(reservation.getDatetime().toLocalDate()));
+            ps.setTimestamp(1, Timestamp.valueOf(reservation.getDatetime()));
+            ps.setInt(2, reservation.getLivre().getId());
+            ps.setInt(3, reservation.getClient().getClientId());
+
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -117,13 +139,15 @@ public class ReservationDAOImp implements ReservationDAO {
     @Override
     public int update(Reservation reservation) throws SQLException {
 //        A revoir si on mets a jour la reservation selon le cli_id ou la res_id
-        String updateRes = "UPDATE reservaion  SET res_date = ? WHERE res_id = ?";
+        String updateRes = "UPDATE reservation SET res_date = ? WHERE res_id = ?";
 
         try (
                 Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(updateRes))
         {
-            ps.setDate(1, Date.valueOf(reservation.getDatetime().toLocalDate()));
+            ps.setTimestamp(1, Timestamp.valueOf(reservation.getDatetime()));
+            ps.setInt(2, reservation.getResId());
+
             return ps.executeUpdate();
 
         } catch (SQLException e) {

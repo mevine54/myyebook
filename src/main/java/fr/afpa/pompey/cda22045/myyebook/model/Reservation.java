@@ -18,6 +18,15 @@ public class Reservation {
     public Reservation(Integer resId) {
     }
 
+//    public Reservation(Integer resId, LocalDateTime datetime, Livre livre) {
+//        setResId(resId);
+//        setDatetime(datetime);
+//        setLivre(livre);
+//    }
+
+
+
+
     public Reservation(Integer resId, Client client, Livre livre) {
         setResId(resId);
         setClient(client);
@@ -59,10 +68,22 @@ public class Reservation {
     public void setDatetime(LocalDateTime datetime) {
         if (datetime == null) {
             throw new NullValueException("la date ne peut pas etre null");
-        } else if (datetime.isBefore(LocalDateTime.now())) {
-            throw new IncoherenteDateException("La date de réservation ne peut pas être dans le passé");
+        } else if (datetime.isAfter(LocalDateTime.now())) {
+            throw new IncoherenteDateException("La date de réservation ne peut pas être dans le futur");
         }
         this.datetime = datetime;
     }
     // TODO: CLASSE TEST
+
+
+    @Override
+    public String toString() {
+        return "Reservation [ " +
+                "\nReservationID: " + getResId() +
+                "\nLivreID: " + getLivre() +
+                "\nClientID: " + getClient().getClientId() +
+                "\nDate de reservation: " + getDatetime() +
+                "\nCategorie d'achat: " + getResId() +
+                "]\n";
+    }
 }

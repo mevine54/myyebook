@@ -21,6 +21,9 @@ public class Client extends Compte {
         setNom(nom);
         setPrenom(prenom);
         setEmail(email);
+        setAdresse(adresse);
+        setVille(ville);
+        setCodePostal(codePostal);
     }
 
     public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
@@ -45,7 +48,7 @@ public class Client extends Compte {
 
 
 
-    public void setClientId(Integer clientid) {
+    public void setClientId(Integer clientId) {
         if (clientId != null && clientId <= 0) {
             throw new IdTropPetitException("L'Id ne peut pas etre inferieur ou egal a zero");
         }
@@ -96,7 +99,7 @@ public class Client extends Compte {
         } else if (email.trim().toLowerCase().matches("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")) {
             this.email = email.trim().toLowerCase();
         } else {
-            throw new RegexValidationException("L'addresse mail n'est pas valide: " + this.email.trim());
+            throw new RegexValidationException("L'addresse mail n'est pas valide: " + email.trim());
         }
 
     }
@@ -113,7 +116,7 @@ public class Client extends Compte {
     }
 
     public void setVille(String ville) {
-        if (ville== null){
+        if (ville == null){
             throw new NullValueException("La ville ne peut pas être null");
         }
         if ((!ville.isBlank()) && ville.matches("^[a-zA-Z ]*[-a-zA-Z ]*$")) {
