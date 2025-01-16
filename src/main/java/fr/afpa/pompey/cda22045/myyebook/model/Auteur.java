@@ -13,6 +13,9 @@ public class Auteur {
     private String prenom;
     private String photo;
 
+    public Auteur() {
+    }
+
     public Auteur(Integer auteurId, String nom, String prenom, String photo) {
         setAuteurId(auteurId);
         setNom(nom);

@@ -12,6 +12,8 @@ public class Exemplaire {
     private Integer exemplaireId;
     private Livre livre;
 
+    public Exemplaire() {
+    }
 
     public Exemplaire(Integer exemplaireId, Livre livre) {
         setExemplaireId(exemplaireId);

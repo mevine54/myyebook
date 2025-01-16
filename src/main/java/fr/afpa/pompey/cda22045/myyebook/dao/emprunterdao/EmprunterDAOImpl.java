@@ -62,7 +62,7 @@ public class EmprunterDAOImpl implements EmprunterDAO{
     @Override
     public Emprunter get(Integer id) throws SQLException {
         Emprunter emprunter = null;
-        String sql = "SELECT * FROM Emprunter e\n" +
+        String sql = "SELECT * FROM Emprunter e \n" +
                 "INNER JOIN Client c ON e.cli_id = c.cli_id\n" +
                 "INNER JOIN Exemplaire ex ON e.exe_id = ex.exe_id\n" +
                 "INNER JOIN Reservation r ON e.res_id = r.res_id\n" +
@@ -76,21 +76,62 @@ public class EmprunterDAOImpl implements EmprunterDAO{
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if(resultSet.next()) {
+//                Client client= new Client(
+//                        resultSet.getInt("cli_id"),
+//                        resultSet.getString("cli_nom"),
+//                        resultSet.getString("cli_prenom"),
+//                        resultSet.getString("cli_adresse"),
+//                        resultSet.getString("cli_email")
+//                );
+
+
+
+
+               Client client= new Client();
+                client.setClientId(resultSet.getInt("cli_id"));
+
+                Exemplaire exemplaire = new Exemplaire();
+                exemplaire.setExemplaireId(resultSet.getInt("exe_id"));
+                exemplaire.setLivre(new Livre());
+
+
+                Reservation reservation = new Reservation();
+                reservation.setClient(client);
+//                reservation.setLivre(exemplaire.getLivre());
+                reservation.setResId(resultSet.getInt("res_id"));
+                reservation.setDatetime(resultSet.getTimestamp("res_date").toLocalDateTime());
+
+                Libraire libraire = new Libraire();
+                libraire.setLibId(resultSet.getInt("lib_id"));
+
+
+                Livre livre = new Livre();
+                livre.setId(resultSet.getInt("liv_id"));
+
+                Auteur auteur = new Auteur();
+                auteur.setAuteurId(resultSet.getInt("aut_id"));
+
                 emprunter = new Emprunter();
                 emprunter.setId(resultSet.getInt("emp_id"));
-                emprunter.setDatetimeEmprunt(resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime()); //TODO : A REVOIR
-                emprunter.setDatetimeRetour(resultSet.getTimestamp("emp_date_retour").toLocalDateTime()); //TODO : A REVOIR
+                emprunter.setDatetimeEmprunt(resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime());
+                emprunter.setDatetimeRetour(resultSet.getTimestamp("emp_date_retour").toLocalDateTime());
 
-                Reservation reservation = getReservationById(resultSet.getInt("res_id"));
-                Client client = getClientById(resultSet.getInt("cli_id"));
-                Libraire libraire = getLibraireById(resultSet.getInt("lib_id"));
-                Exemplaire exemplaire = getExemplaireById(resultSet.getInt("exe_id"));
-                Livre livre = getLivreById(exemplaire.getLivre().getId());
-                Auteur auteur = getAuteurById(livre.getAuteur().getAuteurId());
-                emprunter.setReservation(reservation);
                 emprunter.setClient(client);
-                emprunter.setLibraire(libraire);
                 emprunter.setExemplaire(exemplaire);
+                emprunter.setReservation(reservation);
+                emprunter.setLibraire(libraire);
+
+//                emprunter.setId(resultSet.getInt("emp_id"));
+//                emprunter.setDatetimeEmprunt(resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime()); //TODO : A REVOIR
+//                emprunter.setDatetimeRetour(resultSet.getTimestamp("emp_date_retour").toLocalDateTime()); //TODO : A REVOIR
+
+
+//                emprunter.setReservation(reservation);
+//                emprunter.setClient(client);
+//                emprunter.setLibraire(libraire);
+//                emprunter.setExemplaire(exemplaire);
+//                emprunter.setLivre(livre);
+
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
