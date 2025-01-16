@@ -39,6 +39,12 @@ public class Client extends Compte {
         setEmail(email);
     }
 
+//    Constructor pour ClientDAO
+
+
+
+
+
     public void setClientId(Integer clientid) {
         if (clientId != null && clientId <= 0) {
             throw new IdTropPetitException("L'Id ne peut pas etre inferieur ou egal a zero");
