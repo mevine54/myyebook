@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "LibraireModifServlet", value = "/libraire/1/info-modif")
+@WebServlet(name = "LibraireModifServlet", value = " ")
 public class LibraireModifServlet extends HttpServlet {
 
     @Override
