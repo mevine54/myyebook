@@ -36,7 +36,7 @@
                         </a>
                     </c:if>
                     <c:if test="${empty role}">
-                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover style="width: 40px; height: 40px;">
+                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
                         <img src="<c:url value='/assets/images/power_settings_new.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
                         Se connecter

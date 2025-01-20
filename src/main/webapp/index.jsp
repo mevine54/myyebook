@@ -26,59 +26,66 @@
     <!-- *********** DEBUT DE CONTENU *********** -->
     <div class="container-fluid container-lg">
         <div class="fs-3 my-3">Nos sélections</div>
-        <div class="d-flex justify-content-between overflow-x-auto px-lg-5">
-            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded">
-                <div class="card" style="width: 18rem;">
-                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Titre du livre</h5>
-                        <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
+                    <div class="card">
+                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Titre du livre</h5>
+                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
-                <div class="card" style="width: 18rem;">
-                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Titre du livre</h5>
-                        <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
+                    <div class="card">
+                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Titre du livre</h5>
+                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
-                <div class="card" style="width: 18rem;">
-                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Titre du livre</h5>
-                        <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
+                    <div class="card">
+                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Titre du livre</h5>
+                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg mb-lg-5 rounded" >
-                <div class="card" style="width: 18rem;">
-                    <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Titre du livre</h5>
-                        <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
+                    <div class="card">
+                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Titre du livre</h5>
+                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
 
         <div class="fs-3 my-3">Nos livres</div>
         <div class="mx-3">
-            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover ">
+            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
                 <div class="card mb-3 shadow rounded">
                     <div class="row g-0">
                         <div class="col-lg-2 col-5 h-25">
-                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start " alt="...">
+                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-lg col-5">
                             <div class="card-body">
                                 <h5 class="card-title">Titre du livre</h5>
                                 <p class="card-text d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, officia libero! Recusandae eos accusamus deserunt itaque nemo fugit, unde in libero, delectus deleniti quasi nulla rerum reiciendis sapiente. Sunt, rerum!</p>
                                 <p class="card-text d-block d-lg-none text-truncate">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eligendi optio, qui consequatur, culpa architecto rerum ipsum sunt sapiente nemo aliquid illo, sit ipsa fugiat iste sint dolor cupiditate. Libero.</p>
-
                             </div>
                         </div>
                     </div>
@@ -88,14 +95,13 @@
                 <div class="card mb-3 shadow rounded">
                     <div class="row g-0">
                         <div class="col-lg-2 col-5 h-25">
-                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start " alt="...">
+                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start" alt="...">
                         </div>
                         <div class="col-lg col-5">
                             <div class="card-body">
                                 <h5 class="card-title">Titre du livre</h5>
                                 <p class="card-text d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, officia libero! Recusandae eos accusamus deserunt itaque nemo fugit, unde in libero, delectus deleniti quasi nulla rerum reiciendis sapiente. Sunt, rerum!</p>
                                 <p class="card-text d-block d-lg-none text-truncate">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eligendi optio, qui consequatur, culpa architecto rerum ipsum sunt sapiente nemo aliquid illo, sit ipsa fugiat iste sint dolor cupiditate. Libero.</p>
-
                             </div>
                         </div>
                     </div>

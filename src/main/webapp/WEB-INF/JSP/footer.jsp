@@ -21,12 +21,11 @@
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">RGPD</a></li>
         </ul>
 
-        <div class="d-flex justify-content-center fs-2 mt-2">
+        <div class="d-flex justify-content-center fs-2 mt-2 clas=">
             <div class="row">
                 <div class="col">
                     <a href="">
                         <img class="bi bi-facebook link-opacity-100-hover" src="${facebook}"  alt="facebook">
-
                     </a>
                 </div>
                 <div class="col">
