@@ -26,17 +26,25 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                livre = new Livre();
-                livre.setId(resultSet.getInt("liv_id"));
-                livre.setTitre(resultSet.getString("liv_titre"));
-                livre.setResume(resultSet.getString("liv_resume"));
-                livre.setImage(resultSet.getString("liv_photo"));
 //                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
-                Auteur auteur = getAuteurById(resultSet.getInt("aut_id"));
-                Categorie categorie = getCategorieById(resultSet.getInt("cat_id"));
-                livre.setAuteur(auteur);
-                livre.setCategorie(categorie);
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+                );
+                Categorie categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom")
+                );
+                livre = new Livre(
+                        resultSet.getInt("liv_id"),
+                        resultSet.getString("liv_titre"),
+                        resultSet.getString("liv_resume"),
+                        resultSet.getString("liv_photo"),
+                        auteur, categorie
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,8 +70,16 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setImage(resultSet.getString("liv_photo"));
 //                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
-                Auteur auteur = getAuteurById(resultSet.getInt("aut_id"));
-                Categorie categorie = getCategorieById(resultSet.getInt("cat_id"));
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+                );
+                Categorie categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom")
+                );
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
                 livres.add(livre);
@@ -77,16 +93,21 @@ public class LivreDAOImpl implements LivreDAO {
     @Override
     public int insert(Livre livre) throws SQLException {
         String sql = "INSERT INTO myyebook.livre (liv_titre, liv_resume, liv_photo, aut_id, cat_id) VALUES (?, ?, ?, ?, ?)";
-
+        Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, livre.getTitre());
             ps.setString(2, livre.getResume());
             ps.setString(3, livre.getImage());
 //            ps.setBoolean(4, livre.getEnAvant());
             ps.setInt(4, livre.getAuteur().getAuteurId());
             ps.setInt(5, livre.getCategorie().getId());
-            return ps.executeUpdate();
+            ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -141,8 +162,16 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setImage(resultSet.getString("liv_photo"));
 //                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
-                Auteur auteur = getAuteurById(resultSet.getInt("aut_id"));
-                Categorie categorie = getCategorieById(resultSet.getInt("cat_id"));
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+                );
+                Categorie categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom")
+                );
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
                 livres.add(livre);
@@ -170,8 +199,16 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setImage(resultSet.getString("liv_photo"));
 //                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
-                Auteur auteur = getAuteurById(resultSet.getInt("aut_id"));
-                Categorie categorie = getCategorieById(resultSet.getInt("cat_id"));
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+                );
+                Categorie categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom")
+                );
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
                 livres.add(livre);
@@ -199,41 +236,41 @@ public class LivreDAOImpl implements LivreDAO {
     }
 
     // Assuming you have methods to get Auteur and Categorie by their IDs
-    private Auteur getAuteurById(int autId) throws SQLException {
-        Auteur auteur = null;
-        String sql = "SELECT * FROM myyebook.auteur WHERE aut_id = ?";
+//    private Auteur getAuteurById(int autId) throws SQLException {
+//        Auteur auteur = null;
+//        String sql = "SELECT * FROM myyebook.auteur WHERE aut_id = ?";
+//
+//        try (Connection connection = DatabaseConnection.getInstanceDB();
+//             PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setInt(1, autId);
+//            ResultSet resultSet = ps.executeQuery();
+//            if (resultSet.next()) {
+//                auteur.setAuteurId(resultSet.getInt("aut_id"));
+//                auteur.setNom(resultSet.getString("aut_nom"));
+//                auteur.setPrenom(resultSet.getString("aut_prenom"));
+//                auteur.setPhoto(resultSet.getString("aut_photo"));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return auteur;
+//    }
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, autId);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                auteur.setAuteurId(resultSet.getInt("aut_id"));
-                auteur.setNom(resultSet.getString("aut_nom"));
-                auteur.setPrenom(resultSet.getString("aut_prenom"));
-                auteur.setPhoto(resultSet.getString("aut_photo"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return auteur;
-    }
-
-    private Categorie getCategorieById(int catId) throws SQLException {
-        Categorie categorie = null;
-        String sql = "SELECT * FROM myyebook.categorie WHERE cat_id = ?";
-
-        try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, catId);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                categorie.setId(resultSet.getInt("cat_id"));
-                categorie.setNom(resultSet.getString("cat_nom"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return categorie;
-    }
+//    private Categorie getCategorieById(int catId) throws SQLException {
+//        Categorie categorie = null;
+//        String sql = "SELECT * FROM myyebook.categorie WHERE cat_id = ?";
+//
+//        try (Connection connection = DatabaseConnection.getInstanceDB();
+//             PreparedStatement ps = connection.prepareStatement(sql)) {
+//            ps.setInt(1, catId);
+//            ResultSet resultSet = ps.executeQuery();
+//            if (resultSet.next()) {
+//                categorie.setId(resultSet.getInt("cat_id"));
+//                categorie.setNom(resultSet.getString("cat_nom"));
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return categorie;
+//    }
 }

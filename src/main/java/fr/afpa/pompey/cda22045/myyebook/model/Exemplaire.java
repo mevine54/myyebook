@@ -34,6 +34,13 @@ public class Exemplaire {
         this.livre = livre;
     }
 
-    // TODO: CLASSE TEST
+    @Override
+    public String toString() {
+        return "Exemplaire{" +
+                "exemplaireId=" + exemplaireId +
+                ", livre=" + livre +
+                '}';
+    }
+// TODO: CLASSE TEST
 
 }

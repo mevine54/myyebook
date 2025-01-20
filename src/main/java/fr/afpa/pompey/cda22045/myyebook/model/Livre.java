@@ -35,7 +35,7 @@ public class Livre {
 
 
     public void setId(Integer id) {
-        if ( id <= 0) {
+        if ( id!=null && id <= 0) {
             throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
         }
         this.id = id;
@@ -67,7 +67,6 @@ public class Livre {
         } else if (resume.length() > longueurMax) {
             throw new LongueurMaximaleException("Le resume est trop long:" + resume + ", " + resume.length() + " caracteres");
         }
-
         this.resume = resume;
     }
 
@@ -101,8 +100,14 @@ public class Livre {
 
     @Override
     public String toString() {
-        return  this.id +
-                "";
+        return "Livre{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", resume='" + resume + '\'' +
+                ", image='" + image + '\'' +
+                ", auteur=" + auteur +
+                ", categorie=" + categorie +
+                '}';
     }
 
 }
