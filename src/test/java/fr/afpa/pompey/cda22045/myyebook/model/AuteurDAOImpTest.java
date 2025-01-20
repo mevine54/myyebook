@@ -35,40 +35,42 @@ public class AuteurDAOImpTest {
             System.out.println("Exception SQL: " + e.getMessage() );
         }
     }
+
+    @Test
+    void insertValid() {
+        try {
+            Auteur auteur = new Auteur(null,"nomAuteur","prenomAuteur","/photoAuteur.jpg");
+            Integer id  = auteurDAOImp.insert(auteur);
+            System.out.println("L'id de l'auteur insere est "+ id);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 //
-//    @Test
-//    void insertValid() {
-//        try {
-//            Categorie categorie = new Categorie(null,"temp");
-//            Integer id  = categorieDAOImp.insert(categorie);
-//            System.out.println("L'id de la  categorie insere est "+ id);
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
-////
-//    @Test
-//    void updateValid() {
-//        try {
-//            Categorie categorie = categorieDAOImp.get(15);
-//            System.out.println(categorie);
-//            categorie.setNom("BLABLA");
-//            Integer id  = categorieDAOImp.update(categorie);
-//            System.out.println("L'id de la libraire modifie est "+ id);
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
-//
-//
-//    @Test
-//    void deleteValid() {
-//        try {
-//            Integer id  = 15;
-//            categorieDAOImp.delete(id);
-//            System.out.println("L'id du compte "+ id + " a bien ete supprimer");
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
+    @Test
+    void updateValid() {
+        try {
+            Auteur auteur = auteurDAOImp.get(12);
+            System.out.println(auteur);
+            auteur.setNom("BLABLANom");
+            auteur.setPrenom("BLABLAPrenom");
+            auteur.setPhoto("/BLABLAPhoto.jpg");
+            Integer id  = auteurDAOImp.update(auteur);
+            System.out.println("L'id de l' auteur modifie est "+ id);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
+
+
+    @Test
+    void deleteValid() {
+        try {
+            Integer id  = 12;
+            auteurDAOImp.delete(id);
+            System.out.println("L'id de l 'auteur "+ id + " a bien ete supprimer");
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 }
