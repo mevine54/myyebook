@@ -29,17 +29,17 @@
 
                 <div class="d-flex justify-content-center flex-column flex-lg-row">
                     <c:if test="${empty role}">
-                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover style="width: 50px; height: 50px;">
-                        <img src="<c:url value='/assets/images/person-plus.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
-                             alt="Image d'un livre">
-                        Se connecter
-                    </a>
+                        <a href="${clientenregistrerUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                            <img src="<c:url value='/assets/images/exit_to_app.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
+                                 alt="Image d'un livre">
+                            S'inscrire
+                        </a>
                     </c:if>
                     <c:if test="${empty role}">
-                    <a href="${clientenregistrerUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
-                        <img src="<c:url value='/assets/images/door-open.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
+                    <a href="${connexionUrl}" class="d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover style="width: 40px; height: 40px;">
+                        <img src="<c:url value='/assets/images/power_settings_new.svg'/>" class="rounded-circle img-thumbnail me-2 img-nav"
                              alt="Image d'un livre">
-                        S'inscrire
+                        Se connecter
                     </a>
                     </c:if>
                 </div>
