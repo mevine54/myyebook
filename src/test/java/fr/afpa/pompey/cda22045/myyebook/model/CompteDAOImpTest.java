@@ -49,7 +49,8 @@ public class CompteDAOImpTest {
     @Test
     void insertValid() {
         try {
-            Compte compte = new Compte("login13", "password2M@");
+            int random = (int)(Math.random() * 500000 + 1);
+            Compte compte = new Compte("login"+random, "password2M@");
             Integer id  = compteDAOImp.insert(compte);
             System.out.println("L'id du compte insere est "+ id);
         } catch (SQLException e) {

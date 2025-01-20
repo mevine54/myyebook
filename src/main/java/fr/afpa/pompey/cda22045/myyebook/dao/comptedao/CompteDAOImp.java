@@ -4,17 +4,14 @@ import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
 import java.net.Inet4Address;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompteDAOImp implements CompteDAO {
     @Override
     public Compte get(Integer id) throws SQLException {
-        Compte compte = new Compte();
+        Compte compte = null;
         String sql = "SELECT * FROM compte WHERE cpt_id = ?";
 
         try(
@@ -23,9 +20,11 @@ public class CompteDAOImp implements CompteDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                compte.setCompteId(resultSet.getInt("cpt_id"));
-                compte.setLogin(resultSet.getString("cpt_login"));
-                compte.setPassword(resultSet.getString("cpt_mdp"));
+                compte = new Compte(
+                        resultSet.getInt("cpt_id"),
+                        resultSet.getString("cpt_login"),
+                        resultSet.getString("cpt_mdp")
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,11 +59,15 @@ public class CompteDAOImp implements CompteDAO {
         String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
         int compteId = 0;
         try(
-                PreparedStatement ps = connection.prepareStatement(sql))
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
-            int i = ps.executeUpdate();
+            ps.executeUpdate();
+            ResultSet generatedKeysCompte = ps.getGeneratedKeys();
+            if (generatedKeysCompte.next()) {
+                return generatedKeysCompte.getInt(1);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
