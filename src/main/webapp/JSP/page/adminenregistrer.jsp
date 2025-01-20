@@ -9,13 +9,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:url value="/create-admin" var="createAdminUrl"/>
-
+<c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
+<c:url value="/assets/css/style.css" var="style"/>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/bootstrap5.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="${bootstrap}">
+    <link rel="stylesheet" href="${style}">
     <title>Créer un compte admin - MyyeBook</title>
 </head>
 <body class="d-flex flex-column vh-100">

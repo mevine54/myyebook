@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "AccueilServlet", value = "/accueil")
+@WebServlet(name = "AccueilServlet", value =  { "/index.jsp" , "/accueil"})
 public class AccueilServlet extends HttpServlet {
 
     @Override
@@ -18,8 +18,7 @@ public class AccueilServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
     }
 
     @Override

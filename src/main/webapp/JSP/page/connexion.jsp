@@ -1,12 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
+<c:url value="/assets/css/style.css" var="style"/>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Connectez-vous à MyyeBook pour accéder à votre bibliothèque personnelle et découvrir de nouveaux livres">
-    <link rel="stylesheet" href="assets/css/bootstrap5.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="${bootstrap}">
+    <link rel="stylesheet" href="${style}">
     <title>MyyeBook - Connectez-vous pour Lire</title>
 </head>
 <body class="d-flex flex-column vh-100">
