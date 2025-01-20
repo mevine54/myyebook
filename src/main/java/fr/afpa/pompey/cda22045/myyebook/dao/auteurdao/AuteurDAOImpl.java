@@ -22,10 +22,13 @@ public class AuteurDAOImpl implements AuteurDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                auteur.setAuteurId(resultSet.getInt("aut_id"));
-                auteur.setNom(resultSet.getString("aut_nom"));
-                auteur.setPrenom(resultSet.getString("aut_prenom"));
-                auteur.setPhoto(resultSet.getString("aut_photo"));
+                auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -42,11 +45,13 @@ public class AuteurDAOImpl implements AuteurDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Auteur auteur = null;
-                auteur.setAuteurId(resultSet.getInt("aut_id"));
-                auteur.setNom(resultSet.getString("aut_nom"));
-                auteur.setPrenom(resultSet.getString("aut_prenom"));
-                auteur.setPhoto(resultSet.getString("aut_photo"));
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+
+                );
                 auteurs.add(auteur);
             }
         } catch (SQLException e) {

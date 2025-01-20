@@ -34,7 +34,7 @@ public class Auteur {
     public void setNom(String nom) {
         int longueurMin = 2;
         int longueurMax = 50;
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax +"}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax +"}$";
         if (nom == null) {
             throw new NullValueException("Le nom de l'auteur ne peut pas etre null");
         }
@@ -52,7 +52,7 @@ public class Auteur {
     public void setPrenom(String prenom) {
         int longueurMin = 0;
         int longueurMax = 50;
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax + "}$";
         if (prenom == null) {
             throw new NullValueException("Le prenom de l'auteur ne peut pas etre null");
         }

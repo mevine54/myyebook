@@ -69,7 +69,7 @@ public class Client extends Compte {
             throw new NullValueException("Le nom du client ne peut pas etre null");
         }
         nom = nom.trim();
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax + "}$";
         if (nom.length() < longueurMin) {
             throw new LongueurMinimaleException("Le nom du client est trop court:" + nom + ", " + nom.length() + " caracteres");
         } else if (nom.length() > longueurMax) {

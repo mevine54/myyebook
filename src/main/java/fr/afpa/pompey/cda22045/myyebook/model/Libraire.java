@@ -74,7 +74,7 @@ public class Libraire extends Compte {
             throw new NullValueException("Le prenom de la libraire ne peut pas etre null");
         }
         prenom = prenom.trim();
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax + "}$";
         if (prenom.length() < longueurMin) {
             throw new LongueurMinimaleException("Le mot de passe doit avoir au minimum " + longueurMin + " caractères");
         } else if (prenom.length() > longueurMax) {
