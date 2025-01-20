@@ -32,6 +32,9 @@ public class Client extends Compte {
         setNom(nom);
         setPrenom(prenom);
         setEmail(email);
+        setAdresse(adresse);
+        setVille(ville);
+        setCodePostal(codePostal);
     }
 
     public Client(Integer clientId, Integer compteId ,String login , String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
@@ -40,6 +43,9 @@ public class Client extends Compte {
         setNom(nom);
         setPrenom(prenom);
         setEmail(email);
+        setAdresse(adresse);
+        setVille(ville);
+        setCodePostal(codePostal);
     }
 
 //    Constructor pour ClientDAO
@@ -82,7 +88,7 @@ public class Client extends Compte {
             throw new NullValueException("Le prenom du client ne peut pas etre null");
         }
         prenom = prenom.trim();
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-\\s]{" + longueurMin + "," + longueurMax + "}$";
         if (prenom.length() < longueurMin) {
             throw new LongueurMinimaleException("Le mot de passe doit avoir au minimum " + longueurMin + " caractères");
         } else if (prenom.length() > longueurMax) {

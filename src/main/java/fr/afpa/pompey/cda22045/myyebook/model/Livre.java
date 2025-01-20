@@ -2,6 +2,7 @@ package fr.afpa.pompey.cda22045.myyebook.model;
 
 import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMaximaleException;
 import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMinimaleException;
+import fr.afpa.pompey.cda22045.myyebook.exception.NullValueException;
 import fr.afpa.pompey.cda22045.myyebook.exception.RegexValidationException;
 import lombok.Getter;
 
@@ -41,8 +42,15 @@ public class Livre {
     }
 
     public void setTitre(String titre) {
+        int longueurMin = 1;
+        int longueurMax = 50;
         if (titre == null) {
             throw new IllegalArgumentException("Le titre ne peut pas être null");
+        }
+        if (titre.length() < longueurMin) {
+            throw new LongueurMinimaleException("Le titre est trop court:" + titre + ", " + titre.length() + " caracteres");
+        } else if (titre.length() > longueurMax) {
+            throw new LongueurMaximaleException("Le titre est trop long:" + titre + ", " + titre.length() + " caracteres");
         }
         this.titre = titre;
     }
@@ -64,10 +72,15 @@ public class Livre {
     }
 
     public void setImage(String image) {
+        int longueurMin = 6;
+
+        String regex  = ".*\\/[a-zA-Z0-9_àâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]*\\.(jpg|png|gif|jpeg|bmp)$";
         if (image == null) {
-            throw new IllegalArgumentException("Le chemin de la couverture ne peut pas etre null");
-        } else if (image.length() < 5) {
-            throw new IllegalArgumentException("Le chemin de la couverture est trop court");
+            throw new NullValueException("Le chemin de la couverture ne peut pas etre null");
+        } else if (image.length() < longueurMin) {
+            throw new LongueurMinimaleException("Le chemin de la couverture est trop court");
+        } else if (!image.matches(regex)) {
+            throw new RegexValidationException("Le chemin de la couverture n est pas valide .Veuillez choisir un format d'image");
         }
         this.image = image;
     }

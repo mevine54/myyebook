@@ -70,7 +70,8 @@ public class Auteur {
 
     public void setPhoto(String photo) {
         int longueurMin = 6;
-        String regex  = ".*\\/[a-zA-Z0-9-]*\\.(jpg|png|gif|jpeg|bmp)$";
+
+        String regex  = ".*\\/[a-zA-Z0-9_àâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]*\\.(jpg|png|gif|jpeg|bmp)$";
         if (photo == null) {
             throw new NullValueException("Le chemin de la photo de l'auteur ne peut pas etre null");
         } else if (photo.length() < longueurMin) {

@@ -25,7 +25,8 @@ class EmprunterTest {
     @Test
     void getByIdValid() {
         try {
-            emprunterDAOImpl.get(1);
+            Emprunter emprunter = emprunterDAOImpl.get(2);
+            System.out.println(emprunter);
         } catch (Exception e) {
             e.printStackTrace();
         }
