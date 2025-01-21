@@ -1,0 +1,14 @@
+.barnav{
+    height: 60px;
+}
+
+.img-nav{
+    object-fit: contain;
+    width: 70px;
+}
+
+.bi{
+    width: 36px;
+    height: 36px;
+}
+
