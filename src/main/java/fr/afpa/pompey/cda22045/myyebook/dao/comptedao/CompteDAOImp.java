@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.comptedao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
 import java.net.Inet4Address;
