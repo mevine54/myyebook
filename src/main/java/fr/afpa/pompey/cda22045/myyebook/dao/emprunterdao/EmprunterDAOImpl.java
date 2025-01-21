@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.*;
 
 import java.sql.*;

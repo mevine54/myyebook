@@ -1,6 +1,6 @@
-package fr.afpa.pompey.cda22045.myyebook.dao.reservationDAO;
+package fr.afpa.pompey.cda22045.myyebook.dao.reservationdao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import fr.afpa.pompey.cda22045.myyebook.model.Reservation;
