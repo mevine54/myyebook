@@ -1,41 +1,103 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-import lombok.Data;
+import fr.afpa.pompey.cda22045.myyebook.exception.IdTropPetitException;
+import fr.afpa.pompey.cda22045.myyebook.exception.IncoherenteDateException;
+import fr.afpa.pompey.cda22045.myyebook.exception.NullValueException;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class Emprunter {
+    private Integer id;
+    private Reservation reservation;
+    private Client client;
+    private Libraire libraire;
+    private Exemplaire exemplaire;
+    private LocalDateTime datetimeEmprunt;
+    private LocalDateTime datetimeRetour;
 
-    private Integer empId;
-    private LocalDate empDate;
-    private Integer cliId;
-    private Integer livId;
-    private Integer libId;
-
-    public Emprunter() {}
-
-    public Emprunter(@NotNull Integer empId,@NotNull LocalDate empDate, @NotNull Integer libId, @NotNull Integer cliId, @NotNull Integer livId) {
-
-        this.empId = empId;
-        this.empDate = empDate;
-        this.libId = libId;
-        this.cliId = cliId;
-        this.livId = livId;
+    public Emprunter() {
     }
 
+    public Emprunter( Integer id, Client client, Libraire libraire, Exemplaire exemplaire, LocalDateTime datetimeEmprunt, LocalDateTime datetimeRetour, Reservation reservation) {
+        setId(id);
+        setClient(client);
+        setLibraire(libraire);
+        setExemplaire(exemplaire);
+        setDatetimeEmprunt(datetimeEmprunt);
+        setDatetimeRetour(datetimeRetour);
+        setReservation(reservation);
+    }
 
+    public void setId(Integer id) {
+        if ( id!=null && id <= 0) {
+            throw new IdTropPetitException("L'id ne peut pas etre inferieur ou egal a zero");
+        }
+        this.id = id;
+    }
 
+    public void setClient(Client client) {
+        if (client == null) {
+            throw new NullValueException("Le client ne peut pas être null");
+        }
+        this.client = client;
+    }
 
+    public void setExemplaire(Exemplaire exemplaire) {
+        if (exemplaire == null) {
+            throw new NullValueException("l 'exemplaire ne peut pas être null");
+        }
+        this.exemplaire = exemplaire;
+    }
+
+    public void setLibraire(Libraire libraire) {
+        if (libraire == null) {
+            throw new NullValueException("la libraire ne peut pas être null");
+        }
+        this.libraire = libraire;
+    }
+
+    public void setReservation(Reservation reservation) {
+        if (reservation != null && reservation.getDatetime().isAfter(datetimeEmprunt)  ) {
+//            System.out.println(reservation.getDatetime());
+//            System.out.println(datetimeEmprunt);
+
+            throw new IncoherenteDateException("La date de reservation ne peut pas etre posterieur à la date d'emprunt");
+        }
+        this.reservation = reservation;
+    }
+
+    public void setDatetimeEmprunt(LocalDateTime datetimeEmprunt) {
+
+        if (datetimeEmprunt == null) {
+            throw new NullValueException("la date d emprunt ne peut pas être null");
+        } else if (datetimeEmprunt.isAfter(LocalDateTime.now())) {
+            throw new IncoherenteDateException("La date d'emprunt ne peut pas être dans le futur");
+        }
+
+        this.datetimeEmprunt = datetimeEmprunt;
+    }
+
+    public void setDatetimeRetour(LocalDateTime datetimeRetour) {
+        if (datetimeRetour.isBefore(datetimeEmprunt) ) {
+            throw new IncoherenteDateException("La date de retour ne peut pas être avant la date d'emprunt");
+        }
+        this.datetimeRetour = datetimeRetour;
+    }
 
     @Override
     public String toString() {
-        return "Emprunter [cliId=" + cliId + ", livId=" + livId + "]";
+        return "Emprunter{" +
+                "id=" + id +
+                ", reservation=" + reservation +
+                ", client=" + client +
+                ", libraire=" + libraire +
+                ", exemplaire=" + exemplaire +
+                ", datetimeEmprunt=" + datetimeEmprunt +
+                ", datetimeRetour=" + datetimeRetour +
+                '}';
+
     }
 }
 

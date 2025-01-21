@@ -1,53 +1,83 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+
+import fr.afpa.pompey.cda22045.myyebook.exception.*;
+import lombok.*;
+
+@Getter
 public class Compte {
-    private Integer secId;
-    private String secLogin;
-    private String secPass;
 
-    public Compte() {}
+    private Integer compteId;
+    private String login;
+    private String password;
 
-    public Compte(Integer secId, String secLogin, String secPass) {
-        setSecId(secId);
-        setSecLogin(secLogin);
-        setSecPass(secPass);
+    public Compte(){
     }
 
-    public Integer getSecId() {
-        return secId;
+    public Compte(String login, String password) {
+        setLogin( login);
+        setPassword(password);
     }
 
-    public void setSecId(Integer secId) {
-        if (secId == null) {
-            throw new NullPointerException("secId ne peut pas être null");
+    public Compte(Integer compteId, String login, String password) {
+        this(login,password);
+        setCompteId( compteId );
+    }
+
+    public void setCompteId(Integer compteId) {
+        if ( compteId!=null && compteId <= 0) {
+            throw new IdTropPetitException("L'id ne peut pas etre inferieur ou egal a zero");
         }
-        this.secId = secId;
+        this.compteId = compteId;
     }
 
-    public String getSecLogin() {
-        return secLogin;
-    }
+    public void setLogin(String login) {
+        int maxLen = 15;
+        int minLen = 4;
+        String regex = "^[a-zA-Z0-9]{" + minLen + "," + maxLen + "}$";
 
-    public void setSecLogin(String secLogin) {
-        if (secLogin == null || secLogin.length() > 10) {
-            throw new IllegalArgumentException("secLogin ne peut pas être null et doit avoir au maximum 10 caractères");
+        if (login == null) {
+            throw new NullValueException("L'identifiant ne peut pas être null");
         }
-        this.secLogin = secLogin;
-    }
 
-    public String getSecPass() {
-        return secPass;
-    }
-
-    public void setSecPass(String secPass) {
-        if (secPass == null || secPass.length() > 255) {
-            throw new IllegalArgumentException("secPass ne peut pas être null et doit avoir au maximum 255 caractères");
+        login  = login.trim();
+        if (login.length() < minLen) {
+            throw new LongueurMinimaleException("L'identifiant doit avoir au minimum " + minLen + " caractères");
+        } else if (login.length() > maxLen) {
+            throw new LongueurMaximaleException("L'identifiant doit avoir au maximum " + maxLen + " caractères");
+        } else if (!login.matches(regex)) {
+            throw new RegexValidationException("L'identifiant ne doit contenir que des lettres et des chiffres");
         }
-        this.secPass = secPass;
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        int maxLen = 150;
+        int minLen = 8;
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{" + minLen + "," + maxLen + "}$";
+
+        if (password == null) {
+            throw new NullValueException("Le mot de passe ne peut pas être null");
+        } else if (password.length() < minLen) {
+            throw new LongueurMinimaleException("Le mot de passe doit avoir au minimum " + minLen + " caractères");
+        } else if (password.length() > maxLen) {
+            throw new LongueurMaximaleException("Le mot de passe doit avoir au maximum " + maxLen + " caractères");
+        } else if (!password.matches(regex)) {
+            throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial: @$!%*?& ");
+        }
+        // TODO: Hash password
+        this.password = password;
+
     }
 
     @Override
     public String toString() {
-        return "Compte [secId=" + secId + ", secLogin=" + secLogin + ", secPass=" + (secPass != null ? "********" : "null") + "]";
+
+        return "Compte{" +
+                "cptId=" + compteId +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+
     }
 }
