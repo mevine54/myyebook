@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
+<c:url value="/client-enregistrer" var="clientEnregistrer"/>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,7 +25,8 @@
         <div class="d-flex justify-content-center mb-3 mt-2">
             <div class="fs-2">Créer un compte</div>
         </div>
-        <form class=" mx-auto col-lg-7 mt-2"  method="POST" action="client-enregistrer">
+        <form class=" mx-auto col-lg-7 mt-2"  method="POST" action="${clientEnregistrer}">
+            <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">
             <div class="row mb-3">
                 <div class="col-lg">
                     <label for="nom" class="form-label">Nom</label>

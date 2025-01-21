@@ -1,5 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
+import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +19,10 @@ public class ConnexionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+//        request.getSession(false);
+//        HttpSession session = request.getSession(true);
+//        request.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
+//        System.out.println(request.getAttribute("csrfToken"));
         this.getServletContext().getRequestDispatcher("/JSP/page/connexion.jsp").forward(request, response);
     }
 

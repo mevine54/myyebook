@@ -24,9 +24,9 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
-        String rue = request.getParameter("rue");
-        String codePostal = request.getParameter("cp");
-        String ville = request.getParameter("ville");
+//        String rue = request.getParameter("rue");
+//        String codePostal = request.getParameter("cp");
+//        String ville = request.getParameter("ville");
 //        System.out.println("nom: " +nom + " Prenom " + prenom + " email: " + email + " rue " + rue + " CP " + codePostal + " ville " + ville);
     }
 

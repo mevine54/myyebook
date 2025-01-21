@@ -1,7 +1,9 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
+<c:url value="/libraire-enregistrer" var="libraireEnregistrer"/>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -20,7 +22,8 @@
             <div class="d-flex justify-content-center mb-3">
                 <h2>Créer un compte <strong>libraire</strong> </h2>
             </div>
-            <form class=" mx-auto col-7" method="POST" action="libraire-enregistrer">
+            <form class=" mx-auto col-7" method="POST" action="${libraireEnregistrer}">
+                <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
                 <div class="row mb-3">
                     <div class="col">
                         <label for="nom" class="form-label">Nom</label>

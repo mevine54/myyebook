@@ -5,7 +5,7 @@
   Time: 15:40
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <c:url value="/create-admin" var="createAdminUrl"/>
@@ -27,6 +27,7 @@
             <h2>Créer un compte admin</h2>
         </div>
         <form class="mx-auto col-7" method="POST" action="${createAdminUrl}">
+            <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
             <div class="row mb-3">
                 <div class="col">
                     <label for="username" class="form-label">Nom d'utilisateur</label>
