@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuteurDAOImpl implements AuteurDAO {
+public class AuteurDAOImpl implements fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAO {
 
     @Override
     public Auteur get(Integer id) throws SQLException {
@@ -146,5 +146,6 @@ public class AuteurDAOImpl implements AuteurDAO {
         }
         return null;
     }
+
 }
 
