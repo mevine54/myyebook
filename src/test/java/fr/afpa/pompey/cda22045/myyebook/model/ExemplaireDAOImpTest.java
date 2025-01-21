@@ -14,8 +14,8 @@ import java.util.List;
 public class ExemplaireDAOImpTest {
 
     LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
-    CategorieDAOImpl categorieDAOImp = new CategorieDAOImpl();
-    AuteurDAOImpl auteurDAOImp = new AuteurDAOImpl();
+//    CategorieDAOImpl categorieDAOImp = new CategorieDAOImpl();
+//    AuteurDAOImpl auteurDAOImp = new AuteurDAOImpl();
     ExemplaireDAOImpl exemplaireDAOImpl = new ExemplaireDAOImpl();
 
 
@@ -32,50 +32,51 @@ public class ExemplaireDAOImpTest {
             System.out.println("Exception SQL: " + e.getMessage() );
         }
     }
+
+    @Test
+    void getAllValid() {
+        try {
+            List<Exemplaire> exemplaires  = exemplaireDAOImpl.getAll();
+            System.out.println(exemplaires);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
+
+    @Test
+    void insertValid() {
+        try {
+            Livre livre = livreDAOImpl.get(1);
+            Exemplaire exemplaire = new Exemplaire(null,livre);
+            System.out.println(livre);
+            Integer id  = exemplaireDAOImpl.insert(exemplaire);
+            System.out.println("L'id de l'exemplaire insere est "+ id);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 //
-//    @Test
-//    void getAllValid() {
-//        try {
-//            List<Categorie> categories  = categorieDAOImp.getAll();
-//            System.out.println(categories);
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
-//
-//    @Test
-//    void insertValid() {
-//        try {
-//            Categorie categorie = new Categorie(null,"temp");
-//            Integer id  = categorieDAOImp.insert(categorie);
-//            System.out.println("L'id de la  categorie insere est "+ id);
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
-////
-//    @Test
-//    void updateValid() {
-//        try {
-//            Categorie categorie = categorieDAOImp.get(15);
-//            System.out.println(categorie);
-//            categorie.setNom("BLABLA");
-//            Integer id  = categorieDAOImp.update(categorie);
-//            System.out.println("L'id de la libraire modifie est "+ id);
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
+    @Test
+    void updateValid() {
+        try {
+            Exemplaire exemplaire = exemplaireDAOImpl.get(11);
+            Livre livre = livreDAOImpl.get(2);
+            exemplaire.setLivre(livre);
+            int id = exemplaireDAOImpl.update(exemplaire);
+            System.out.println("L'id de l'exemplaire modifie est "+ id);
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 //
 //
-//    @Test
-//    void deleteValid() {
-//        try {
-//            Integer id  = 15;
-//            categorieDAOImp.delete(id);
-//            System.out.println("L'id du compte "+ id + " a bien ete supprimer");
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
+    @Test
+    void deleteValid() {
+        try {
+            Integer id = exemplaireDAOImpl.delete(14);
+            System.out.println("L'id de l'exemplaire "+ id + " a bien ete supprimer");
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 }

@@ -87,7 +87,6 @@ public class CategorieDAOImpl implements CategorieDAO {
     @Override
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM Categorie WHERE cat_id = ?";
-
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
