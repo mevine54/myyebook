@@ -20,7 +20,10 @@ public class ClientListeEmprunts extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO: Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
 
-
+        //Récupérer l'url du site
+        String currentURL = request.getRequestURL().toString();
+        //Enregistre l'url dans la variable et envoye à la page JSP
+        request.setAttribute("currentURL", currentURL);
 
         //TODO : Faire une requête pour récupérer les emprunts du client
         // et à afficher dans la page "Mes emprunts"

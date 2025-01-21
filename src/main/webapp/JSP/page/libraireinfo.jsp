@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/style.css" var="style"/>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
+<c:url value="/assets/css/bootstrapicons.css" var="bootstrapicons"/>
 <%--<c:url value="/JSP/page/libraire/1/info-modif" var="postlibinfo"/>--%>
 
 <!DOCTYPE html>
@@ -14,7 +15,8 @@
           content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
-    <title>MyyeBook - Votre Bibliothèque Locale pour Tous les Passionnés de Lecture</title>
+    <link rel="stylesheet" href="${bootstrapicons}">
+    <title>Mon Compte - Libraire</title>
 </head>
 <body>
 <c:import url="/WEB-INF/JSP/header.jsp" />
