@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.librairedao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 
