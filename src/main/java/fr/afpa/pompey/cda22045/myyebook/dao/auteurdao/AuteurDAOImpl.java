@@ -62,7 +62,7 @@ public class AuteurDAOImpl implements AuteurDAO {
 
     @Override
     public int insert(Auteur auteur) throws SQLException {
-        String sql = "INSERT INTO Auteur (aut_nom, aut_prenom,aut_photo) VALUES (?, ?,?)";
+        String sql = "INSERT INTO Auteur (aut_nom, aut_prenom,aut_photo) VALUES (?,?,?)";
         Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS)) {

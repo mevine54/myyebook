@@ -11,7 +11,10 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-          content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
+          content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres
+          pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos
+          événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de
+          lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
     <%-- TODO: A modifier le titre du document en récupérant les info du controller --%>
@@ -35,7 +38,9 @@
                 <div class="">
                     <div class="mb-lg-auto">
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis labore culpa natus recusandae, error consequatur, nihil doloribus modi commodi dolorem ducimus sequi quidem et, provident inventore quod perferendis nemo non?
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis labore culpa
+                            natus recusandae, error consequatur, nihil doloribus modi commodi dolorem ducimus
+                            sequi quidem et, provident inventore quod perferendis nemo non?
                         </p>
                     </div>
                     <div class="">

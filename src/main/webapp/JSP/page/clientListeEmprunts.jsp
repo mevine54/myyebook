@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -17,7 +17,7 @@
 <main>
     <div class="container">
         <div class="text-center mb-3">
-            <h3 class="mt-3">Mes Empruntes</h3>
+            <h3 class="mt-3">Mes Emprunts</h3>
         </div>
         <div>
 

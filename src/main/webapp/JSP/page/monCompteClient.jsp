@@ -24,6 +24,7 @@
         </div>
 
         <form class="mx-auto col-lg-7"  method="POST" action="monCompteClient">
+            <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">--%>
             <div class="row">
                 <h4>Informations personnelles</h4>
                 <div class="col-lg mt-2 mt-lg-0">

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 
 <!-- Ajout de la librairie JSTL -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -33,6 +33,7 @@
         </c:if>
 
         <form class=" mx-auto col-7"  method= "POST" action="#">
+            <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">--%>
             <div class="row mb-3">
                 <h4>Informations</h4>
                 <div class="col">

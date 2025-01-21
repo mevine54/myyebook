@@ -31,8 +31,17 @@
                     <label for="mdp" class="form-label">Mot de passe</label>
                     <input type="password" class="form-control" id="mdp" name="mdp" required>
                 </div>
+                <div class="d-flex justify-content-between align-items-center mt-3 fs-6">
+                <div>
+                    <input class="form-check-input" type="checkbox" id="restéConnecté" name="restéConnecté">
+                    <label class="form-check-label" for="restéConnecté" >Rester connecté</label>
+                </div>
+                </div>
                 <div class="d-flex justify-content-center mt-3">
                     <button type="submit" class="btn btn-outline-info fw-bold rounded-0">Se connecter</button>
+                </div>
+                <div class="mt-3">
+                    <a href="client-enregistrer" >S'inscrire</a>
                 </div>
             </form>
         </div>

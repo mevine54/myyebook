@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -21,6 +21,7 @@
             <h2>Modification du livre </h2>
         </div>
         <form class="h-100 mx-auto col-7 d-flex flex-column justify-content-between" method="POST" action="LivreModification">
+            <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
             <div class="row mb-3">
                 <div class="col">
                     <label for="nom" class="form-label">Nom du livre</label>
