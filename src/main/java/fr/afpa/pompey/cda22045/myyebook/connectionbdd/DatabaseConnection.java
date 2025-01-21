@@ -1,4 +1,4 @@
-package fr.afpa.pompey.cda22045.myyebook.ConnectionBDD;
+package fr.afpa.pompey.cda22045.myyebook.connectionbdd;
 
 import java.io.IOException;
 import java.io.InputStream;

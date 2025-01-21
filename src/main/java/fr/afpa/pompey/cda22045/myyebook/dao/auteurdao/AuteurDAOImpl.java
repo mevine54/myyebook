@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.auteurdao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 
 import java.sql.Connection;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuteurDAOImpl implements fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAO {
+public class AuteurDAOImpl implements AuteurDAO {
 
     @Override
     public Auteur get(Integer id) throws SQLException {
