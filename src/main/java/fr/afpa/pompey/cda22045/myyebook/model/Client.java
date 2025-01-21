@@ -155,5 +155,6 @@ public class Client extends Compte {
                 ", ville='" + ville + '\'' +
                 ", codePostal='" + codePostal + '\'' +
                 '}';
+
     }
 }

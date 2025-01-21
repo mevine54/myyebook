@@ -96,6 +96,7 @@ public class Livre {
             throw new IllegalArgumentException("La categorie ne peut pas être null");
         }
         this.categorie = categorie;
+
     }
 
     @Override

@@ -39,9 +39,11 @@ public class Libraire extends Compte {
     public void setLibId(Integer libId) {
         if ( libId != null &&  libId <= 0) {
             throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
+
         }
         this.libId = libId;
     }
+
 
     public void setNom(String nom) {
         int longueurMin = 2;
@@ -84,6 +86,7 @@ public class Libraire extends Compte {
         }
         this.prenom = prenom;
     }
+
 
 
 
