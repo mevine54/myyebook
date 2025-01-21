@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.librairedao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 
@@ -17,7 +17,7 @@ public class LibraireDAOImp implements LibraireDAO {
         String sql = "SELECT * FROM compte c INNER JOIN libraire l on c.cpt_id = l.cpt_id WHERE lib_id = ? ;";
 
         try (
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, libId);
             ResultSet rs = ps.executeQuery();
@@ -46,7 +46,7 @@ public class LibraireDAOImp implements LibraireDAO {
         List<Libraire> libraires = new ArrayList<>();
         String sql = "SELECT * FROM compte c INNER JOIN libraire l on c.cpt_id = l.cpt_id";
         try (
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -74,7 +74,7 @@ public class LibraireDAOImp implements LibraireDAO {
         Integer compteId = 0;
         try {
 
-            Connection connection = DatabaseConnection.getInstanceDB();
+            Connection connection = DatabaseManager.getConnection();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, libraire.getLogin());
@@ -109,44 +109,71 @@ public class LibraireDAOImp implements LibraireDAO {
         return compteId;
     }
 
-    @Override
     public int update(Libraire libraire) throws SQLException {
-        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ? WHERE cpt_id = ?";
-        try {
-            Connection connection = DatabaseConnection.getInstanceDB();
-            connection.setAutoCommit(false);
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, libraire.getLogin());
-            ps.setString(2, libraire.getPassword());
-            ps.setInt(3, libraire.getCompteId());
-            int rowsAffected = ps.executeUpdate();
+        String sqlCompte = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ? WHERE cpt_id = ?";
+        String sqlLibraire = "UPDATE libraire SET lib_nom = ?, lib_prenom = ? WHERE lib_id = ?";
 
-            if (rowsAffected > 0) {
-                sql = "UPDATE libraire SET lib_nom = ?, lib_prenom = ? WHERE lib_id = ?";
-                ps = connection.prepareStatement(sql);
-                ps.setString(1, libraire.getNom());
-                ps.setString(2, libraire.getPrenom());
-                ps.setInt(3, libraire.getLibId());
-                rowsAffected = ps.executeUpdate();
+        try (Connection connection = DatabaseManager.getConnection()) {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement psCompte = connection.prepareStatement(sqlCompte);
+                 PreparedStatement psLibraire = connection.prepareStatement(sqlLibraire)) {
+
+                psCompte.setString(1, libraire.getLogin());
+                psCompte.setString(2, libraire.getPassword());
+                psCompte.setInt(3, libraire.getCompteId());
+                int rowsAffected = psCompte.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    connection.commit();
-                    return rowsAffected;
+                    psLibraire.setString(1, libraire.getNom());
+                    psLibraire.setString(2, libraire.getPrenom());
+                    psLibraire.setInt(3, libraire.getLibId());
+                    rowsAffected = psLibraire.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        connection.commit();
+                        return rowsAffected;
+                    }
                 }
+                connection.rollback();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(e);
             }
-            connection.rollback();
-        } catch (SQLException e) {
-            connection.rollback();
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            connection.setAutoCommit(true);
         }
         return 0;
     }
 
+
     @Override
     public int delete(Integer id) throws SQLException {
+        String sqlLibraire = "DELETE FROM libraire WHERE lib_id = ?";
+        String sqlCompte = "DELETE FROM Compte WHERE cpt_id = ( SELECT cpt_id FROM libraire WHERE lib_id = ? )";
+
+        try (Connection connection = DatabaseManager.getConnection()) {
+            connection.setAutoCommit(false);
+
+            try (PreparedStatement psLibraire = connection.prepareStatement(sqlLibraire);
+                 PreparedStatement psCompte = connection.prepareStatement(sqlCompte)) {
+
+                psLibraire.setInt(1, id);
+                int rowsAffectedLibraire = psLibraire.executeUpdate();
+
+                if (rowsAffectedLibraire > 0) {
+                    psCompte.setInt(1, id);
+                    int rowsAffectedCompte = psCompte.executeUpdate();
+
+                    if (rowsAffectedCompte > 0) {
+                        connection.commit();
+                        return rowsAffectedLibraire;
+                    }
+                }
+                connection.rollback();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw new RuntimeException(e);
+            }
+        }
         return 0;
     }
 }

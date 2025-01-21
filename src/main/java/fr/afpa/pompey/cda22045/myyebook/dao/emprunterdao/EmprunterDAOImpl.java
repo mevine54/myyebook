@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.*;
 
 import java.sql.*;
@@ -13,7 +13,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
     public int insert(Emprunter emprunter) throws SQLException {
         String sql = "INSERT INTO Emprunter (cli_id, emp_date_emprunt, emp_date_retour, cli_id, lib_id, exe_id,res_id) VALUES (?, ?, ?, ?,?)";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, emprunter.getClient().getClientId());
             ps.setTimestamp(2, Timestamp.valueOf(emprunter.getDatetimeEmprunt()));
@@ -41,7 +41,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
     public int update(Emprunter emprunter) throws SQLException {
         String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ?, WHERE emp_id = ? ";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, emprunter.getClient().getClientId());
             ps.setInt(2, emprunter.getExemplaire().getExemplaireId());
@@ -59,7 +59,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
     @Override
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM Emprunter WHERE emp_id = ?";
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate();
@@ -83,7 +83,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 "INNER JOIN Categorie cat ON cat.cat_id = li.cat_id\n" +
                 "WHERE emp_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -173,7 +173,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 "INNER JOIN Compte cptlib ON cptlib.cpt_id = l.cpt_id\n" +
                 "INNER JOIN Categorie cat ON cat.cat_id = li.cat_id";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {

@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.reservationdao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import fr.afpa.pompey.cda22045.myyebook.model.Reservation;
@@ -25,7 +25,7 @@ public class ReservationDAOImp implements ReservationDAO {
                 "JOIN client c ON r.cli_id = c.cli_id " +
                 "WHERE r.res_id = ?";
         try(
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(selectResId))
         {
             ps.setInt(1, id);
@@ -66,7 +66,7 @@ public class ReservationDAOImp implements ReservationDAO {
                 "JOIN client c ON r.cli_id = c.cli_id ";
 
         try (
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(selectAllRes)
         ) {
             ResultSet rs = ps.executeQuery();
@@ -109,7 +109,7 @@ public class ReservationDAOImp implements ReservationDAO {
         String insertRes = "INSERT INTO reservation(res_date, liv_id, cli_id) VALUES(?,?,?)";
         int newID = 0;
 
-        try (   Connection connection = DatabaseConnection.getInstanceDB();
+        try (   Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(insertRes, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setTimestamp(1, Timestamp.valueOf(reservation.getDatetime()));
@@ -142,7 +142,7 @@ public class ReservationDAOImp implements ReservationDAO {
         String updateRes = "UPDATE reservation SET res_date = ? WHERE res_id = ?";
 
         try (
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(updateRes))
         {
             ps.setTimestamp(1, Timestamp.valueOf(reservation.getDatetime()));
@@ -169,7 +169,7 @@ public class ReservationDAOImp implements ReservationDAO {
         String deleteRes = "DELETE FROM reservation WHERE res_id = ?";
 
         try (
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(deleteRes))
         {
             ps.setInt(1, id);

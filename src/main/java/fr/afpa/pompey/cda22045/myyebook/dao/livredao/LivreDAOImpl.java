@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.livredao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
@@ -21,7 +21,7 @@ public class LivreDAOImpl implements LivreDAO {
                 "INNER JOIN categorie c ON c.cat_id = l.cat_id\n" +
                 "WHERE liv_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -59,7 +59,7 @@ public class LivreDAOImpl implements LivreDAO {
                 "INNER JOIN auteur a ON a.aut_id = l.aut_id\n" +
                 "INNER JOIN categorie c ON c.cat_id = l.cat_id";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -94,7 +94,7 @@ public class LivreDAOImpl implements LivreDAO {
     public int insert(Livre livre) throws SQLException {
         String sql = "INSERT INTO myyebook.livre (liv_titre, liv_resume, liv_photo, aut_id, cat_id) VALUES (?, ?, ?, ?, ?)";
         Integer id = null;
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, livre.getTitre());
             ps.setString(2, livre.getResume());
@@ -117,7 +117,7 @@ public class LivreDAOImpl implements LivreDAO {
     public int update(Livre livre) throws SQLException {
         String sql = "UPDATE myyebook.livre SET liv_titre = ?, liv_resume = ?, liv_photo = ?, aut_id = ?, cat_id = ? WHERE liv_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, livre.getTitre());
             ps.setString(2, livre.getResume());
@@ -136,7 +136,7 @@ public class LivreDAOImpl implements LivreDAO {
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM myyebook.livre WHERE liv_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate();
@@ -150,7 +150,7 @@ public class LivreDAOImpl implements LivreDAO {
         List<Livre> livres = new ArrayList<>();
         String sql = "SELECT l.* FROM myyebook.livre l WHERE l.aut_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, autId);
             ResultSet resultSet = ps.executeQuery();
@@ -187,7 +187,7 @@ public class LivreDAOImpl implements LivreDAO {
         List<Livre> livres = new ArrayList<>();
         String sql = "SELECT l.* FROM myyebook.livre l WHERE l.cat_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, catId);
             ResultSet resultSet = ps.executeQuery();
@@ -223,7 +223,7 @@ public class LivreDAOImpl implements LivreDAO {
     public Integer getNbLivres() throws SQLException {
         String sql = "SELECT COUNT(*) AS nb_livres FROM myyebook.livre";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {
@@ -240,7 +240,7 @@ public class LivreDAOImpl implements LivreDAO {
 //        Auteur auteur = null;
 //        String sql = "SELECT * FROM myyebook.auteur WHERE aut_id = ?";
 //
-//        try (Connection connection = DatabaseConnection.getInstanceDB();
+//        try (Connection connection = DatabaseManager.getConnection();
 //             PreparedStatement ps = connection.prepareStatement(sql)) {
 //            ps.setInt(1, autId);
 //            ResultSet resultSet = ps.executeQuery();
@@ -260,7 +260,7 @@ public class LivreDAOImpl implements LivreDAO {
 //        Categorie categorie = null;
 //        String sql = "SELECT * FROM myyebook.categorie WHERE cat_id = ?";
 //
-//        try (Connection connection = DatabaseConnection.getInstanceDB();
+//        try (Connection connection = DatabaseManager.getConnection();
 //             PreparedStatement ps = connection.prepareStatement(sql)) {
 //            ps.setInt(1, catId);
 //            ResultSet resultSet = ps.executeQuery();

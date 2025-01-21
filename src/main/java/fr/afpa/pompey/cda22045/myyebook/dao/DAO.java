@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,8 +13,7 @@ import java.util.List;
  */
 public interface DAO<T> {
 
-
-    static Connection connection = DatabaseConnection.getInstanceDB();
+    static Connection connection = DatabaseManager.getConnection();
     /**
      * Get t.
      *

@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.exemplairedao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 import fr.afpa.pompey.cda22045.myyebook.model.Exemplaire;
@@ -24,7 +24,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
                 "INNER JOIN categorie c ON c.cat_id = l.cat_id\n" +
                 " WHERE exe_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -65,7 +65,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
                 "INNER JOIN auteur a ON a.aut_id = l.aut_id\n" +
                 "INNER JOIN categorie c ON c.cat_id = l.cat_id;";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -102,7 +102,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     public int insert(Exemplaire exemplaire) throws SQLException {
         String sql = "INSERT INTO myyebook.exemplaire (liv_id) VALUES ( ?)";
         Integer id = null;
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, exemplaire.getLivre().getId());
 //            ps.setBoolean(4, livre.getEnAvant());
@@ -121,7 +121,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     public int update(Exemplaire exemplaire) throws SQLException {
         String sql = "UPDATE exemplaire SET liv_id = ? WHERE exe_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, exemplaire.getLivre().getId());
             ps.setInt(2, exemplaire.getExemplaireId());
@@ -138,7 +138,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     @Override
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM exemplaire WHERE exe_id = ?";
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() > 0) {

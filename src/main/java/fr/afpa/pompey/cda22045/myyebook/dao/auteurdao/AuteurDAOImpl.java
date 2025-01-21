@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.auteurdao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ public class AuteurDAOImpl implements AuteurDAO {
         Auteur auteur = null;
         String sql = "SELECT * FROM Auteur WHERE aut_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
@@ -41,7 +41,7 @@ public class AuteurDAOImpl implements AuteurDAO {
         List<Auteur> auteurs = new ArrayList<>();
         String sql = "SELECT * FROM Auteur";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
@@ -64,7 +64,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     public int insert(Auteur auteur) throws SQLException {
         String sql = "INSERT INTO Auteur (aut_nom, aut_prenom,aut_photo) VALUES (?, ?,?)";
         Integer id = null;
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, auteur.getNom());
             ps.setString(2, auteur.getPrenom());
@@ -84,7 +84,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     public int update(Auteur auteur) throws SQLException {
         String sql = "UPDATE Auteur SET aut_nom = ?, aut_prenom = ? , aut_photo = ? WHERE aut_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, auteur.getNom());
             ps.setString(2, auteur.getPrenom());
@@ -100,7 +100,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM Auteur WHERE aut_id = ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate();
@@ -114,7 +114,7 @@ public class AuteurDAOImpl implements AuteurDAO {
         List<Auteur> auteurs = new ArrayList<>();
         String sql = "SELECT * FROM Auteur WHERE aut_nom LIKE ?";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, "%" + nom + "%");
             ResultSet resultSet = ps.executeQuery();
@@ -135,7 +135,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     public Integer getNbAuteurs() throws SQLException {
         String sql = "SELECT COUNT(*) AS nb_auteurs FROM Auteur";
 
-        try (Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {

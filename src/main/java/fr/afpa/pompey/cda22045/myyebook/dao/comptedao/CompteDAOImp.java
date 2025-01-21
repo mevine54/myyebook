@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.comptedao;
 
-import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseManager;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
 import java.net.Inet4Address;
@@ -113,7 +113,7 @@ public class CompteDAOImp implements CompteDAO {
         String sql = "SELECT * FROM compte WHERE cpt_login = ?";
 
         try(
-                Connection connection = DatabaseConnection.getInstanceDB();
+                Connection connection = DatabaseManager.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql))
         {
             ps.setString(1, login);
