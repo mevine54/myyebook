@@ -1,5 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
+import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -29,14 +30,33 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
-//        String rue = request.getParameter("rue");
-//        String codePostal = request.getParameter("cp");
-//        String ville = request.getParameter("ville");
-//        System.out.println("nom: " +nom + " Prenom " + prenom + " email: " + email + " rue " + rue + " CP " + codePostal + " ville " + ville);
+        System.out.println("nom: " +nom + " Prenom " + prenom + " email: " + email);
+
+        if(nom == null || nom.isEmpty() || prenom == null || prenom.isEmpty() || email == null || email.isEmpty()){
+            response.sendRedirect(request.getContextPath() + "/libraire-enregistrer?info=error");
+            return;
+        }
+
+
+
+//        //TODO : A REVOIR
+//        Libraire libraire = new Libraire(
+//                nom,
+//                prenom,
+//                email
+//        );
+
+        // Rediriger vers la page de liste des libraires
+        response.sendRedirect(request.getContextPath() + "/ListeLibraire"+"?info=success");
     }
 
     @Override
     public void destroy(){}
+
+    private void registerLibraire(String nom, String prenom, String email) {
+        // Implémentez la logique d'enregistrement ici
+//TODO : A REVOIR
+    }
 
 }
 

@@ -34,9 +34,17 @@
                             <label for="nom" class="form-label">Nom du livre</label>
                             <input type="text" class="form-control" id="nom" name="nom" required>
                         </div>
-                        <div class="col ">
-                            <label for="auteur" class="form-label">Auteur</label>
-                            <input type="text" class="form-control" id="auteur" name="auteur" required>
+                        <div class="col">
+                            <label for="auteur" class="form-label">Auteur(trice)</label>
+                            <select class="form-select" id="auteur" name="categorie" required>
+                                <option selected disabled>Veuillez selectionner un(e) auteur(trice)</option>
+
+                                <!-- A modifier et remplacer avec une list JAVA -->
+                                <option value="1">nom_auteur</option>
+                                <option value="2">nom_auteur</option>
+                                <option value="3">nom_auteur</option>
+
+                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">

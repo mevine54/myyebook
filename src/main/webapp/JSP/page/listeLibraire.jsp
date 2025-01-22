@@ -26,8 +26,13 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des libraires</h1>
-                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un libraire</a></div>
-                <table class="table table-bordered mt-5">
+                <c:if test="${param.info == 'success'}">
+                    <div class="alert alert-success" role="alert">
+                        Création du libraire réussie !
+                    </div>
+                </c:if>
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un libraire</a></div>
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Libraire</th>
@@ -39,7 +44,10 @@
                         <tr>
                             <td>John Doe</td>
                             <td>john.doe@gmail.com</td>
-                            <td><a class="btn btn-outline-info rounded-0 fw-bold" href="mailto:john.doe@gmail.com">Envoyer un mail</a></td>
+                            <td>
+                                <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifLibraire">Modifier</a>
+                                <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

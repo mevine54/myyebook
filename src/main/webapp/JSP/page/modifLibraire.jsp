@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
     <link rel="stylesheet" href="${bootstrapicons}">
-    <title>Créer un compte Libraire</title>
+    <title>Modification un compte Libraire</title>
 </head>
 <%--
     CÔTE ADMIN
@@ -27,14 +27,10 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <div class="d-flex justify-content-center my-3">
-                    <h2>Créer un compte <strong>libraire</strong> </h2>
+                    <h2>Modification un compte Libraire</h2>
                 </div>
-                <form class=" mx-auto col-7" method="POST" action="libraire-enregistrer">
-                    <c:if test="${param.info == 'error'}">
-                        <div class="alert alert-danger" role="alert">
-                            Erreur lors de la création d'un compte libraire
-                        </div>
-                    </c:if>
+
+                <form class=" mx-auto col-7" method="POST" action="${pageContext.request.contextPath}/ModifLibraire">
                     <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
                     <h3>Informations</h3>
@@ -55,14 +51,14 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-outline-info rounded-0">Créer un compte libraire</button>
+                        <button type="submit" class="btn btn-outline-info rounded-0">Modifier</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    
+
 </main>
 <c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>

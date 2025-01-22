@@ -18,13 +18,13 @@ public class LibraireModifServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//        //Récupérer l'url du site
-//        String currentURL = request.getRequestURL().toString();
-//        //Enregistre l'url dans la variable et envoye à la page JSP
-//        request.setAttribute("currentURL", currentURL);
-//
-//        this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
+
+        //Récupérer l'url du site
+        String currentURL = request.getRequestURL().toString();
+        //Enregistre l'url dans la variable et envoye à la page JSP
+        request.setAttribute("currentURL", currentURL);
+
+        this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
     }
 
     @Override

@@ -37,7 +37,7 @@
                     </div>
                 </c:if>
 
-                <form class=" mx-auto col-7"  method= "POST" action="/monCompteLibraire">
+                <form class=" mx-auto col-7"  method= "POST" action="${pageContext.request.contextPath}/libraire-enregistrer">
                     <div class="row mb-3">
                         <h4>Informations</h4>
                         <div class="col">

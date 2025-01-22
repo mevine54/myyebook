@@ -31,14 +31,12 @@
                     <thead>
                     <tr>
                         <th>Libraire</th>
-                        <th>Email</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>John Doe</td>
-                        <td>john.doe@gmail.com</td>
                         <td>
                             <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifAuteur">Modifier</a>
                             <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
