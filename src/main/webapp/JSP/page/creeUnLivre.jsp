@@ -25,9 +25,9 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <div class="d-flex justify-content-center my-3">
-                    <h2>Modification du livre</h2>
+                    <h2>Crée un livre</h2>
                 </div>
-                <form class="mx-auto col-lg-7" method="POST" action="LivreModification">
+                <form class="mx-auto col-lg-7" method="POST" action="CreeUnLivre">
                     <a href="${pageContext.request.contextPath}/ListeLivre" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">

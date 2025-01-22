@@ -25,8 +25,8 @@
         <div class="row">
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <h1 class="d-flex justify-content-center my-3">Liste des libraires</h1>
-                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/creeUneCategorie">Créer un catégorie</a></div>
+                <h1 class="d-flex justify-content-center my-3">Liste des catégories</h1>
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/CreeUneCategorie">Créer un catégorie</a></div>
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
@@ -38,7 +38,7 @@
                     <tr>
                         <td>Poème</td>
                         <td>
-                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ListeLibraire">Modifier</a>
+                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifCategorie">Modifier</a>
                             <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
                         </td>
                     </tr>

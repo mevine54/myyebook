@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
     <link rel="stylesheet" href="${bootstrapicons}">
-    <title>Création d'une catégorie - Myyebook</title>
+    <title>Modification de l'auteur - Libraire</title>
 </head>
 <%-- SERVLET: LivreModificationServlet --%>
 <body class="d-flex flex-column vh-100">
@@ -25,15 +25,22 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <div class="d-flex justify-content-center my-3">
-                    <h2>Crée une Catégorie</h2>
+                    <h2>Modification de l'auteur</h2>
                 </div>
-                <form class="mx-auto col-lg-7" method="POST" action="CreeUneCategorie">
-                    <a href="${pageContext.request.contextPath}/ListeCategorie" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
+                <form class="mx-auto col-lg-7" method="POST" action="ModifAuteur">
+                    <a href="${pageContext.request.contextPath}/ListeAuteur" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="nomCategorie" class="form-label">Nom d'une Catégorie</label>
-                            <input type="text" class="form-control" id="nomCategorie" name="nomCategorie" required>
+                            <label for="nom" class="form-label">Nom de l'auteur</label>
+                            <input type="text" class="form-control" id="nom" name="nom" required>
                         </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="formFile" class="form-label">Photo de l'auteur</label>
+                            <input class="form-control" type="file" id="formFile">
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-center mt-3">
                         <button type="submit" class="btn btn-outline-info fw-bold rounded-0 mx-3 px-3">Valider</button>
                         <button type="reset" class="btn btn-outline-secondary fw-bold rounded-0 mx-3 px-3">Annuler</button>

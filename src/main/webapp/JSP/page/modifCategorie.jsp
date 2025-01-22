@@ -27,7 +27,7 @@
                 <div class="d-flex justify-content-center my-3">
                     <h2>Modification de Categorie</h2>
                 </div>
-                <form class="mx-auto col-lg-7" method="POST" action="LivreModification">
+                <form class="mx-auto col-lg-7" method="POST" action="ModifCategorie">
                     <a href="${pageContext.request.contextPath}/ListeCategorie" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">

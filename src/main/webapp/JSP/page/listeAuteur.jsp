@@ -26,7 +26,7 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des auteurs</h1>
-                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un auteur</a></div>
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/CreeUnAuteur">Créer un auteur</a></div>
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
@@ -40,7 +40,7 @@
                         <td>John Doe</td>
                         <td>john.doe@gmail.com</td>
                         <td>
-                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ListeLibraire">Modifier</a>
+                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifAuteur">Modifier</a>
                             <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
                         </td>
                     </tr>

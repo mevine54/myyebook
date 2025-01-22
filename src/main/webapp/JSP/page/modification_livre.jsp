@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
     <link rel="stylesheet" href="${bootstrapicons}">
-    <title>Modification du livre - Myyebook</title>
+    <title>Modification du livre - Libraire</title>
 </head>
 <%-- SERVLET: LivreModificationServlet --%>
 <body class="d-flex flex-column vh-100">
@@ -28,7 +28,7 @@
                     <h2>Modification du livre</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="LivreModification">
-                    <a href="${pageContext.request.contextPath}/listeLivre-servlet" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
+                    <a href="${pageContext.request.contextPath}/ListeLivre" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="nom" class="form-label">Nom du livre</label>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="categorie" class="form-label">Categories</label>
+                            <label for="categorie" class="form-label">Catégories</label>
                             <select class="form-select" id="categorie" name="categorie" required>
                                 <option selected disabled>Veuillez selectionner une option</option>
 

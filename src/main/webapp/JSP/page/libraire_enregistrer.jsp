@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
-<c:url value="/libraire-enregistrer" var="libraireEnregistrer"/>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -29,7 +28,7 @@
                     <h2>Créer un compte <strong>libraire</strong> </h2>
                 </div>
 
-                <form class=" mx-auto col-7" method="POST" action="${libraireEnregistrer}">
+                <form class=" mx-auto col-7" method="POST" action="/libraire-enregistrer">
                     <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
                     <h3>Informations</h3>
@@ -65,7 +64,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <button type="submit" class="btn btn-outline-info rounded-0">Modifier</button>
                     </div>
                 </form>
             </div>

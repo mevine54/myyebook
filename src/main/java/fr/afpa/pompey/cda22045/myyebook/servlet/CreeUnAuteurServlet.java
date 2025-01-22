@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "monCompteLibraireSevlet", value = "/monCompteLibraire")
-public class monCompteLibraireServlet extends HttpServlet {
+@WebServlet(name = "CreeUnAuteurServlet", value = "/CreeUnAuteur")
+public class CreeUnAuteurServlet extends HttpServlet {
 
     @Override
     public void init() {
@@ -19,13 +19,12 @@ public class monCompteLibraireServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
         //Récupérer l'url du site
         String currentURL = request.getRequestURL().toString();
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
-        this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/JSP/page/creeUnAuteur.jsp").forward(request, response);
     }
 
     @Override
