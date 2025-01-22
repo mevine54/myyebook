@@ -7,7 +7,7 @@
                class="nav-link ${currentURL.contains('/monCompteClient') ? 'active' : 'link-dark'}"
             ${currentURL.contains('/monCompteClient') ? 'aria-current="page"' : ''}>
                 <i class="bi bi-list-check" width="16" height="16"></i>
-                Mon compte
+                Mon compte Client
             </a>
         </li>
         <li>

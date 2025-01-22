@@ -8,31 +8,33 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "ListeLivreServlet", value = "/ListeLivre")
-public class ListeLivreServlet extends HttpServlet {
+@WebServlet(name = "monCompteLibraireSevlet", value = "/monCompteLibraire")
+public class monCompteLibraireServlet extends HttpServlet {
+
     @Override
     public void init() {
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 
         //Récupérer l'url du site
         String currentURL = request.getRequestURL().toString();
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
-        this.getServletContext().getRequestDispatcher("/JSP/page/list_livres.jsp").forward(request, response);
-
+        this.getServletContext().getRequestDispatcher("/JSP/page/infolibraire.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     @Override
     public void destroy() {
+
     }
-
 }
-

@@ -22,8 +22,8 @@
         <div class="row">
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <h1>Liste des Livres</h1>
-
+                <h1 class="d-flex justify-content-center my-3">Liste des Livres</h1>
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/CreeUnLivre">Créer un livre</a></div>
                 <%
                     // Déclaration de la classe Livre directement dans le JSP
                     class Livre {
@@ -56,6 +56,7 @@
                         <th>Image</th>
                         <th>Titre</th>
                         <th>Auteur</th>
+                        <th>Mise en avant</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -69,6 +70,14 @@
                         <td><img class="" src="${pageContext.request.contextPath}<%= livre.image %>" alt="..." class="img-thumbnail" style="width: 50px; height: 50px;"></td>
                         <td><%= livre.titre %></td>
                         <td><%= livre.auteur %></td>
+                        <td>
+                            <div class="form-check form-switch fs-5">
+                                <input class="form-check-input" type="checkbox" role="switch" id="switch">
+                                <label class="form-check-label" for="switch"></label>
+                            </div>
+
+
+                        </td>
                         <td>
                             <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/LivreModification">Modifier</a>
                             <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>

@@ -12,21 +12,27 @@
           content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
-    <title>Créer un compte - Libraire</title>
+    <title>Créer un compte Libraire - Admin</title>
 </head>
-<%-- SERVLET: LibraireEnregistrerServlet  --%>
+<%--
+    CÔTE ADMIN
+    SERVLET: LibraireEnregistrerServlet
+--%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <div class="container-fluid">
         <div class="row">
-            <c:import url="/WEB-INF/JSP/menu_admin.jsp" />
+            <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <div class="d-flex justify-content-center mx-3">
+                <div class="d-flex justify-content-center my-3">
                     <h2>Créer un compte <strong>libraire</strong> </h2>
                 </div>
+
                 <form class=" mx-auto col-7" method="POST" action="${libraireEnregistrer}">
+                    <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
+                    <h3>Informations</h3>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="nom" class="form-label">Nom</label>

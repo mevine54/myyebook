@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -12,53 +12,41 @@
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
     <link rel="stylesheet" href="${bootstrapicons}">
-    <title>Liste des livres empruntés - Myyebook</title>
+    <title>Liste de libraire - Libraire</title>
 </head>
-<%-- SERVLET: ListeLivreEmprunter --%>
-<body class="d-flex flex-column vh-100">
-<c:import url="/WEB-INF/JSP/header.jsp" />
+<body>
+<%@include file="/WEB-INF/JSP/header.jsp" %>
 <main>
-    <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
+    <%--
+        COTE ADMIN
+        SERVLET: ListeLibraireServlet
+    --%>
     <div class="container-fluid">
         <div class="row">
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <h1 class="d-flex justify-content-center my-3">Liste des Livres emprunté</h1>
-
-
+                <h1 class="d-flex justify-content-center my-3">Liste des libraires</h1>
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un libraire</a></div>
                 <table class="table table-bordered mt-5">
                     <thead>
-                    <tr>
-                        <th>Client</th>
-                        <th>Livre</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>Libraire</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-
-                    <tr>
-                        <td>Jean Dupont</td>
-                        <td>
-                            <a href="">
-                                Star Wars
-                                George Lucas
-                            </a>
-                        </td>
-
-                        <td>Demande d'emprunt</td>
-                        <td>
-                            <a class="btn btn-outline-primary rounded-0">Valide l'emprunt</a>
-                            <a class="btn btn-outline-danger rounded-0">Annule l'emprunt</a>
-                        </td>
-
-                    </tr>
+                        <tr>
+                            <td>John Doe</td>
+                            <td>john.doe@gmail.com</td>
+                            <td><a class="btn btn-outline-info rounded-0 fw-bold" href="mailto:john.doe@gmail.com">Envoyer un mail</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </main>
-<c:import url="/WEB-INF/JSP/footer.jsp" />
+<%@include file="/WEB-INF/JSP/footer.jsp" %>
 </body>
 </html>

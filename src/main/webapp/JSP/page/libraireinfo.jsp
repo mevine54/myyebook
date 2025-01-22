@@ -27,8 +27,8 @@
         <div class="row">
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <div class="d-flex justify-content-center mb-3">
-                    <h2>Mon compte Libraire</h2>
+                <div class="d-flex justify-content-center">
+                    <h2 class="my-3">Mon compte Libraire</h2>
                 </div>
 
                 <c:if test="${not empty erreur}">
@@ -37,7 +37,7 @@
                     </div>
                 </c:if>
 
-                <form class=" mx-auto col-7"  method= "POST" action="#">
+                <form class=" mx-auto col-7"  method= "POST" action="/monCompteLibraire">
                     <div class="row mb-3">
                         <h4>Informations</h4>
                         <div class="col">

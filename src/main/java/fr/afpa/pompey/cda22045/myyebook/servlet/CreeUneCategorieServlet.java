@@ -8,10 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "ListeLivreServlet", value = "/ListeLivre")
-public class ListeLivreServlet extends HttpServlet {
+@WebServlet(name = "CreeUneCategorieServlet", value = "/CreeUneCategorie")
+public class CreeUneCategorieServlet extends HttpServlet {
+
     @Override
     public void init() {
+
+
     }
 
     @Override
@@ -22,17 +25,16 @@ public class ListeLivreServlet extends HttpServlet {
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
-        this.getServletContext().getRequestDispatcher("/JSP/page/list_livres.jsp").forward(request, response);
-
+        this.getServletContext().getRequestDispatcher("/JSP/page/creeUneCategorie.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 
     @Override
     public void destroy() {
+
     }
-
 }
-

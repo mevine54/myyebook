@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "LibraireModifServlet", value = "/libraire/1/info-modif")
+@WebServlet(name = "LibraireModifServlet", value = "/ModifLibraire")
 public class LibraireModifServlet extends HttpServlet {
 
     @Override
@@ -18,8 +18,13 @@ public class LibraireModifServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO: Implement
-        this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
+//
+//        //Récupérer l'url du site
+//        String currentURL = request.getRequestURL().toString();
+//        //Enregistre l'url dans la variable et envoye à la page JSP
+//        request.setAttribute("currentURL", currentURL);
+//
+//        this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
     }
 
     @Override
