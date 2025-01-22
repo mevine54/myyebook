@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="${bootstrapicons}">
     <title>Mes Emprunts - MyyeBook</title>
 </head>
+<%-- SERVLET: ClientListeEmprunts --%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>

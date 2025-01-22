@@ -5,8 +5,8 @@
         <li class="nav-item">
             <!-- TODO:Changer la classe "active" quand on est sur la page sinon remplacer par la classe "link-dark" -->
             <a href="${pageContext.request.contextPath}/libraire/1/info-modif"
-               class="nav-link ${currentURL.contains('/libraire/1/info-modif') ? 'active' : 'link-dark'}"
-                ${currentURL.contains('/libraire/1/info-modif') ? 'aria-current="page"' : ''}>
+               class="nav-link ${currentURL.contains('/info-modif') ? 'active' : 'link-dark'}"
+                ${currentURL.contains('/info-modif') ? 'aria-current="page"' : ''}>
                 <i class="bi bi-list-check" width="16" height="16"></i>
                 Mon compte Libraire
             </a>
@@ -20,9 +20,9 @@
             </a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/ListeLivre-servlet"
-               class="nav-link ${currentURL.contains('/ListeLivre-servlet') ? 'active' : 'link-dark'}"
-                ${currentURL.contains('/ListeLivre-servlet') ? 'aria-current="page"' : ''}>
+            <a href="${pageContext.request.contextPath}/listeLivre-servlet"
+               class="nav-link ${currentURL.contains('/listeLivre-servlet') ? 'active' : 'link-dark'}"
+                ${currentURL.contains('/listeLivre-servlet') ? 'aria-current="page"' : ''}>
                 <i class="bi bi-list-check" width="16" height="16"></i>
                 Liste des livres
             </a>

@@ -17,6 +17,7 @@
     <%-- TODO: A modifier le titre du document en récupérant les info du controller --%>
     <title>Livre : TitreDuLivre - MyyeBook</title>
 </head>
+<%-- SERVLET: LivreDescriptionServlet --%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>

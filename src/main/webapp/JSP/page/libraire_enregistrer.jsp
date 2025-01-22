@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="${style}">
     <title>Créer un compte - Libraire</title>
 </head>
+<%-- SERVLET: LibraireEnregistrerServlet  --%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>

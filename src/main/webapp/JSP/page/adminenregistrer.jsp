@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${style}">
     <title>Créer un compte admin - MyyeBook</title>
 </head>
+<%-- SERVLET: AdminEnregistrerServlet  --%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main class="mt-4">

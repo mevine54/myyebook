@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="${bootstrapicons}">
     <title>Liste des livres</title>
 </head>
+<%-- SERVLET: ListeLivreServlet --%>
 <body class="d-flex flex-column justify-content-between vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
-    <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
     <div class="container-fluid">
         <div class="row">
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
@@ -30,27 +30,30 @@
                         int id;
                         String titre;
                         String auteur;
+                        String image;
 
-                        Livre(int id, String titre, String auteur) {
+                        Livre(int id, String titre, String auteur, String image) {
                             this.id = id;
                             this.titre = titre;
                             this.auteur = auteur;
+                            this.image = image;
                         }
                     }
 
                     // Création d'une liste de livres
                     java.util.List<Livre> livres = new java.util.ArrayList<>();
-                    livres.add(new Livre(1, "Le Petit Prince", "Antoine de Saint-Exupéry"));
-                    livres.add(new Livre(2, "Les Misérables", "Victor Hugo"));
-                    livres.add(new Livre(3, "L'Étranger", "Albert Camus"));
-                    livres.add(new Livre(4, "Germinal", "Émile Zola"));
-                    livres.add(new Livre(5, "La Peste", "Albert Camus"));
+                    livres.add(new Livre(1, "Le Petit Prince", "Antoine de Saint-Exupéry", "/assets/images/img.png"));
+                    livres.add(new Livre(2, "Les Misérables", "Victor Hugo", "/assets/images/img.png"));
+                    livres.add(new Livre(3, "L'Étranger", "Albert Camus", "/assets/images/img.png"));
+                    livres.add(new Livre(4, "Germinal", "Émile Zola", "/assets/images/img.png"));
+                    livres.add(new Livre(5, "La Peste", "Albert Camus", "/assets/images/img.png"));
                 %>
 
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Titre</th>
                         <th>Auteur</th>
                         <th>Actions</th>
@@ -63,11 +66,12 @@
                     %>
                     <tr>
                         <td><%= livre.id %></td>
+                        <td><img class="" src="${pageContext.request.contextPath}<%= livre.image %>" alt="..." class="img-thumbnail" style="width: 50px; height: 50px;"></td>
                         <td><%= livre.titre %></td>
                         <td><%= livre.auteur %></td>
                         <td>
-                            <button class="btn btn-primary">Modifier</button>
-                            <button class="btn btn-danger">Supprimer</button>
+                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/LivreModification">Modifier</a>
+                            <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
                         </td>
                     </tr>
                     <%
