@@ -185,11 +185,58 @@ public class LivreDAOImpl implements LivreDAO {
     @Override
     public List<Livre> getParCategorie(int catId) throws SQLException {
         List<Livre> livres = new ArrayList<>();
-        String sql = "SELECT l.* FROM myyebook.livre l WHERE l.cat_id = ?";
+        String sql = "SELECT * FROM myyebook.livre l\n" +
+                "INNER JOIN auteur a ON a.aut_id = l.aut_id\n" +
+                "INNER JOIN categorie c ON c.cat_id = l.cat_id\n" +
+                "WHERE l.cat_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, catId);
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                // Récupère Auteur et Categorie by their IDs
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+                );
+                Categorie categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom")
+                );
+                Livre livre = new Livre(
+                        resultSet.getInt("liv_id") ,
+                        resultSet.getString("liv_titre"),
+                        resultSet.getString("liv_resume"),
+                        resultSet.getString("liv_photo"),
+                        auteur,categorie
+                        );
+                livres.add(livre);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return livres;
+    }
+
+    @Override
+    public List<Livre> chercherTitreOuAuteur(String text) throws SQLException {
+        List<Livre> livres = new ArrayList<>();
+        String sql = "SELECT * FROM myyebook.livre l\n" +
+                "INNER JOIN auteur a ON a.aut_id = l.aut_id\n" +
+                "INNER JOIN categorie c ON c.cat_id = l.cat_id\n"+
+                "WHERE LOWER(liv_titre) LIKE ? OR LOWER(aut_nom) LIKE ? OR LOWER(aut_prenom) LIKE ?";
+
+
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            String aCherche = "%" + text + "%";
+            ps.setString(1, aCherche.toLowerCase());
+            ps.setString(2, aCherche.toLowerCase());
+            ps.setString(3, aCherche.toLowerCase());
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
                 Livre livre = new Livre();

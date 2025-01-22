@@ -5,6 +5,7 @@
 <%--<c:url value="/mesemprunts" var="mesempruntsUrl" />--%>
 <c:url value="/connexion" var="connexionUrl" />
 <c:url value="/client-enregistrer" var="clientenregistrerUrl" />
+<c:url value="/livre-recherche" var="livreRechercheUrl" />
 <c:set value="false" var="isConnected"/>
 
 
@@ -23,9 +24,15 @@
                 <div class="text-dark">BOOK</div>
             </a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <form class="form-control p-0 mt-2 mt-md-0" role="search">
-                    <input class="form-control m-0 barnav" type="search" placeholder="Rechercher un livre...">
-                </form>
+                <div class="form-control p-0 mt-2 mt-md-0" role="search">
+                    <input id="search" class="form-control m-0 barnav" type="search" placeholder="Rechercher un livre..." name="search"
+                           hx-post="${livreRechercheUrl}"
+                           hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
+                           hx-target="#search-results"
+                           hx-validate="true"
+                           required
+                    >
+                </div>
 
                 <div class="d-flex justify-content-center flex-column flex-lg-row">
                     <c:if test="${empty role}">
