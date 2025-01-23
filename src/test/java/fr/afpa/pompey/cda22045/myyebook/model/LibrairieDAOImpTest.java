@@ -24,7 +24,7 @@ public class LibrairieDAOImpTest {
     void getByIdValid() {
         try {
             Libraire libraire = libraireDAOImp.get(1);
-//            System.out.println(libraire.getLibId() + " - " + libraire.getNom(), libraire.);
+            System.out.println(libraire);
         } catch (SQLException e) {
             System.out.println("Exception SQL: " + e.getMessage() );
         }
@@ -43,7 +43,7 @@ public class LibrairieDAOImpTest {
     @Test
     void insertValid() {
         try {
-            Libraire libraire = new Libraire("lomdfe","mqsdqsdqscxv12@L","Nomlibraire","PrenomLibraire");
+            Libraire libraire = new Libraire("lomdfe","mqsdqsdqscxv12@L","ROLE_LIBRAIRE","Nomlibraire","PrenomLibraire");
             Integer id  = libraireDAOImp.insert(libraire);
             System.out.println("L'id de la libraire insere est "+ id);
         } catch (SQLException e) {
@@ -54,9 +54,10 @@ public class LibrairieDAOImpTest {
     @Test
     void updateValid() {
         try {
-            Libraire libraire = libraireDAOImp.get(1);
+            Libraire libraire = libraireDAOImp.get(3);
             System.out.println(libraire);
-            libraire.setNom("BLABLA");
+            libraire.setNom("BLABLANOM");
+            libraire.setPrenom("BLABLAPRENOM");
             Integer id  = libraireDAOImp.update(libraire);
             System.out.println("L'id de la libraire modifie est "+ id);
         } catch (SQLException e) {
@@ -65,14 +66,14 @@ public class LibrairieDAOImpTest {
     }
 
 
-//    @Test
-//    void deleteValid() {
-//        try {
-//            Integer id  = 1;
-//            compteDAOImp.delete(id);
-//            System.out.println("L'id du compte "+ id + " a bien ete supprimer");
-//        } catch (SQLException e) {
-//            System.out.println("Exception SQL: " + e.getMessage() );
-//        }
-//    }
+    @Test
+    void deleteValid() {
+        try {
+            Integer id  = 2;
+            libraireDAOImp.delete(id);
+            System.out.println("L'id de la libraire "+ id + " a bien ete supprimer");
+        } catch (SQLException e) {
+            System.out.println("Exception SQL: " + e.getMessage() );
+        }
+    }
 }

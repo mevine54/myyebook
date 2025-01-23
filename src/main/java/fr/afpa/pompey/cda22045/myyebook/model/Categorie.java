@@ -8,6 +8,11 @@ public class Categorie {
     private Integer id;
     private String nom;
 
+    public Categorie(String nom) {
+        setNom(nom);
+    }
+
+
     public Categorie(Integer id, String nom) {
         setId(id);
         setNom(nom);

@@ -34,11 +34,15 @@
                             <label for="nom" class="form-label">Nom de l'auteur</label>
                             <input type="text" class="form-control" id="nom" name="nom" required>
                         </div>
+                        <div class="col">
+                            <label for="prenom" class="form-label">Prénom de l'auteur</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" required>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="formFile" class="form-label">Photo de l'auteur</label>
-                            <input class="form-control" type="file" id="formFile">
+                            <input class="form-control" type="file" id="formFile" name="image">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">

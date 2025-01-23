@@ -1,15 +1,21 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAO;
+import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.exception.NullValueException;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
+import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "enregistrerLibraireServlet", value = "/libraire-enregistrer")
 public class LibraireEnregistrerServlet extends HttpServlet {
+    LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
     @Override
     public void init() {}
 
@@ -27,24 +33,37 @@ public class LibraireEnregistrerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Récupérer les informations du formulaire
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        String email = request.getParameter("email");
-        System.out.println("nom: " +nom + " Prenom " + prenom + " email: " + email);
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
+        System.out.println("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
-        if(nom == null || nom.isEmpty() || prenom == null || prenom.isEmpty() || email == null || email.isEmpty()){
-            response.sendRedirect(request.getContextPath() + "/libraire-enregistrer?info=error");
-            return;
+        //Verifier les informations passent au regex
+        Verification.CHARACTER(nom);
+        Verification.CHARACTER(prenom);
+
+
+
+        // Enregistrer le libraire
+        Libraire libraire = new Libraire(
+                login,
+                password,
+                "ROLE_LIBRAIRE",
+                nom,
+                prenom
+        );
+
+        // Enregistrer le libraire dans la base de données
+        try {
+            libraireDAOImp.insert(libraire);
+            System.out.println("Libraire enregistré");
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de l'enregistrement du libraire");
+            throw new RuntimeException(e);
         }
 
-
-
-//        //TODO : A REVOIR
-//        Libraire libraire = new Libraire(
-//                nom,
-//                prenom,
-//                email
-//        );
 
         // Rediriger vers la page de liste des libraires
         response.sendRedirect(request.getContextPath() + "/ListeLibraire"+"?info=success");
@@ -52,11 +71,5 @@ public class LibraireEnregistrerServlet extends HttpServlet {
 
     @Override
     public void destroy(){}
-
-    private void registerLibraire(String nom, String prenom, String email) {
-        // Implémentez la logique d'enregistrement ici
-//TODO : A REVOIR
-    }
-
 }
 

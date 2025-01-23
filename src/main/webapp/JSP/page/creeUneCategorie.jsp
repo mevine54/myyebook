@@ -28,6 +28,16 @@
                     <h2>Crée une Catégorie</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="CreeUneCategorie">
+                    <c:if test="${param.info == 'error'}">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la création de catégorie !
+                        </div>
+                    </c:if>
+                    <c:if test="${param.info == 'errorDB'}">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Erreur d'enregistrement dans la base de données !
+                        </div>
+                    </c:if>
                     <a href="${pageContext.request.contextPath}/ListeCategorie" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">

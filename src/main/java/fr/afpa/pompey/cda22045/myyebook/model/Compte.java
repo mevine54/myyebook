@@ -4,28 +4,34 @@ package fr.afpa.pompey.cda22045.myyebook.model;
 import fr.afpa.pompey.cda22045.myyebook.exception.*;
 import lombok.*;
 
+import java.util.List;
+import java.util.Set;
+
 @Getter
 public class Compte {
 
     private Integer compteId;
     private String login;
     private String password;
+    private String role;
 
-    public Compte(){
+    public Compte() {
     }
 
-    public Compte(String login, String password) {
-        setLogin( login);
+    public Compte(String login, String password,String role) {
+        setLogin(login);
         setPassword(password);
+        setRole(role);
+
     }
 
-    public Compte(Integer compteId, String login, String password) {
-        this(login,password);
-        setCompteId( compteId );
+    public Compte(Integer compteId, String login, String password, String role) {
+        this(login, password,role);
+        setCompteId(compteId);
     }
 
     public void setCompteId(Integer compteId) {
-        if ( compteId!=null && compteId <= 0) {
+        if (compteId != null && compteId <= 0) {
             throw new IdTropPetitException("L'id ne peut pas etre inferieur ou egal a zero");
         }
         this.compteId = compteId;
@@ -40,7 +46,7 @@ public class Compte {
             throw new NullValueException("L'identifiant ne peut pas être null");
         }
 
-        login  = login.trim();
+        login = login.trim();
         if (login.length() < minLen) {
             throw new LongueurMinimaleException("L'identifiant doit avoir au minimum " + minLen + " caractères");
         } else if (login.length() > maxLen) {
@@ -70,14 +76,24 @@ public class Compte {
 
     }
 
+    public void setRole(String role) {
+        if (role == null) {
+            throw new NullValueException("Le role ne peut pas être null");
+        } else if (role.equals("ROLE_LIBRAIRE") || role.equals("ROLE_CLIENT") || role.equals("ROLE_LIBRAIRE_ATTENTE")) {
+            this.role = role;
+        }
+        else{
+            throw new IllegalArgumentException("Le role n'est pas valide: " + role);
+        }
+    }
+
     @Override
     public String toString() {
-
         return "Compte{" +
-                "cptId=" + compteId +
+                "compteId=" + compteId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
-
     }
 }

@@ -50,7 +50,7 @@ public class CompteDAOImpTest {
     void insertValid() {
         try {
             int random = (int)(Math.random() * 500000 + 1);
-            Compte compte = new Compte("login"+random, "password2M@");
+            Compte compte = new Compte("login"+random, "password2M@","ROLE_CLIENT");
             Integer id  = compteDAOImp.insert(compte);
             System.out.println("L'id du compte insere est "+ id);
         } catch (SQLException e) {
@@ -61,7 +61,7 @@ public class CompteDAOImpTest {
     @Test
     void updateValid() {
         try {
-            Compte compte = new Compte(1,"loginUpdate", "passwordUpdate2M@");
+            Compte compte = new Compte(1,"loginUpdate", "passwordUpdate2M@","ROLE_CLIENT");
             Integer id  = compteDAOImp.update(compte);
             System.out.println("L'id du compte modifie est "+ id);
         } catch (SQLException e) {

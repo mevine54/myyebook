@@ -23,7 +23,8 @@ public class CompteDAOImp implements CompteDAO {
                 compte = new Compte(
                         resultSet.getInt("cpt_id"),
                         resultSet.getString("cpt_login"),
-                        resultSet.getString("cpt_mdp")
+                        resultSet.getString("cpt_mdp"),
+                        resultSet.getString("cpt_role")
                 );
             }
         } catch (SQLException e) {
@@ -46,6 +47,7 @@ public class CompteDAOImp implements CompteDAO {
                 compte.setCompteId(resultSet.getInt("cpt_id"));
                 compte.setLogin(resultSet.getString("cpt_login"));
                 compte.setPassword(resultSet.getString("cpt_mdp"));
+                compte.setRole(resultSet.getString("cpt_role"));
                 comptes.add(compte);
             }
         } catch (SQLException e) {
@@ -56,13 +58,14 @@ public class CompteDAOImp implements CompteDAO {
 
     @Override
     public int insert(Compte compte) throws SQLException {
-        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
+        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         int compteId = 0;
         try(
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
+            ps.setString(3, compte.getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
@@ -76,7 +79,7 @@ public class CompteDAOImp implements CompteDAO {
 
     @Override
     public int update(Compte compte) throws SQLException {
-        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp =  ? WHERE cpt_id = ?;";
+        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp =  ?, cpt_role = ? WHERE cpt_id = ?;";
         int compteId = 0;
         try(
                 PreparedStatement ps = connection.prepareStatement(sql))
@@ -84,6 +87,7 @@ public class CompteDAOImp implements CompteDAO {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
             ps.setInt(3, compte.getCompteId() );
+            ps.setString(4, compte.getRole() );
             int i = ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -122,6 +126,7 @@ public class CompteDAOImp implements CompteDAO {
                 compte.setCompteId(resultSet.getInt("cpt_id"));
                 compte.setLogin(resultSet.getString("cpt_login"));
                 compte.setPassword(resultSet.getString("cpt_mdp"));
+                compte.setRole(resultSet.getString("cpt_role"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

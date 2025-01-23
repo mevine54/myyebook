@@ -16,21 +16,21 @@ public class Libraire extends Compte {
     public Libraire() {
     }
 
-    public Libraire(String login , String password ,String nom, String prenom) {
-        super(login,password);
+    public Libraire(String login , String password , String role  ,String nom, String prenom) {
+        super(login,password,role);
         setNom(nom);
         setPrenom(prenom);
     }
 
-    public Libraire(Integer libId,Integer compteId, String login , String password ,String nom, String prenom) {
-        super(compteId,login,password);
+    public Libraire(Integer libId,Integer compteId, String login , String password , String role ,String nom, String prenom) {
+        super(compteId,login,password,role);
         setLibId(libId);
         setNom(nom);
         setPrenom(prenom);
     }
 
     public Libraire(Integer libId, Compte compte ,String nom, String prenom) {
-        super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
+        super(compte.getCompteId(), compte.getLogin(), compte.getPassword(),compte.getRole());
         setLibId(libId);
         setNom(nom);
         setPrenom(prenom);

@@ -50,8 +50,12 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="login" class="form-label">Nom du compte</label>
+                            <input type="text" class="form-control" id="login" name="login" required>
+                        </div>
+                        <div class="col ">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
