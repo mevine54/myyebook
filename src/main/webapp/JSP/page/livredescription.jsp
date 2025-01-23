@@ -1,10 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
-
-<!-- Ajout de la librairie JSTL -->
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"  %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
-<%--<c:url value="/accueil" var="accueilUrl"/>--%>
 <c:url value="/assets/images/couverturelivre.jpg" var="couv_livre"/>
 <!DOCTYPE html>
 <html lang="fr">
@@ -14,7 +11,6 @@
           content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
-    <%-- TODO: A modifier le titre du document en récupérant les info du controller --%>
     <title>Livre :  <c:out value="${requestScope.livre.titre}"/> - MyyeBook</title>
 </head>
 <body class="d-flex flex-column vh-100">
@@ -79,7 +75,7 @@
         </div>
 
     </div>
-    <!-- *********** FIN DE CONTENU *********** -->
+<%--    <!-- *********** FIN DE CONTENU *********** -->--%>
 </main>
 <c:import url="/WEB-INF/JSP/footer.jsp"/>
 <script src="<c:url value='/assets/js/htmx.js'/>"></script>

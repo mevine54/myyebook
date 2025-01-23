@@ -32,7 +32,15 @@
                     <select class="form-select" id="auteur" name="auteur" required>
                         <option value="" selected disabled>Veuillez selectionez une option</option>
                         <c:forEach var="auteur" items="${requestScope.auteurList}">
-                            <option value="<c:out value="${auteur.auteurId}"/>"><c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/></option>
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${auteur.auteurId} ==${livre.auteur.auteurId} ">--%>
+<%--                                    <option selected value="<c:out value="${auteur.auteurId}"/>"><c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}" /></option>--%>
+<%--                                </c:when>--%>
+<%--                                <c:otherwise>--%>
+                                    <option value="<c:out value="${auteur.auteurId}"/>"><c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/></option>
+
+<%--                                </c:otherwise>--%>
+<%--                            </c:choose>--%>
                         </c:forEach>
                     </select>
                 </div>
@@ -49,14 +57,9 @@
                 </div>
                 <div class="mt-3 input-group mb-3">
                     <label class="input-group-text" for="img">Choisissez une nouvelle couverture</label>
-                    <input type="file" id="img" name="img" class="form-control bi-building-fill-exclamation" id="inputGroupFile01"
+                    <input type="file" id="img" name="img" class="form-control bi-building-fill-exclamation"
                            accept="image/png, image/jpeg" required>
                 </div>
-
-                <%--                <div class="mt-3 d-flex flex-column">--%>
-                <%--                    <label for="img">Choisissez une nouvelle couverture</label>--%>
-                <%--                    <input type="file" class="bi-building-fill-exclamation" id="img" accept="image/png, image/jpeg" >--%>
-                <%--                </div>--%>
             </div>
             <%--            <h3>Resumé</h3>--%>
             <div class="row mb-3">
@@ -71,6 +74,14 @@
                 <button type="submit" class="btn btn-primary">Validez</button>
                 <button type="reset" class="btn btn-secondary">Annulez</button>
             </div>
+        </form>
+
+        <form class="h-100 mx-auto col-7 d-flex flex-column justify-content-between" enctype="multipart/form-data" method="POST"
+              action="LivreModification">
+            <input type="file" id="img2" name="img" class="form-control bi-building-fill-exclamation"
+                   accept="image/png, image/jpeg" required>
+            <button type="submit" class="btn btn-primary">Validez</button>
+
         </form>
     </div>
 

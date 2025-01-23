@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<div class="container-fluid container-lg"  id="recherche">
+<div class="container-fluid container-lg" id="search-results">
     <div class="fs-3 my-3">Resultat: </div>
     <div class="row">
         <c:forEach var="livre" items="${requestScope.livresTrouve}">

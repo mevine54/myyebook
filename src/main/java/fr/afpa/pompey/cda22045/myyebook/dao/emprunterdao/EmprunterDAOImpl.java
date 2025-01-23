@@ -139,6 +139,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
                 );
@@ -228,6 +229,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
                 );

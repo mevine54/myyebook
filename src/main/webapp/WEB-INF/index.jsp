@@ -70,9 +70,9 @@
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
 <c:import url="/WEB-INF/JSP/footer.jsp"/>
-<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>
-<script src="<c:url value='/assets/js/htmx.js'/>"></script>
-<script src="<c:url value='/assets/js/script.js'/>"></script>
+<%--<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>--%>
+<%--<script src="<c:url value='/assets/js/htmx.js'/>"></script>--%>
+<%--<script src="<c:url value='/assets/js/script.js'/>"></script>--%>
 </body>
 </html>
 

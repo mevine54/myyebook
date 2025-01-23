@@ -17,7 +17,7 @@ public class ClientTest {
 
     @BeforeEach
     void setUp() {
-        compte = new Compte(1,"monlogin","motdepasseSecure1!");
+        compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
 
         client = new Client(null,compte,"nomclient","prenomclient","email@example.com","12 rue blabla","ville","54000");
     }

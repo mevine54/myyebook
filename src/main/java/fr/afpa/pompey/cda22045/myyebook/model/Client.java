@@ -17,7 +17,7 @@ public class Client extends Compte {
     }
 
     public Client(String login, String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(login, password);
+        super(login, password,"ROLE_CLIENT");
         setNom(nom);
         setPrenom(prenom);
         setEmail(email);
@@ -27,7 +27,7 @@ public class Client extends Compte {
     }
 
     public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
+        super(compte.getCompteId(), compte.getLogin(), compte.getPassword(), compte.getRole());
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -37,8 +37,8 @@ public class Client extends Compte {
         setCodePostal(codePostal);
     }
 
-    public Client(Integer clientId, Integer compteId ,String login , String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(compteId, login, password);
+    public Client(Integer clientId, Integer compteId ,String login , String password,String nom, String prenom, String email, String adresse, String ville, String codePostal) {
+        super(compteId, login, password,"ROLE_CLIENT");
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -47,12 +47,6 @@ public class Client extends Compte {
         setVille(ville);
         setCodePostal(codePostal);
     }
-
-//    Constructor pour ClientDAO
-
-
-
-
 
     public void setClientId(Integer clientId) {
         if (clientId != null && clientId <= 0) {

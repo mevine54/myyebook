@@ -26,6 +26,7 @@ public class LivreDescriptionServlet extends HttpServlet {
 
         if (idStr != null && idStr.matches("\\d+")) {
             int id = Integer.parseInt(idStr);
+            System.out.println(id);
             LivreDAOImpl livreDaoImpl = new LivreDAOImpl();
             Livre livre;
             List<Livre> livreSimilaireList;
@@ -38,11 +39,15 @@ public class LivreDescriptionServlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/JSP/page/livredescription.jsp").forward(request, response);
                 }
             } catch (SQLException e) {
+                System.out.println("sql exception");
                 throw new RuntimeException(e);
             }
         }
-        response.sendRedirect(request.getContextPath() + "/accueil");
+        else{
+            response.sendRedirect(request.getContextPath() + "/accueil");
 //        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
+
+        }
 
     }
 

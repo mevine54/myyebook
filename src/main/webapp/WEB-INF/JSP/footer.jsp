@@ -48,4 +48,6 @@
         <p class="text-center text-muted mb-0">© <%= date.getYear()%> MYYEBOOK, S.A. Tous droits réservés.</p>
     </div>
 </footer>
-<script src="assets/js/bootstrap5.js"></script>
+<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>
+<script src="<c:url value='/assets/js/htmx.js'/>"></script>
+<script src="<c:url value='/assets/js/script.js'/>"></script>
