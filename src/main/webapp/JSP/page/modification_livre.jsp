@@ -67,21 +67,12 @@
                     <label for="resume" class="form-label">Resume</label>
                     <textarea class="form-control" style="height: 150px" id="resume" name="resume"
                               placeholder="Ecrirvez ici..."><c:out value="${livre.resume}"/></textarea>
-                    <%--                    <input class="h-50" type="text" class="form-control" id="resume" name="resume" required>--%>
                 </div>
             </div>
             <div class=" d-flex justify-content-around">
                 <button type="submit" class="btn btn-primary">Validez</button>
                 <button type="reset" class="btn btn-secondary">Annulez</button>
             </div>
-        </form>
-
-        <form class="h-100 mx-auto col-7 d-flex flex-column justify-content-between" enctype="multipart/form-data" method="POST"
-              action="LivreModification">
-            <input type="file" id="img2" name="img" class="form-control bi-building-fill-exclamation"
-                   accept="image/png, image/jpeg" required>
-            <button type="submit" class="btn btn-primary">Validez</button>
-
         </form>
     </div>
 
