@@ -2,15 +2,18 @@ package fr.afpa.pompey.cda22045.myyebook.servlet;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
+import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ModifCategorieServlet", value = "/ModifCategorie")
 public class ModifCategorieServlet extends HttpServlet {
@@ -21,6 +24,22 @@ public class ModifCategorieServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Récupère l'id de la catégorie par l'URL
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        //Instancie la classe CategorieDAOImpl
+        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+        //Instancie la classe HttpSession
+        HttpSession session = request.getSession(true);
+        //Génère un token CSRF
+        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
+        try {
+            //Récupère la catégorie par l'id
+            Categorie categories = categorieDAOImpl.get(id);
+            //Envoie la catégorie à la page JSP
+            request.setAttribute("categories", categories);
+        } catch (SQLException e) {
+            throw new ServletException("Cannot obtain categories from DB", e);
+        }
 
         //Récupérer l'url du site
         String currentURL = request.getRequestURL().toString();
@@ -32,21 +51,21 @@ public class ModifCategorieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+        Integer id = Integer.valueOf(request.getParameter("id"));
         String nomCategorie = request.getParameter("nomCategorie");
-
-        try{
+        try {
+            CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
             Verification.CHARACTER(nomCategorie);
-            Categorie categorie = new Categorie(nomCategorie);
+            Categorie categorie = new Categorie(id, nomCategorie);
             try {
                 categorieDAOImpl.update(categorie);
                 response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=successUpdate");
             } catch (SQLException e) {
-                response.sendRedirect(request.getContextPath() + "/CreeUneCategorie"+"?info=errorDB");
+                response.sendRedirect(request.getContextPath() + "/ModifCategorie"+"?info=errorDB");
                 throw new RuntimeException(e);
             }
         }catch (Exception e){
-            response.sendRedirect(request.getContextPath() + "/CreeUneCategorie"+"?info=error");
+            response.sendRedirect(request.getContextPath() + "/ModifCategorie"+"?info=error");
         }
     }
 

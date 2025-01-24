@@ -37,17 +37,20 @@ public class ListeCategorieServlet extends HttpServlet {
             throw new ServletException("Cannot obtain categories from DB", e);
         }
 
+
         //Récupérer l'url du site
         String currentURL = request.getRequestURL().toString();
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
-        List<Categorie> categories = null;
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //Récupère les paramètres après l'envoi du formulaire
+        String id = request.getParameter("id");
 
+        response.sendRedirect(request.getContextPath() + "/ModifCategorie?id=" + id);
     }
 
     @Override

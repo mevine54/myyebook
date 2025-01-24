@@ -54,11 +54,15 @@
                         <tr>
                             <td>${categorie.nom}</td>
                             <td class="d-flex">
-                                <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifCategorie?id=${categorie.id}">Modifier</a>
-                                <form action="ListeLivre" method="POST">
+                                <form action="ListeLivre?action=modifier" method="POST">
                                     <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
                                     <input type="hidden" name="id" value="${categorie.id}">
-                                    <button type="submit" class="btn btn-outline-danger rounded-0">Supprimer</button>
+                                    <button type="submit" class="btn btn-outline-primary rounded-0 mx-1">Modifier</button>
+                                </form>
+                                <form action="ListeLivre?action=supprimer" method="POST">
+                                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
+                                    <input type="hidden" name="id" value="${categorie.id}">
+                                    <button type="submit" class="btn btn-outline-danger rounded-0 mx-1">Supprimer</button>
                                 </form>
                             </td>
                         </tr>
