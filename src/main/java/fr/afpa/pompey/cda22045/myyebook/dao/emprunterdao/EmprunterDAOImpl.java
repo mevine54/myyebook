@@ -10,7 +10,7 @@ import java.util.List;
 public class EmprunterDAOImpl implements EmprunterDAO {
 
     @Override
-    public int insert(Emprunter emprunter) throws SQLException {
+    public Integer insert(Emprunter emprunter) throws SQLException {
         String sql = "INSERT INTO Emprunter (cli_id, emp_date_emprunt, emp_date_retour, cli_id, lib_id, exe_id,res_id) VALUES (?, ?, ?, ?,?)";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -25,10 +25,10 @@ public class EmprunterDAOImpl implements EmprunterDAO {
             ps.setInt(4, emprunter.getClient().getClientId());
             ps.setInt(5, emprunter.getLibraire().getLibId());
             ps.setInt(6, emprunter.getExemplaire().getExemplaireId());
-            if (emprunter.getReservation() != null){
+            if (emprunter.getReservation() != null) {
                 ps.setInt(7, emprunter.getReservation().getResId());
 
-            }else{
+            } else {
                 ps.setNull(7, Types.INTEGER);
             }
             return ps.executeUpdate();
@@ -38,7 +38,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
     }
 
     @Override
-    public int update(Emprunter emprunter) throws SQLException {
+    public Integer update(Emprunter emprunter) throws SQLException {
         String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ?, WHERE emp_id = ? ";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -57,7 +57,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sql = "DELETE FROM Emprunter WHERE emp_id = ?";
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -118,6 +118,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getString("liv_titre"),
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
                         auteur,
                         categorie
                 );
@@ -139,6 +140,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
                 );
@@ -207,6 +209,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getString("liv_titre"),
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
                         auteur,
                         categorie
                 );
@@ -228,6 +231,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
                 );

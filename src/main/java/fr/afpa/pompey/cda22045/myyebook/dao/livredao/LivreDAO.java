@@ -9,5 +9,9 @@ import java.util.List;
 public interface LivreDAO extends DAO<Livre> {
     List<Livre> getParAuteur(int autId) throws SQLException;
     List<Livre> getParCategorie(int catId) throws SQLException;
+    List<Livre> chercherTitreOuAuteur(String text) throws SQLException;
+
     Integer getNbLivres() throws SQLException;
+
+    List<Livre> getEnAvant() throws SQLException;
 }

@@ -75,12 +75,11 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation [ " +
-                "\nReservationID: " + getResId() +
-                "\nLivreID: " + getLivre() +
-                "\nClientID: " + getClient().getClientId() +
-                "\nDate de reservation: " + getDatetime() +
-                "\nCategorie d'achat: " + getResId() +
-                "]\n";
+        return "Reservation{" +
+                "resId=" + resId +
+                ", client=" + client +
+                ", livre=" + livre +
+                ", datetime=" + datetime +
+                '}';
     }
 }

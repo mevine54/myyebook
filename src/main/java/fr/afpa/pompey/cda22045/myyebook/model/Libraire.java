@@ -12,29 +12,29 @@ public class Libraire extends Compte {
     private Integer libId;
     private String nom;
     private String prenom;
+    private boolean estApprouve;
 
     public Libraire() {
     }
 
-    public Libraire(String login , String password ,String nom, String prenom) {
-        super(login,password);
+    public Libraire(String login , String password , boolean estApprouve  ,String nom, String prenom) {
+        setLogin(login);
+        setPassword(password);
+        setEstApprouve(estApprouve);
         setNom(nom);
         setPrenom(prenom);
     }
 
-    public Libraire(Integer libId,Integer compteId, String login , String password ,String nom, String prenom) {
-        super(compteId,login,password);
+    public Libraire(Integer libId,Integer compteId, String login , String password , boolean estApprouve ,String nom, String prenom) {
+        setCompteId(compteId);
+        setLogin(login);
+        setPassword(password);
+        setEstApprouve(estApprouve);
         setLibId(libId);
         setNom(nom);
         setPrenom(prenom);
     }
 
-    public Libraire(Integer libId, Compte compte ,String nom, String prenom) {
-        super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
-        setLibId(libId);
-        setNom(nom);
-        setPrenom(prenom);
-    }
 
     public void setLibId(Integer libId) {
         if ( libId != null &&  libId <= 0) {
@@ -87,8 +87,23 @@ public class Libraire extends Compte {
         this.prenom = prenom;
     }
 
+    public void setEstApprouve(boolean estApprouve) {
+        if (estApprouve){
+            setRole("ROLE_LIBRAIRE");
+        }else{
+            setRole("ROLE_LIBRAIRE_ATTENTE");
+        }
+        this.estApprouve = estApprouve;
+    }
 
 
-
-
+    @Override
+    public String toString() {
+        return "Libraire{" +
+                "libId=" + libId +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", estApprouve=" + estApprouve +
+                '}';
+    }
 }

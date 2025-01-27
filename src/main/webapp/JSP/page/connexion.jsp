@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${style}">
     <title>MyyeBook - Connectez-vous pour Lire</title>
 </head>
+<%-- SERVLET: ConnexionServlet --%>
 <body class="d-flex flex-column vh-100">
 <%--<jsp:include page="../../WEB-INF/JSP/header.jsp">--%>
 <%--    <jsp:param name="voirRechecheLivre" value="true" />--%>

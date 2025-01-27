@@ -42,7 +42,7 @@ public interface DAO<T> {
      * @return the int
      * @throws SQLException the sql exception
      */
-    int insert(T t) throws SQLException;
+    Integer insert(T t) throws SQLException;
 
     /**
      * Update int.
@@ -51,7 +51,7 @@ public interface DAO<T> {
      * @return the int
      * @throws SQLException the sql exception
      */
-    int update(T t) throws SQLException;
+    Integer update(T t) throws SQLException;
 
     /**
      * Delete int.
@@ -60,5 +60,5 @@ public interface DAO<T> {
      * @return the int
      * @throws SQLException the sql exception
      */
-    int delete(Integer id) throws SQLException;
+    Integer delete(int id) throws SQLException;
 }

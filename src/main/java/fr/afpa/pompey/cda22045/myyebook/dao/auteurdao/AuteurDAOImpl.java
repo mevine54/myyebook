@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.auteurdao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 
 import java.sql.Connection;
@@ -39,7 +40,8 @@ public class AuteurDAOImpl implements AuteurDAO {
     @Override
     public List<Auteur> getAll() throws SQLException {
         List<Auteur> auteurs = new ArrayList<>();
-        String sql = "SELECT * FROM Auteur";
+        String sql = "SELECT * FROM Auteur ORDER BY aut_prenom,aut_nom ASC";
+//        String sql = "SELECT * FROM Auteur";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -61,7 +63,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     }
 
     @Override
-    public int insert(Auteur auteur) throws SQLException {
+    public Integer insert(Auteur auteur) throws SQLException {
         String sql = "INSERT INTO Auteur (aut_nom, aut_prenom,aut_photo) VALUES (?, ?,?)";
         Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -81,7 +83,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     }
 
     @Override
-    public int update(Auteur auteur) throws SQLException {
+    public Integer update(Auteur auteur) throws SQLException {
         String sql = "UPDATE Auteur SET aut_nom = ?, aut_prenom = ? , aut_photo = ? WHERE aut_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -97,7 +99,7 @@ public class AuteurDAOImpl implements AuteurDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sql = "DELETE FROM Auteur WHERE aut_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();

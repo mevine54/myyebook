@@ -17,7 +17,7 @@
 </head>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
-
+<%-- SERVLET: ClientEnregistrerServlet --%>
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
     <!-- *********** DEBUT DE CONTENU *********** -->

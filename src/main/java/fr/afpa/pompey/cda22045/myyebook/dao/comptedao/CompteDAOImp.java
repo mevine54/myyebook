@@ -1,9 +1,9 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.comptedao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
-import java.net.Inet4Address;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +42,12 @@ public class CompteDAOImp implements CompteDAO {
         {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Compte compte = new Compte();
-                compte.setCompteId(resultSet.getInt("cpt_id"));
-                compte.setLogin(resultSet.getString("cpt_login"));
-                compte.setPassword(resultSet.getString("cpt_mdp"));
+                Compte compte = new Compte(
+                        resultSet.getInt("cpt_id") ,
+                        resultSet.getString("cpt_login"),
+                        resultSet.getString("cpt_mdp"),
+                        resultSet.getString("cpt_role")
+                );
                 comptes.add(compte);
             }
         } catch (SQLException e) {
@@ -55,14 +57,15 @@ public class CompteDAOImp implements CompteDAO {
     }
 
     @Override
-    public int insert(Compte compte) throws SQLException {
-        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
+    public Integer insert(Compte compte) throws SQLException {
+        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         int compteId = 0;
         try(
                 PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
+            ps.setString(3, compte.getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
@@ -75,8 +78,8 @@ public class CompteDAOImp implements CompteDAO {
     }
 
     @Override
-    public int update(Compte compte) throws SQLException {
-        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp =  ? WHERE cpt_id = ?;";
+    public Integer update(Compte compte) throws SQLException {
+        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp =  ?, cpt_role = ? WHERE cpt_id = ?;";
         int compteId = 0;
         try(
                 PreparedStatement ps = connection.prepareStatement(sql))
@@ -84,6 +87,7 @@ public class CompteDAOImp implements CompteDAO {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
             ps.setInt(3, compte.getCompteId() );
+            ps.setString(4, compte.getRole() );
             int i = ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -92,7 +96,7 @@ public class CompteDAOImp implements CompteDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sql = "DELETE FROM compte WHERE cpt_id = ?";
 
         try(
@@ -109,7 +113,7 @@ public class CompteDAOImp implements CompteDAO {
 
     @Override
     public Compte getParLogin(String login) throws SQLException {
-        Compte compte = new Compte();
+        Compte compte = null;
         String sql = "SELECT * FROM compte WHERE cpt_login = ?";
 
         try(
@@ -119,9 +123,12 @@ public class CompteDAOImp implements CompteDAO {
             ps.setString(1, login);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                compte.setCompteId(resultSet.getInt("cpt_id"));
-                compte.setLogin(resultSet.getString("cpt_login"));
-                compte.setPassword(resultSet.getString("cpt_mdp"));
+                compte = new Compte(
+                        resultSet.getInt("cpt_id") ,
+                        resultSet.getString("cpt_login"),
+                        resultSet.getString("cpt_mdp"),
+                        resultSet.getString("cpt_role")
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

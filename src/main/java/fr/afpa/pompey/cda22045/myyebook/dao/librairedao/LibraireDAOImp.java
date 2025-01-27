@@ -30,7 +30,10 @@ public class LibraireDAOImp implements LibraireDAO {
 
                 libraire = new Libraire(
                         rs.getInt("lib_id"),
-                        compte,
+                        compte.getCompteId(),
+                        compte.getLogin(),
+                        compte.getPassword(),
+                        rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
                 );
@@ -49,7 +52,7 @@ public class LibraireDAOImp implements LibraireDAO {
                 Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Compte compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
@@ -58,7 +61,10 @@ public class LibraireDAOImp implements LibraireDAO {
 
                 Libraire libraire = new Libraire(
                         rs.getInt("lib_id"),
-                        compte,
+                        compte.getCompteId(),
+                        compte.getLogin(),
+                        compte.getPassword(),
+                        rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
                 );
@@ -69,8 +75,8 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int insert(Libraire libraire) throws SQLException {
-        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
+    public Integer insert(Libraire libraire) throws SQLException {
+        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         Integer compteId = 0;
         try {
 
@@ -79,17 +85,17 @@ public class LibraireDAOImp implements LibraireDAO {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, libraire.getLogin());
             ps.setString(2, libraire.getPassword());
+            ps.setString(3, libraire.getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
-                sql = "INSERT INTO libraire (lib_id, lib_nom, lib_prenom,cpt_id) VALUES ( ?, ?, ?,?)";
+                sql = "INSERT INTO libraire ( lib_nom, lib_prenom,cpt_id) VALUES ( ?, ?,?)";
                 compteId = generatedKeysCompte.getInt(1);
                 System.out.println("COMPTE : -----  " + compteId);
                 ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setInt(1, libraire.getLibId());
-                ps.setString(2, libraire.getNom());
-                ps.setString(3, libraire.getPrenom());
-                ps.setInt(4, libraire.getCompteId());
+                ps.setString(1, libraire.getNom());
+                ps.setString(2, libraire.getPrenom());
+                ps.setInt(3, compteId );
                 ps.executeUpdate();
                 ResultSet generatedKeysLibraire = ps.getGeneratedKeys();
                 if (generatedKeysLibraire.next()) {
@@ -110,15 +116,16 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int update(Libraire libraire) throws SQLException {
-        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ? WHERE cpt_id = ?";
+    public Integer update(Libraire libraire) throws SQLException {
+        String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ?, cpt_role = ? WHERE cpt_id = ?";
         try {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, libraire.getLogin());
             ps.setString(2, libraire.getPassword());
-            ps.setInt(3, libraire.getCompteId());
+            ps.setString(3, libraire.getRole());
+            ps.setInt(4, libraire.getCompteId());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -146,7 +153,64 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
-        return 0;
+    public Integer delete(int id) throws SQLException {
+        String sqlGetCompteId = "SELECT c.cpt_id FROM Compte c INNER JOIN libraire l ON c.cpt_id = l.cpt_id WHERE l.lib_id = ?";
+        String sqlDeleteLibraire = "DELETE FROM libraire WHERE lib_id = ?";
+        String sqlDeleteCompte = "DELETE FROM Compte WHERE cpt_id = ?";
+        Connection connection = null;
+        PreparedStatement psGetCompteId = null;
+        PreparedStatement psDeleteLibraire = null;
+        PreparedStatement psDeleteCompte = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DatabaseConnection.getInstanceDB();
+            connection.setAutoCommit(false);
+
+            // Get the compte ID associated with the libraire using INNER JOIN
+            psGetCompteId = connection.prepareStatement(sqlGetCompteId);
+            psGetCompteId.setInt(1, id);
+            rs = psGetCompteId.executeQuery();
+            if (rs.next()) {
+                int compteId = rs.getInt("cpt_id");
+
+                // Delete the libraire
+                psDeleteLibraire = connection.prepareStatement(sqlDeleteLibraire);
+                psDeleteLibraire.setInt(1, id);
+                psDeleteLibraire.executeUpdate();
+
+                // Delete the compte
+                psDeleteCompte = connection.prepareStatement(sqlDeleteCompte);
+                psDeleteCompte.setInt(1, compteId);
+                psDeleteCompte.executeUpdate();
+
+                connection.commit();
+                return id;
+            } else {
+                throw new SQLException("No compte found for libraireId: " + id );
+            }
+        } catch (SQLException e) {
+            if (connection != null) {
+                connection.rollback();
+            }
+            throw new RuntimeException(e);
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (psGetCompteId != null) {
+                psGetCompteId.close();
+            }
+            if (psDeleteLibraire != null) {
+                psDeleteLibraire.close();
+            }
+            if (psDeleteCompte != null) {
+                psDeleteCompte.close();
+            }
+            if (connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
     }
 }

@@ -22,94 +22,56 @@
 <main>
 
     <!-- *********** DEBUT DE CONTENU *********** -->
-    <div class="container-fluid container-lg">
-        <div class="fs-3 my-3">Nos sélections</div>
+    <div class="container-fluid container-lg"  id="search-results">
+        <h2 class="fs-3 my-3">Nos sélections</h2>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
-                    <div class="card">
-                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Titre du livre</h5>
-                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
+            <c:forEach var="livreEnAvant" items="${requestScope.livresEnavant}">
+                <div class="col-12 col-md-6 col-lg-3 mb-4 px-5 px-sm-3 px-lg-2">
+                    <a href="<c:url value='/livre?id=${livreEnAvant.id}'/>"
+                       class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
+                        <div class="card h-100">
+                            <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="<c:out value="${livreEnAvant.titre}"/>">
+                            <div class="card-body d-flex align-items-start justify-content-around flex-column">
+                                <h4 class="card-title"><c:out value="${livreEnAvant.titre}"/></h4>
+                                <p class="card-text d-none d-lg-block"><small class="text-body-secondary"><c:out
+                                        value="${livreEnAvant.auteur.prenom}"/> <c:out
+                                        value="${livreEnAvant.auteur.nom}"/></small></p>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
-                    <div class="card">
-                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Titre du livre</h5>
-                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
-                    <div class="card">
-                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Titre du livre</h5>
-                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <a href="#" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
-                    <div class="card">
-                        <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Titre du livre</h5>
-                            <p class="card-text"><small class="text-body-secondary">Nom de l'auteur</small></p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+                    </a>
+                </div>
+            </c:forEach>
+            <h2 class="fs-3 my-3">Nos livres</h2>
+            <div class="mx-3">
+                <c:forEach var="livre" items="${requestScope.livres}">
 
-        <div class="fs-3 my-3">Nos livres</div>
-        <div class="mx-3">
-            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
-                <div class="card mb-3 shadow rounded">
-                    <div class="row g-0">
-                        <div class="col-lg-2 col-5 h-25">
-                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-lg col-5">
-                            <div class="card-body">
-                                <h5 class="card-title">Titre du livre</h5>
-                                <p class="card-text d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, officia libero! Recusandae eos accusamus deserunt itaque nemo fugit, unde in libero, delectus deleniti quasi nulla rerum reiciendis sapiente. Sunt, rerum!</p>
-                                <p class="card-text d-block d-lg-none text-truncate">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eligendi optio, qui consequatur, culpa architecto rerum ipsum sunt sapiente nemo aliquid illo, sit ipsa fugiat iste sint dolor cupiditate. Libero.</p>
+                    <a href="<c:url value='/livre?id=${livre.id}'/>" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
+                        <div class="card mb-3 shadow rounded">
+                            <div class="row g-0">
+                                <div class="col-lg-2 col-5 h-25">
+                                    <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start"
+                                         alt="<c:out value='${livre.titre}'/>">
+                                </div>
+                                <div class="col-lg col-5">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><c:out value="${livre.titre}"/></h4>
+                                        <p class="card-text d-none d-lg-block"><c:out value="${livre.resume}"/></p>
+                                        <p class="card-text d-block d-lg-none text-truncate"><c:out
+                                                value="${livre.resume}"/>.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </a>
-            <a href="" class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover">
-                <div class="card mb-3 shadow rounded">
-                    <div class="row g-0">
-                        <div class="col-lg-2 col-5 h-25">
-                            <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start" alt="...">
-                        </div>
-                        <div class="col-lg col-5">
-                            <div class="card-body">
-                                <h5 class="card-title">Titre du livre</h5>
-                                <p class="card-text d-none d-lg-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, officia libero! Recusandae eos accusamus deserunt itaque nemo fugit, unde in libero, delectus deleniti quasi nulla rerum reiciendis sapiente. Sunt, rerum!</p>
-                                <p class="card-text d-block d-lg-none text-truncate">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam eligendi optio, qui consequatur, culpa architecto rerum ipsum sunt sapiente nemo aliquid illo, sit ipsa fugiat iste sint dolor cupiditate. Libero.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                    </a>
+                </c:forEach>
+            </div>
         </div>
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<c:import url="/WEB-INF/JSP/footer.jsp" />
-<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>
+<c:import url="/WEB-INF/JSP/footer.jsp"/>
+<%--<script src="<c:url value='/assets/js/bootstrap5.js'/>"></script>--%>
+<%--<script src="<c:url value='/assets/js/htmx.js'/>"></script>--%>
+<%--<script src="<c:url value='/assets/js/script.js'/>"></script>--%>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.exemplairedao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.dao.exemplairedao.ExemplaireDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 import fr.afpa.pompey.cda22045.myyebook.model.Exemplaire;
@@ -44,6 +45,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
                         resultSet.getString("liv_titre"),
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
                         auteur, categorie
                 );
 
@@ -84,6 +86,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
                         resultSet.getString("liv_titre"),
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
                         auteur, categorie
                 );
 
@@ -99,8 +102,8 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     }
 
     @Override
-    public int insert(Exemplaire exemplaire) throws SQLException {
-        String sql = "INSERT INTO myyebook.exemplaire (liv_id) VALUES ( ?)";
+    public Integer insert(Exemplaire exemplaire) throws SQLException {
+        String sql = "INSERT INTO exemplaire (liv_id) VALUES ( ?)";
         Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -118,7 +121,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     }
 
     @Override
-    public int update(Exemplaire exemplaire) throws SQLException {
+    public Integer update(Exemplaire exemplaire) throws SQLException {
         String sql = "UPDATE exemplaire SET liv_id = ? WHERE exe_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -128,7 +131,6 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
             if (ps.executeUpdate() > 0) {
                 return exemplaire.getExemplaireId();
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -136,7 +138,7 @@ public class ExemplaireDAOImpl implements ExemplaireDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sql = "DELETE FROM exemplaire WHERE exe_id = ?";
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
