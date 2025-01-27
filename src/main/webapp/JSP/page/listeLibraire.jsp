@@ -41,14 +41,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <c:forEach items="${requestScope.libraires}" var="libraire">
                         <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@gmail.com</td>
+                            <td>${libraire.libId}</td>
+                            <td>${libraire.nom}</td>
                             <td>
-                                <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifLibraire">Modifier</a>
-                                <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
+                                <a class="btn btn-outline-primary rounded-0 mx-1" href="${pageContext.request.contextPath}/ModifLibraire?id=${libraire.libId}">Modifier</a>
+                                <a class="btn btn-outline-danger rounded-0 mx-1" href="">Supprimer</a>
                             </td>
                         </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

@@ -1,14 +1,21 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
+import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
+import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @WebServlet(name = "LibraireModifServlet", value = "/ModifLibraire")
+@Slf4j
 public class LibraireModifServlet extends HttpServlet {
 
     @Override
@@ -18,13 +25,27 @@ public class LibraireModifServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idStr = request.getParameter("id");
+        Libraire libraires;
+        if (idStr != null && idStr.matches("\\d+")) {
+            int id = Integer.parseInt(idStr);
+            LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
+            try {
+                libraires = LibraireDAOImp.get(id);
+                if (libraires != null) {
+                    Categorie categorie = LibraireDAOImp.get(id);
 
-        //Récupérer l'url du site
-        String currentURL = request.getRequestURL().toString();
-        //Enregistre l'url dans la variable et envoye à la page JSP
-        request.setAttribute("currentURL", currentURL);
+                    request.setAttribute("categories", categorie);
+                    this.getServletContext().getRequestDispatcher("/JSP/page/modifCategorie.jsp").forward(request, response);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/accueil");
 
-        this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
+        }
+//        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
     }
 
     @Override

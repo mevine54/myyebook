@@ -37,17 +37,11 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="nom" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="nom" name="nom" required>
+                            <input type="text" class="form-control" id="nom" name="nom" value="${libraire.nom}" required>
                         </div>
                         <div class="col ">
                             <label for="prenom" class="form-label">Prénom</label>
                             <input type="text" class="form-control" id="prenom" name="prenom" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center">
