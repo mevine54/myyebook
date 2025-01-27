@@ -1,7 +1,11 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
+import fr.afpa.pompey.cda22045.myyebook.dao.livredao.LivreDAOImpl;
+import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
+import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
@@ -10,11 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ModifCategorieServlet", value = "/ModifCategorie")
+@Slf4j
 public class ModifCategorieServlet extends HttpServlet {
     @Override
     public void init() {
@@ -23,48 +30,55 @@ public class ModifCategorieServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Récupère l'id de la catégorie par l'URL
-        Integer id = Integer.valueOf(request.getParameter("id"));
-        //Instancie la classe CategorieDAOImpl
-        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
-        //Instancie la classe HttpSession
-        HttpSession session = request.getSession(true);
-        //Génère un token CSRF
-        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
-        try {
-            //Récupère la catégorie par l'id
-            Categorie categories = categorieDAOImpl.get(id);
-            //Envoie la catégorie à la page JSP
-            request.setAttribute("categories", categories);
-        } catch (SQLException e) {
-            throw new ServletException("Cannot obtain categories from DB", e);
+        String idStr = request.getParameter("id");
+        Categorie categories;
+        if (idStr != null && idStr.matches("\\d+")) {
+            int id = Integer.parseInt(idStr);
+            CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+            try {
+                categories = categorieDAOImpl.get(id);
+                if (categories != null) {
+                    Categorie categorie = categorieDAOImpl.get(id);
+
+                    request.setAttribute("categories", categorie);
+                    this.getServletContext().getRequestDispatcher("/JSP/page/modifCategorie.jsp").forward(request, response);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/accueil");
+
         }
+//        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
 
-        //Récupérer l'url du site
-        String currentURL = request.getRequestURL().toString();
-        //Enregistre l'url dans la variable et envoye à la page JSP
-        request.setAttribute("currentURL", currentURL);
-
-        this.getServletContext().getRequestDispatcher("/JSP/page/modifCategorie.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer id = Integer.valueOf(request.getParameter("id"));
+
         String nomCategorie = request.getParameter("nomCategorie");
-        try {
-            CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
-            Verification.CHARACTER(nomCategorie);
-            Categorie categorie = new Categorie(id, nomCategorie);
-            try {
-                categorieDAOImpl.update(categorie);
-                response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=successUpdate");
-            } catch (SQLException e) {
-                response.sendRedirect(request.getContextPath() + "/ModifCategorie"+"?info=errorDB");
-                throw new RuntimeException(e);
-            }
-        }catch (Exception e){
+        String id = request.getParameter("id");
+
+        //Verif si id existe dans la table
+        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+        if(nomCategorie == null || nomCategorie.isEmpty()){
             response.sendRedirect(request.getContextPath() + "/ModifCategorie"+"?info=error");
+        }
+        try {
+            Categorie categorie1 = categorieDAOImpl.get(Integer.parseInt(id));
+            if(categorie1 == null){
+                response.sendRedirect(request.getContextPath() + "/accueil");
+            }else{
+                Categorie categorie = new Categorie(
+                        Integer.parseInt(id),
+                        nomCategorie
+                );
+                categorieDAOImpl.update(categorie);
+                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
