@@ -26,7 +26,7 @@
             <div class="fs-2">Créer un compte</div>
         </div>
         <form class=" mx-auto col-lg-7 mt-2"  method="POST" action="${clientEnregistrer}">
-            <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">
+<%--            <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">--%>
             <div class="row mb-3">
                 <div class="col-lg">
                     <label for="nom" class="form-label">Nom</label>

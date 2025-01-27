@@ -213,4 +213,38 @@ public class LibraireDAOImp implements LibraireDAO {
             }
         }
     }
+
+
+    @Override
+    public Libraire getParCompteId(Integer cptId) throws SQLException {
+        Libraire libraire = null;
+        Compte compte = null;
+        String sql = "SELECT * FROM compte c INNER JOIN libraire l on c.cpt_id = l.cpt_id WHERE c.cpt_id = ? ;";
+
+        try (
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                compte = new Compte(
+                        rs.getInt("cpt_id"),
+                        rs.getString("cpt_login"),
+                        rs.getString("cpt_mdp")
+                );
+
+                libraire = new Libraire(
+                        rs.getInt("lib_id"),
+                        compte.getCompteId(),
+                        compte.getLogin(),
+                        compte.getPassword(),
+                        rs.getBoolean("lib_est_approuve"),
+                        rs.getString("lib_nom"),
+                        rs.getString("lib_prenom")
+                );
+            }
+
+        }
+        return libraire;
+    }
 }

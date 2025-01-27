@@ -17,7 +17,7 @@ public class ClientEnregistrerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = null;//request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             String role = (String) session.getAttribute("role");
             if ("ROLE_CLIENT".equals(role)) {

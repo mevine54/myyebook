@@ -65,7 +65,7 @@ public class Compte {
     public void setPassword(String password) {
         int maxLen = 150;
         int minLen = 8;
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
 
         if (password == null) {
             throw new NullValueException("Le mot de passe ne peut pas être null");

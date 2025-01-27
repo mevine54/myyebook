@@ -201,5 +201,42 @@ public class ClientDAOImp implements ClientDAO {
                 connection.rollback();
                 throw new RuntimeException(e);
             }
-        }    }
+        }
+    }
+
+    @Override
+    public Client getParCompteId(Integer cptId) throws SQLException {
+        Client client = null;
+        Compte compte = null;
+        String sql = "SELECT * FROM compte c INNER JOIN client cl on c.cpt_id = cl.cpt_id WHERE c.cpt_id = ? ;";
+
+        try (
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                compte = new Compte(
+                        rs.getInt("cpt_id"),
+                        rs.getString("cpt_login"),
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
+                );
+
+                client = new Client(
+                        rs.getInt("cli_id"),
+                        compte,
+                        rs.getString("cli_nom"),
+                        rs.getString("cli_prenom"),
+                        rs.getString("cli_email"),
+                        rs.getString("cli_adresse"),
+                        rs.getString("cli_ville"),
+                        rs.getString("cli_code_postale")
+                );
+            }
+
+        }
+
+        return client;
+    }
 }
