@@ -31,22 +31,21 @@ public class ListeCategorieServlet extends HttpServlet {
         CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
 //        HttpSession session = request.getSession(true);
 //        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
-        log.info("listecategorie ");
 
         try {
             List<Categorie> categories = categorieDAOImpl.getAll();
-            log.info("categories: " + categories);
             request.setAttribute("categories", categories);
+            //Récupérer l'url du site
+            String currentURL = request.getRequestURL().toString();
+            //Enregistre l'url dans la variable et envoye à la page JSP
+            request.setAttribute("currentURL", currentURL);
             this.getServletContext().getRequestDispatcher("/JSP/page/listeCategorie.jsp").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("Cannot obtain categories from DB", e);
         }
 
 
-        //Récupérer l'url du site
-        String currentURL = request.getRequestURL().toString();
-        //Enregistre l'url dans la variable et envoye à la page JSP
-        request.setAttribute("currentURL", currentURL);
+
 
     }
 
