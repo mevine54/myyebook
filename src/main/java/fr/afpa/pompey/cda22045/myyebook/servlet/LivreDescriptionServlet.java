@@ -1,5 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.livredao.LivreDAOImpl;
+import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "LivreDescriptionServlet", value = "/livre")
 public class LivreDescriptionServlet extends HttpServlet {
@@ -18,27 +22,33 @@ public class LivreDescriptionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Récupération de l'id du livre
-//        String id = request.getParameter("id");
-//
-//        // Vérifie si l'id est null
-//        if (id == null) {
-//            // Redirection vers la page d'accueil
-//            this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
-//        }
+        String idStr = request.getParameter("id");
 
-        //TODO: Faire une requête pour récupérer les informations du livre
+        if (idStr != null && idStr.matches("\\d+")) {
+            int id = Integer.parseInt(idStr);
+            System.out.println(id);
+            LivreDAOImpl livreDaoImpl = new LivreDAOImpl();
+            Livre livre;
+            List<Livre> livreSimilaireList;
+            try {
+                livre = livreDaoImpl.get(id);
+                if (livre != null) {
+                    request.setAttribute("livre", livre);
+                    livreSimilaireList = livreDaoImpl.getParCategorie(livre.getCategorie().getId());
+                    request.setAttribute("livreSimilaireList", livreSimilaireList);
+                    this.getServletContext().getRequestDispatcher("/JSP/page/livredescription.jsp").forward(request, response);
+                }
+            } catch (SQLException e) {
+                System.out.println("sql exception");
+                throw new RuntimeException(e);
+            }
+        }
+        else{
+            response.sendRedirect(request.getContextPath() + "/accueil");
+//        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
 
-        //TODO: Récupère le id catégories du livre
+        }
 
-        //TODO : Faire une requête pour récupérer les livres de la même catégorie
-        // et à afficher dans la page "Les livres similaire"
-
-
-
-
-        //redirection vers la page JSP de description du livre
-        this.getServletContext().getRequestDispatcher("/JSP/page/livredescription.jsp").forward(request, response);
     }
 
     @Override

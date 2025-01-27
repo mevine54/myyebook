@@ -38,7 +38,7 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label for="formFile" class="form-label">Photo de l'auteur</label>
-                            <input class="form-control" type="file" id="formFile">
+                            <input class="form-control bi bi-file-image-fill-exclamation" type="file" id="formFile">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">

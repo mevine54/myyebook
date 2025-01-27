@@ -18,16 +18,21 @@ public class Compte {
     public Compte() {
     }
 
-    public Compte(String login, String password,String role) {
+    public Compte(String login, String password) {
         setLogin(login);
         setPassword(password);
-        setRole(role);
 
     }
 
-    public Compte(Integer compteId, String login, String password, String role) {
-        this(login, password,role);
+    public Compte(Integer compteId, String login, String password) {
+        this(login, password);
         setCompteId(compteId);
+    }
+
+    public Compte(Integer compteId, String login, String password,String role) {
+        this(login, password);
+        setCompteId(compteId);
+        setRole(role);
     }
 
     public void setCompteId(Integer compteId) {
@@ -60,7 +65,7 @@ public class Compte {
     public void setPassword(String password) {
         int maxLen = 150;
         int minLen = 8;
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{" + minLen + "," + maxLen + "}$";
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
 
         if (password == null) {
             throw new NullValueException("Le mot de passe ne peut pas être null");
@@ -69,14 +74,14 @@ public class Compte {
         } else if (password.length() > maxLen) {
             throw new LongueurMaximaleException("Le mot de passe doit avoir au maximum " + maxLen + " caractères");
         } else if (!password.matches(regex)) {
-            throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial: @$!%*?& ");
+            throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
         }
         // TODO: Hash password
         this.password = password;
 
     }
 
-    public void setRole(String role) {
+    protected void setRole(String role) {
         if (role == null) {
             throw new NullValueException("Le role ne peut pas être null");
         } else if (role.equals("ROLE_LIBRAIRE") || role.equals("ROLE_CLIENT") || role.equals("ROLE_LIBRAIRE_ATTENTE")) {

@@ -1,3 +1,30 @@
+/* Définir la police Merriweather */
+@font-face {
+    font-family: 'Merriweather';
+    src: url('../fonts/Merriweather/Merriweather-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Définir la police Open Sans */
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/Open_Sans/static/OpenSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Appliquer Merriweather aux titres */
+h1, h2, h3, h4, h5, h6, .titre {
+    font-family: 'Merriweather', serif;
+}
+
+/* Appliquer Open Sans aux textes */
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+
 .barnav{
     height: 60px;
 }
@@ -7,8 +34,27 @@
     width: 70px;
 }
 
-.bi{
+.bi, .bi-file-image::before{
     width: 36px;
     height: 36px;
 }
 
+
+header  a  img {
+    width: 50px;
+    height: 50px;
+
+}
+
+header,footer {
+    background-color:#4e9ecbf7;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+
+body {
+   background-color: #e1d4c526;
+}

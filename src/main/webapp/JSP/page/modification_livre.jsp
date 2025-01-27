@@ -24,60 +24,65 @@
             <!-- Menu latérale pour client -->
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
-                <div class="d-flex justify-content-center my-3">
-                    <h2>Modification du livre</h2>
-                </div>
-                <form class="mx-auto col-lg-7" method="POST" action="LivreModification">
-                    <a href="${pageContext.request.contextPath}/ListeLivre" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="nom" class="form-label">Nom du livre</label>
-                            <input type="text" class="form-control" id="nom" name="nom" required>
-                        </div>
-                        <div class="col ">
-                            <label for="auteur" class="form-label">Auteur</label>
-                            <input type="text" class="form-control" id="auteur" name="auteur" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="categorie" class="form-label">Catégories</label>
-                            <select class="form-select" id="categorie" name="categorie" required>
-                                <option selected disabled>Veuillez selectionner une option</option>
-
-                                <!-- A modifier et remplacer avec une list JAVA -->
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-
-                            </select>
-                        </div>
-                        <div class="mt-3 input-group mb-3">
-                            <label class="input-group-text" for="img" >Choisissez une nouvelle couverture</label>
-                            <input type="file" id="img"  class="form-control bi-building-fill-exclamation" accept="image/png, image/jpeg" >
-                        </div>
-
-                        <%--                <div class="mt-3 d-flex flex-column">--%>
-                        <%--                    <label for="img">Choisissez une nouvelle couverture</label>--%>
-                        <%--                    <input type="file" class="bi-building-fill-exclamation" id="img" accept="image/png, image/jpeg" >--%>
-                        <%--                </div>--%>
-                    </div>
-                    <%--            <h3>Resumé</h3>--%>
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="resume" class="form-label">Resume</label>
-                            <textarea class="form-control" style="height: 150px" id="resume" placeholder="Ecrivez ici..."></textarea>
-                            <%--                    <input class="h-50" type="text" class="form-control" id="resume" name="resume" required>--%>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center mt-3">
-                        <button type="submit" class="btn btn-outline-info fw-bold rounded-0 mx-3 px-3">Valider</button>
-                        <button type="reset" class="btn btn-outline-secondary fw-bold rounded-0 mx-3 px-3">Annuler</button>
-                    </div>
-                </form>
-            </div>
+                       <div class="d-flex justify-content-center my-3">
+            <h2>Modification du livre </h2>
         </div>
+        <form class="mx-auto col-lg-7" enctype="multipart/form-data" method="POST"
+              action="LivreModification">
+            <a href="${pageContext.request.contextPath}/ListeLivre" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="nom" class="form-label">Nom du livre</label>
+                    <input type="text" class="form-control" id="nom" name="nom"  value="<c:out value="${livre.titre}"/>" required>
+                </div>
+                <div class="col">
+                    <label for="categorie" class="form-label">Auteur</label>
+                    <select class="form-select" id="auteur" name="auteur" required>
+                        <option value="" selected disabled>Veuillez selectionez une option</option>
+                        <c:forEach var="auteur" items="${requestScope.auteurList}">
+<%--                            <c:choose>--%>
+<%--                                <c:when test="${auteur.auteurId} ==${livre.auteur.auteurId} ">--%>
+<%--                                    <option selected value="<c:out value="${auteur.auteurId}"/>"><c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}" /></option>--%>
+<%--                                </c:when>--%>
+<%--                                <c:otherwise>--%>
+                                    <option value="<c:out value="${auteur.auteurId}"/>"><c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/></option>
 
+<%--                                </c:otherwise>--%>
+<%--                            </c:choose>--%>
+                        </c:forEach>
+                    </select>
+</div>
+                
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="categorie" class="form-label">Categories</label>
+                    <select class="form-select" id="categorie" name="categorie" required>
+                        <option value="" selected disabled>Veuillez selectionez une option</option>
+                        <c:forEach var="categorie" items="${requestScope.categorieList}">
+                            <option value="<c:out value="${categorie.id}"/>"><c:out value="${categorie.nom}"/></option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="mt-3 input-group mb-3">
+                    <label class="input-group-text" for="img">Choisissez une nouvelle couverture</label>
+                    <input type="file" id="img" name="img" class="form-control bi bi-file-image fill-exclamation"
+                           accept="image/png, image/jpeg" required>
+                </div>
+            </div>
+            <%--            <h3>Resumé</h3>--%>
+            <div class="row mb-3">
+                <div class="col-12 mb-3">
+                    <label for="resume" class="form-label">Resume</label>
+                    <textarea class="form-control" style="height: 150px" id="resume" name="resume"
+                              placeholder="Ecrirvez ici..."><c:out value="${livre.resume}"/></textarea>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button type="submit" class="btn btn-outline-info fw-bold rounded-0 mx-3 px-3">Validez</button>
+                <button type="reset" class="btn btn-outline-secondary fw-bold rounded-0 mx-3 px-3">Annulez</button>
+            </div>
+        </form>
     </div>
 
 

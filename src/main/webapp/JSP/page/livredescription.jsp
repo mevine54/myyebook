@@ -14,88 +14,75 @@
           content="Bienvenue à MyyeBook, votre bibliothèque locale offrant une vaste collection de livres pour tous les âges et tous les goûts. Venez découvrir notre espace convivial, participer à nos événements littéraires et profiter de nos services de prêt. Rejoignez notre communauté de lecteurs passionnés dès aujourd'hui !">
     <link rel="stylesheet" href="${bootstrap}">
     <link rel="stylesheet" href="${style}">
-    <%-- TODO: A modifier le titre du document en récupérant les info du controller --%>
-    <title>Livre : TitreDuLivre - MyyeBook</title>
+    <title>Livre :  <c:out value="${requestScope.livre.titre}"/> - MyyeBook</title>
 </head>
 <%-- SERVLET: LivreDescriptionServlet --%>
 <body class="d-flex flex-column vh-100">
 <c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
-    <div class="container">
-        <div class="row my-5">
-            <div class="col-lg-3">
-                <img src="${couv_livre}" alt="" class="img-fluid">
-            </div>
-            <div class="col-9 d-flex flex-column">
-                <div class="fs-3 fw-bold mt-2">
-                    Titre du livre
+    <div id="search-results">
+
+        <div class="container">
+            <div class="row my-5">
+                <div class="col-lg-3">
+                    <img src="${couv_livre}" alt="<c:out value="${requestScope.livre.titre}"/>" class="img-fluid">
                 </div>
-                <div class="fs-5">
-                    Nom de l'auteur
-                </div>
-                <div class="">
-                    <div class="mb-lg-auto">
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis labore culpa natus recusandae, error consequatur, nihil doloribus modi commodi dolorem ducimus sequi quidem et, provident inventore quod perferendis nemo non?
-                        </p>
+                <div class="col-9 d-flex flex-column">
+                    <div class="fs-3 fw-bold mt-2">
+                        <c:out value="${requestScope.livre.titre}"/>
+                    </div>
+                    <div class="fs-5">
+                        <c:out value="${requestScope.livre.auteur.prenom}"/> <c:out
+                            value="${requestScope.livre.auteur.nom}"/>
                     </div>
                     <div class="">
-                        <div class="d-flex">
-                            <button type="button" class="btn btn-outline-info fw-bold rounded-0">Emprunter ce livre</button>
+                        <div class="mb-lg-auto">
+                            <p>
+                                <c:out value="${requestScope.livre.resume}"/>
+                            </p>
+                        </div>
+                        <div class="">
+                            <div class="d-flex">
+                                <button type="button" class="btn btn-outline-info fw-bold rounded-0">Emprunter ce livre
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--  ************ PARTIE : LES LIVRES SIMILAIRES ************ -->
+        <div class="container bg-secondary-subtle my-3 py-1">
+            <div class="fs-3 fw-bold">Les livres similaires</div>
+            <div class="d-flex overflow-x-auto">
+                <c:forEach var="livreSimilaire" items="${requestScope.livreSimilaireList}">
+                    <a href="<c:url value='/livre?id=${livreSimilaire.id}'/>">
+                        <div class="my-2 mx-2">
+                            <div class="card" style="width: 150px;">
+                                <img src="${couv_livre}" class="card-img-top"
+                                     alt="<c:out value="${requestScope.livre.titre}"/>">
+                            </div>
+                        </div>
+                    </a>
+                </c:forEach>
+                <div class="my-2 mx-2">
+                    <div class="card bg-white" style="width: 150px;">
+                        <img src="${couv_livre}" class="card-img-top opacity-25" alt="...">
+                        <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                            <h5 class="card-title text-center text-dark fw-bold">Voir plus</h5>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </div>
-    <!--  ************ PARTIE : LES LIVRES SIMILAIRES ************ -->
-    <div class="container bg-secondary-subtle my-3 py-1">
-        <div class="fs-3 fw-bold">Les livres similaires</div>
-        <div class="d-flex overflow-x-auto">
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top" alt="...">
-                </div>
-            </div>
-            <div class="my-2 mx-2">
-                <div class="card bg-white" style="width: 150px;">
-                    <img src="${couv_livre}" class="card-img-top opacity-25" alt="...">
-                    <div class="card-img-overlay d-flex justify-content-center align-items-center">
-                        <h5 class="card-title text-center text-dark fw-bold">Voir plus</h5>
-                    </div>
-                </div>
-            </div>
 
-        </div>
     </div>
     <!-- *********** FIN DE CONTENU *********** -->
 </main>
-<c:import url="/WEB-INF/JSP/footer.jsp" />
+<c:import url="/WEB-INF/JSP/footer.jsp"/>
+<script src="<c:url value='/assets/js/htmx.js'/>"></script>
+<script src="<c:url value='/assets/js/script.js'/>"></script>
 </body>
 </html>

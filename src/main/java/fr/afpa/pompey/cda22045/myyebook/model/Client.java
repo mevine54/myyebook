@@ -17,7 +17,8 @@ public class Client extends Compte {
     }
 
     public Client(String login, String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(login, password,"ROLE_CLIENT");
+        super(login, password);
+        setRole("ROLE_CLIENT");
         setNom(nom);
         setPrenom(prenom);
         setEmail(email);
@@ -27,7 +28,11 @@ public class Client extends Compte {
     }
 
     public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(compte.getCompteId(), compte.getLogin(), compte.getPassword(), compte.getRole());
+        setCompteId(compte.getCompteId());
+        setLogin(compte.getLogin());
+        setPassword(compte.getPassword());
+        setRole("ROLE_CLIENT");
+        setNom(nom);
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -38,7 +43,10 @@ public class Client extends Compte {
     }
 
     public Client(Integer clientId, Integer compteId ,String login , String password,String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(compteId, login, password,"ROLE_CLIENT");
+        setCompteId(compteId);
+        setLogin(login);
+        setPassword(password);
+        setRole("ROLE_CLIENT");
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -149,6 +157,5 @@ public class Client extends Compte {
                 ", ville='" + ville + '\'' +
                 ", codePostal='" + codePostal + '\'' +
                 '}';
-
     }
 }

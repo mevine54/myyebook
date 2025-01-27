@@ -24,30 +24,7 @@
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des Livres</h1>
                 <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/CreeUnLivre">Créer un livre</a></div>
-                <%
-                    // Déclaration de la classe Livre directement dans le JSP
-                    class Livre {
-                        int id;
-                        String titre;
-                        String auteur;
-                        String image;
 
-                        Livre(int id, String titre, String auteur, String image) {
-                            this.id = id;
-                            this.titre = titre;
-                            this.auteur = auteur;
-                            this.image = image;
-                        }
-                    }
-
-                    // Création d'une liste de livres
-                    java.util.List<Livre> livres = new java.util.ArrayList<>();
-                    livres.add(new Livre(1, "Le Petit Prince", "Antoine de Saint-Exupéry", "/assets/images/img.png"));
-                    livres.add(new Livre(2, "Les Misérables", "Victor Hugo", "/assets/images/img.png"));
-                    livres.add(new Livre(3, "L'Étranger", "Albert Camus", "/assets/images/img.png"));
-                    livres.add(new Livre(4, "Germinal", "Émile Zola", "/assets/images/img.png"));
-                    livres.add(new Livre(5, "La Peste", "Albert Camus", "/assets/images/img.png"));
-                %>
 
                 <table class="table table-bordered">
                     <thead>
@@ -61,31 +38,29 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <%
-                        // Générer les lignes du tableau avec la liste de livres
-                        for (Livre livre : livres) {
-                    %>
-                    <tr>
-                        <td><%= livre.id %></td>
-                        <td><img class="" src="${pageContext.request.contextPath}<%= livre.image %>" alt="..." class="img-thumbnail" style="width: 50px; height: 50px;"></td>
-                        <td><%= livre.titre %></td>
-                        <td><%= livre.auteur %></td>
+        <c:forEach var="livre" items="${requestScope.livres}">
+                    <tr id="row<c:out value='${livre.id}'/>"  >
+                        <td><c:out value="${livre.id}"/></td>
+                        <td><img class="" src="<c:url value='/assets/images/img.png'/>" alt="..." class="img-thumbnail" style="width: 50px; height: 50px;"></td>
+                        <td><c:out value="${livre.titre}"/></td>
+                        <td><c:out value="${livre.auteur.prenom}"/> <c:out value="${livre.auteur.nom}"/></td>
                         <td>
                             <div class="form-check form-switch fs-5">
                                 <input class="form-check-input" type="checkbox" role="switch" id="switch">
                                 <label class="form-check-label" for="switch"></label>
                             </div>
-
-
                         </td>
                         <td>
-                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/LivreModification">Modifier</a>
-                            <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
+                            <a class="btn btn-outline-primary rounded-0" href="LivreModification?id=${livre.id}">Modifier</a>
+                            <a class="btn btn-outline-danger rounded-0"
+                               href="#"
+                               onclick="confirmDelete(event, ${livre.id})">
+                               Supprimer
+                            </a>
                         </td>
                     </tr>
-                    <%
-                        }
-                    %>
+        </c:forEach>
+
                     </tbody>
                 </table>
             </div>

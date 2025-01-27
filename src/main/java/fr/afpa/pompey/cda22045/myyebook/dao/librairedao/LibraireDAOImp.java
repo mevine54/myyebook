@@ -25,13 +25,15 @@ public class LibraireDAOImp implements LibraireDAO {
                 compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp"),
-                        rs.getString("cpt_role")
+                        rs.getString("cpt_mdp")
                 );
 
                 libraire = new Libraire(
                         rs.getInt("lib_id"),
-                        compte,
+                        compte.getCompteId(),
+                        compte.getLogin(),
+                        compte.getPassword(),
+                        rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
                 );
@@ -54,13 +56,15 @@ public class LibraireDAOImp implements LibraireDAO {
                 Compte compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp"),
-                        rs.getString("cpt_role")
+                        rs.getString("cpt_mdp")
                 );
 
                 Libraire libraire = new Libraire(
                         rs.getInt("lib_id"),
-                        compte,
+                        compte.getCompteId(),
+                        compte.getLogin(),
+                        compte.getPassword(),
+                        rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
                 );
@@ -71,7 +75,7 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int insert(Libraire libraire) throws SQLException {
+    public Integer insert(Libraire libraire) throws SQLException {
         String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         Integer compteId = 0;
         try {
@@ -112,7 +116,7 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int update(Libraire libraire) throws SQLException {
+    public Integer update(Libraire libraire) throws SQLException {
         String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ?, cpt_role = ? WHERE cpt_id = ?";
         try {
             Connection connection = DatabaseConnection.getInstanceDB();
@@ -149,7 +153,7 @@ public class LibraireDAOImp implements LibraireDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sqlGetCompteId = "SELECT c.cpt_id FROM Compte c INNER JOIN libraire l ON c.cpt_id = l.cpt_id WHERE l.lib_id = ?";
         String sqlDeleteLibraire = "DELETE FROM libraire WHERE lib_id = ?";
         String sqlDeleteCompte = "DELETE FROM Compte WHERE cpt_id = ?";

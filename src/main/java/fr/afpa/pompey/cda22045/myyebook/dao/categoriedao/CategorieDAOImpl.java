@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.categoriedao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 
 import java.sql.Connection;
@@ -53,7 +54,7 @@ public class CategorieDAOImpl implements CategorieDAO {
     }
 
     @Override
-    public int insert(Categorie categorie) throws SQLException {
+    public Integer insert(Categorie categorie) throws SQLException {
         String sql = "INSERT INTO Categorie (cat_nom) VALUES (?)";
         Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -71,7 +72,7 @@ public class CategorieDAOImpl implements CategorieDAO {
     }
 
     @Override
-    public int update(Categorie categorie) throws SQLException {
+    public Integer update(Categorie categorie) throws SQLException {
         String sql = "UPDATE Categorie SET cat_nom = ? WHERE cat_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
@@ -85,7 +86,7 @@ public class CategorieDAOImpl implements CategorieDAO {
     }
 
     @Override
-    public int delete(Integer id) throws SQLException {
+    public Integer delete(int id) throws SQLException {
         String sql = "DELETE FROM Categorie WHERE cat_id = ?";
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
