@@ -15,6 +15,7 @@ CREATE TABLE Compte(
    cpt_id INT AUTO_INCREMENT,
    cpt_login VARCHAR(20) NOT NULL,
    cpt_mdp VARCHAR(300) NOT NULL,
+   cpt_date DATE NOT NULL DEFAULT (CURRENT_DATE) ,
    cpt_role ENUM( 'ROLE_CLIENT','ROLE_LIBRAIRE','ROLE_LIBRAIRE_ATTENTE') NOT NULL ,
    PRIMARY KEY(cpt_id),
    UNIQUE(cpt_login)
@@ -45,6 +46,7 @@ CREATE TABLE Libraire(
    lib_id INT AUTO_INCREMENT,
    lib_nom VARCHAR(50) NOT NULL,
    lib_prenom VARCHAR(50) NOT NULL,
+   lib_est_approuve BOOLEAN ,
    cpt_id INT NOT NULL,
    PRIMARY KEY(lib_id),
    UNIQUE(cpt_id),

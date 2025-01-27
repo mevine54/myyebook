@@ -1,15 +1,15 @@
 -- Insertion dans la table Auteur
 INSERT INTO Auteur (aut_nom, aut_prenom, aut_photo)
-VALUES ('Hugo', 'Victor', '/hugo.jpg'),
-       ('Dumas', 'Alexandre', '/dumas.jpg'),
-       ('Zola', 'Emile', '/zola.jpg'),
-       ('Camus', 'Albert', '/camus.jpg'),
-       ('Proust', 'Marcel', '/proust.jpg'),
-       ('Sartre', 'Jean-Paul', '/sartre.jpg'),
-       ('Verne', 'Jules', '/verne.jpg'),
-       ('Flaubert', 'Gustave', '/flaubert.jpg'),
-       ('Balzac', 'Honoré', '/balzac.jpg'),
-       ('Molière', 'Jean-Baptiste', '/moliere.jpg');
+VALUES ('Hugo', 'Victor', 'hugo.jpg'),
+       ('Dumas', 'Alexandre', 'dumas.jpg'),
+       ('Zola', 'Emile', 'zola.jpg'),
+       ('Camus', 'Albert', 'camus.jpg'),
+       ('Proust', 'Marcel', 'proust.jpg'),
+       ('Sartre', 'Jean-Paul', 'sartre.jpg'),
+       ('Verne', 'Jules', 'verne.jpg'),
+       ('Flaubert', 'Gustave', 'flaubert.jpg'),
+       ('Balzac', 'Honoré', 'balzac.jpg'),
+       ('Molière', 'Jean-Baptiste', 'moliere.jpg');
 
 -- Insertion dans la table Categorie
 INSERT INTO Categorie (cat_nom)
@@ -35,14 +35,18 @@ VALUES ('lib1', 'password1M!', 'ROLE_LIBRAIRE'),
        ('cli5', 'password7M!', 'ROLE_CLIENT'),
        ('cli6', 'password8M!', 'ROLE_CLIENT'),
        ('cli7', 'password9M!', 'ROLE_CLIENT'),
-       ('cli8', 'password10M!', 'ROLE_CLIENT');
+       ('cli8', 'password10M!', 'ROLE_CLIENT'),
+	   ('lib3', 'password3M!', 'ROLE_LIBRAIRE_ATTENTE')
+       
 ;
 
 
 -- Insertion dans la table Libraire
-INSERT INTO Libraire (lib_nom, lib_prenom, cpt_id)
-VALUES ('Durand', 'Paul', 1),
-       ('Martin', 'Anne', 2);
+INSERT INTO Libraire (lib_nom, lib_prenom,lib_est_approuve, cpt_id)
+VALUES ('Durand', 'Paul',TRUE, 1),
+       ('Martin', 'Anne',TRUE, 2),
+       ('Marc', 'John',FALSE, 11)
+       ;
 
 -- Insertion dans la table Client
 INSERT INTO Client (cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale, cpt_id)
@@ -57,16 +61,16 @@ VALUES ('Dupont', 'Jean', 'jean.dupont@example.com', '10 Rue de Paris', 'Paris',
 
 -- Insertion dans la table Livre
 INSERT INTO Livre (liv_titre, liv_resume, liv_photo, liv_en_avant, aut_id, cat_id)
-VALUES ('Les Misérables', 'Un roman historique...', '/les_miserables.jpg', true, 1, 1),
-       ('Le Comte de Monte-Cristo', 'Un classique...', '/monte_cristo.jpg', false, 2, 1),
-       ('Germinal', 'Une fresque sociale...', '/germinal.jpg', true, 3, 1),
-       ('L’Étranger', 'Un roman philosophique...', '/etranger.jpg', false, 4, 4),
-       ('À la recherche du temps perdu', 'Un chef-d’œuvre...', '/temps_perdu.jpg', false, 5, 1),
-       ('Les Mouches', 'Une pièce de théâtre...', '/les_mouches.jpg', true, 6, 3),
-       ('Vingt mille lieues sous les mers', 'Un roman d’aventure...', '/20mille.jpg', true, 7, 2),
-       ('Madame Bovary', 'Une œuvre réaliste...', '/madame_bovary.jpg', false, 8, 1),
-       ('La Comédie humaine', 'Un cycle de romans...', '/comedie_humaine.jpg', false, 9, 1),
-       ('Le Malade imaginaire', 'Une comédie...', '/malade_imaginaire.jpg', true, 10, 3);
+VALUES ('Les Misérables', 'Un roman historique...', 'les_miserables.jpg', true, 1, 1),
+       ('Le Comte de Monte-Cristo', 'Un classique...', 'monte_cristo.jpg', false, 2, 1),
+       ('Germinal', 'Une fresque sociale...', 'germinal.jpg', true, 3, 1),
+       ('L’Étranger', 'Un roman philosophique...', 'etranger.jpg', false, 4, 4),
+       ('À la recherche du temps perdu', 'Un chef-d’œuvre...', 'temps_perdu.jpg', false, 5, 1),
+       ('Les Mouches', 'Une pièce de théâtre...', 'les_mouches.jpg', true, 6, 3),
+       ('Vingt mille lieues sous les mers', 'Un roman d’aventure...', '20mille.jpg', true, 7, 2),
+       ('Madame Bovary', 'Une œuvre réaliste...', 'madame_bovary.jpg', false, 8, 1),
+       ('La Comédie humaine', 'Un cycle de romans...', 'comedie_humaine.jpg', false, 9, 1),
+       ('Le Malade imaginaire', 'Une comédie...', 'malade_imaginaire.jpg', true, 10, 3);
 
 -- Insertion dans la table Exemplaire
 INSERT INTO Exemplaire (liv_id)
