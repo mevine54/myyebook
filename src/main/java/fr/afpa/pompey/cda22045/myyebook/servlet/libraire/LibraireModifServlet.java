@@ -31,12 +31,12 @@ public class LibraireModifServlet extends HttpServlet {
             int id = Integer.parseInt(idStr);
             LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
             try {
-                libraires = LibraireDAOImp.get(id);
+                libraires = libraireDAOImp.get(id);
                 if (libraires != null) {
-                    Categorie categorie = LibraireDAOImp.get(id);
+                    Libraire libraire = libraireDAOImp.get(id);
 
-                    request.setAttribute("categories", categorie);
-                    this.getServletContext().getRequestDispatcher("/JSP/page/modifCategorie.jsp").forward(request, response);
+                    request.setAttribute("libraire", libraire);
+                    this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -53,19 +53,34 @@ public class LibraireModifServlet extends HttpServlet {
         // TODO: Implement
         // Récupérer les paramètres du formulaire
         System.out.println("libraire info post");
+        String idLibraire = request.getParameter("idLibraire");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        String email = request.getParameter("email");
-        String rue = request.getParameter("rue");
-        String codePostal = request.getParameter("codePostal");
-        String ville = request.getParameter("ville");
+        String idCompte = request.getParameter("idCompte");
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
 
-        System.out.println("Nom: " + nom);
-        System.out.println("Prénom: " + prenom);
-        System.out.println("email: " + email);
-        System.out.println("rue: " + rue);
-        System.out.println("codePostal: " + codePostal);
-        System.out.println("ville: " + ville);
+        if(nom == null || prenom == null || login == null || password == null) {
+            response.sendRedirect(request.getContextPath() + "/ModifLibraire?info=error");
+            this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
+        } else {
+            LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
+            Libraire libraire = new Libraire(
+                    Integer.parseInt(idLibraire),
+                    Integer.parseInt(idCompte),
+                    login,
+                    password,
+                    true,
+                    nom,
+                    prenom
+            );
+            try {
+                libraireDAOImp.update(libraire);
+                response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
 
         // Valider et traiter les paramètres

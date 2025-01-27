@@ -31,12 +31,18 @@
                         Création du libraire réussie !
                     </div>
                 </c:if>
+                <c:if test="${param.info == 'successModif'}">
+                    <div class="alert alert-success" role="alert">
+                        Modification du libraire réussie !
+                    </div>
+                </c:if>
                 <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un libraire</a></div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Libraire</th>
-                            <th>Email</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -45,6 +51,7 @@
                         <tr>
                             <td>${libraire.libId}</td>
                             <td>${libraire.nom}</td>
+                            <td>${libraire.prenom}</td>
                             <td>
                                 <a class="btn btn-outline-primary rounded-0 mx-1" href="${pageContext.request.contextPath}/ModifLibraire?id=${libraire.libId}">Modifier</a>
                                 <a class="btn btn-outline-danger rounded-0 mx-1" href="">Supprimer</a>
