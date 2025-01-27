@@ -34,15 +34,20 @@
                         <th>Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
+
+                    <c:forEach var="client" items="${requestScope.clients}">
                     <tr>
-                        <td>John Doe</td>
-                        <td>john.doe@gmail.com</td>
+                        <td><c:out value="${client.id}"/></td>
+                        <td><c:out value="${client.nom}"/></td>
+                        <td><c:out value="${client.email}"/></td>
+
                         <td>
                             <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifClient">Modifier</a>
                             <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
                         </td>
                     </tr>
+                    </c:forEach>
+
                     </tbody>
                 </table>
             </div>
