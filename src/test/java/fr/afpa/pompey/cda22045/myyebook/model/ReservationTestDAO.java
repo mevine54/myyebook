@@ -1,7 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
-import fr.afpa.pompey.cda22045.myyebook.dao.reservationDAO.ReservationDAO;
-import fr.afpa.pompey.cda22045.myyebook.dao.reservationDAO.ReservationDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.dao.reservationdao.ReservationDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +29,7 @@ public class ReservationTestDAO {
      */
     @BeforeEach
     public void setUp() {
-        this.reservationDAO = new ReservationDAOImp();
+//        this.reservationDAO = new ReservationDAOImp();
         this.reservation = new Reservation();
     }
 

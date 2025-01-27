@@ -10,4 +10,3 @@ public interface AuteurDAO extends DAO<Auteur> {
     List<Auteur> getParNom(String nom) throws SQLException;
     Integer getNbAuteurs() throws SQLException;
 }
-

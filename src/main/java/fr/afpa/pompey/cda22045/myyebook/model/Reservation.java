@@ -24,9 +24,6 @@ public class Reservation {
 //        setLivre(livre);
 //    }
 
-
-
-
     public Reservation(Integer resId, Client client, Livre livre) {
         setResId(resId);
         setClient(client);

@@ -1,5 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
+
 import fr.afpa.pompey.cda22045.myyebook.exception.*;
 import lombok.*;
 
@@ -66,14 +67,17 @@ public class Compte {
         }
         // TODO: Hash password
         this.password = password;
+
     }
 
     @Override
     public String toString() {
+
         return "Compte{" +
                 "cptId=" + compteId +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
+
     }
 }

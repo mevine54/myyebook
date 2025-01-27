@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.auteurdao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 
 import java.sql.Connection;
@@ -22,10 +22,13 @@ public class AuteurDAOImpl implements AuteurDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                auteur.setAuteurId(resultSet.getInt("aut_id"));
-                auteur.setNom(resultSet.getString("aut_nom"));
-                auteur.setPrenom(resultSet.getString("aut_prenom"));
-                auteur.setPhoto(resultSet.getString("aut_photo"));
+                auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+
+                );
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -42,11 +45,13 @@ public class AuteurDAOImpl implements AuteurDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Auteur auteur = null;
-                auteur.setAuteurId(resultSet.getInt("aut_id"));
-                auteur.setNom(resultSet.getString("aut_nom"));
-                auteur.setPrenom(resultSet.getString("aut_prenom"));
-                auteur.setPhoto(resultSet.getString("aut_photo"));
+                Auteur auteur = new Auteur(
+                        resultSet.getInt("aut_id"),
+                        resultSet.getString("aut_nom"),
+                        resultSet.getString("aut_prenom"),
+                        resultSet.getString("aut_photo")
+
+                );
                 auteurs.add(auteur);
             }
         } catch (SQLException e) {
@@ -57,13 +62,19 @@ public class AuteurDAOImpl implements AuteurDAO {
 
     @Override
     public int insert(Auteur auteur) throws SQLException {
-        String sql = "INSERT INTO Auteur (aut_nom, aut_prenom) VALUES (?, ?)";
-
+        String sql = "INSERT INTO Auteur (aut_nom, aut_prenom,aut_photo) VALUES (?, ?,?)";
+        Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, auteur.getNom());
             ps.setString(2, auteur.getPrenom());
-            return ps.executeUpdate();
+            ps.setString(3, auteur.getPhoto());
+            ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,13 +82,14 @@ public class AuteurDAOImpl implements AuteurDAO {
 
     @Override
     public int update(Auteur auteur) throws SQLException {
-        String sql = "UPDATE Auteur SET aut_nom = ?, aut_prenom = ? WHERE aut_id = ?";
+        String sql = "UPDATE Auteur SET aut_nom = ?, aut_prenom = ? , aut_photo = ? WHERE aut_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, auteur.getNom());
             ps.setString(2, auteur.getPrenom());
-            ps.setInt(3, auteur.getAuteurId());
+            ps.setString(3, auteur.getPhoto());
+            ps.setInt(4, auteur.getAuteurId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -134,5 +146,6 @@ public class AuteurDAOImpl implements AuteurDAO {
         }
         return null;
     }
+
 }
 

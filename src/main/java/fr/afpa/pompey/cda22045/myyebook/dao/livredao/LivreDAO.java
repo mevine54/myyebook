@@ -11,5 +11,3 @@ public interface LivreDAO extends DAO<Livre> {
     List<Livre> getParCategorie(int catId) throws SQLException;
     Integer getNbLivres() throws SQLException;
 }
-
-

@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

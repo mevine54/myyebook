@@ -12,6 +12,8 @@ public class Exemplaire {
     private Integer exemplaireId;
     private Livre livre;
 
+    public Exemplaire() {
+    }
 
     public Exemplaire(Integer exemplaireId, Livre livre) {
         setExemplaireId(exemplaireId);
@@ -32,6 +34,13 @@ public class Exemplaire {
         this.livre = livre;
     }
 
-    // TODO: CLASSE TEST
+    @Override
+    public String toString() {
+        return "Exemplaire{" +
+                "exemplaireId=" + exemplaireId +
+                ", livre=" + livre +
+                '}';
+    }
+// TODO: CLASSE TEST
 
 }

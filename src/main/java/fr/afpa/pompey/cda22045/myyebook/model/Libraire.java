@@ -39,9 +39,11 @@ public class Libraire extends Compte {
     public void setLibId(Integer libId) {
         if ( libId != null &&  libId <= 0) {
             throw new IllegalArgumentException("L'id ne peut pas etre inferieur ou egal a zero");
+
         }
         this.libId = libId;
     }
+
 
     public void setNom(String nom) {
         int longueurMin = 2;
@@ -55,7 +57,7 @@ public class Libraire extends Compte {
 
 
         nom = nom.trim();
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-\\s]{" + longueurMin + "," + longueurMax + "}$";
         if (nom.length() < longueurMin) {
             throw new LongueurMinimaleException("Le nom de la libraire est trop court:" + nom + ", " + nom.length() + " caracteres");
         } else if (nom.length() > longueurMax) {
@@ -74,7 +76,7 @@ public class Libraire extends Compte {
             throw new NullValueException("Le prenom de la libraire ne peut pas etre null");
         }
         prenom = prenom.trim();
-        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ\\s]{" + longueurMin + "," + longueurMax + "}$";
+        String regex = "^[A-Za-zàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]{" + longueurMin + "," + longueurMax + "}$";
         if (prenom.length() < longueurMin) {
             throw new LongueurMinimaleException("Le mot de passe doit avoir au minimum " + longueurMin + " caractères");
         } else if (prenom.length() > longueurMax) {
@@ -84,6 +86,7 @@ public class Libraire extends Compte {
         }
         this.prenom = prenom;
     }
+
 
 
 

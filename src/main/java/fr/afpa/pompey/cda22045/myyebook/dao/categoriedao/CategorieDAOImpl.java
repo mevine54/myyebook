@@ -1,6 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.categoriedao;
 
-import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
+import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 
 import java.sql.Connection;
@@ -21,8 +21,9 @@ public class CategorieDAOImpl implements CategorieDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                categorie.setId(resultSet.getInt("cat_id"));
-                categorie.setNom(resultSet.getString("cat_nom"));
+                categorie = new Categorie(
+                        resultSet.getInt("cat_id"),
+                        resultSet.getString("cat_nom"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,9 +40,10 @@ public class CategorieDAOImpl implements CategorieDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Categorie categorie = null;
-                categorie.setId(resultSet.getInt("cat_id"));
-                categorie.setNom(resultSet.getString("cat_nom"));
+                Categorie categorie = new Categorie(
+                resultSet.getInt("cat_id"),
+                resultSet.getString("cat_nom")
+                );
                 categories.add(categorie);
             }
         } catch (SQLException e) {
@@ -53,11 +55,16 @@ public class CategorieDAOImpl implements CategorieDAO {
     @Override
     public int insert(Categorie categorie) throws SQLException {
         String sql = "INSERT INTO Categorie (cat_nom) VALUES (?)";
-
+        Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, categorie.getNom());
-            return ps.executeUpdate();
+            ps.executeUpdate();
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                id = generatedKeys.getInt(1);
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +87,6 @@ public class CategorieDAOImpl implements CategorieDAO {
     @Override
     public int delete(Integer id) throws SQLException {
         String sql = "DELETE FROM Categorie WHERE cat_id = ?";
-
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
