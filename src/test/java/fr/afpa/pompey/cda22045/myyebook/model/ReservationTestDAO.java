@@ -9,13 +9,12 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The type Reservation test.
  */
-public class ReservationTest {
+public class ReservationTestDAO {
     /**
      * The Reservation dao.
      */
@@ -44,8 +43,8 @@ public class ReservationTest {
     @Test
 public void testInsertRes() throws SQLException {
     // Création du client
-    Client client = new Client("asdd", "asdasd!A2", "Dupont", "Jean", "jean.dupont@example.com", "10 Rue de Paris", "Paris", "75001");
-    client.setClientId(1);  //  Vérifie que cet ID existe dans la base
+    Client client = new Client("asdhd", "asdasd!A2", "Duponth", "Jeanh", "jeahn.dupont@example.com", "10 Rue de Paris", "Paris", "75001");
+    client.setClientId(18);  //  Vérifie que cet ID existe dans la base
 
     // Création du livre
     Livre livre = new Livre();
@@ -66,6 +65,8 @@ public void testInsertRes() throws SQLException {
 
     // Comparaison des dates uniquement sur la date (sans l'heure)
     assertEquals(reservation.getDatetime().toLocalDate(), reservationFromDB.getDatetime().toLocalDate(), "Les dates de réservation ne correspondent pas");
+
+    System.out.println(reservation);
 }
 
 
@@ -134,9 +135,14 @@ public void testInsertRes() throws SQLException {
         System.out.println(updatedReservation);
     }
 
+//    A trerminer apres la modif des cascade dans la BDD
     @Test
     public void testDeleteRes() throws SQLException {
         Reservation reservation = reservationDAO.get(1);
+        assertNotNull(reservation,"La réservation avec l'ID" + reservation +"doit exister avant la suppression.");
+        reservationDAO.delete(1);
+
+
 
     }
 

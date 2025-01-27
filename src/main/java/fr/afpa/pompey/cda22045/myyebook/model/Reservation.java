@@ -83,7 +83,7 @@ public class Reservation {
                 "\nLivreID: " + getLivre() +
                 "\nClientID: " + getClient().getClientId() +
                 "\nDate de reservation: " + getDatetime() +
-                "\nCategorie d'achat: " + getResId() +
+                "\nNom Client: " + getClient().getPrenom() +
                 "]\n";
     }
 }

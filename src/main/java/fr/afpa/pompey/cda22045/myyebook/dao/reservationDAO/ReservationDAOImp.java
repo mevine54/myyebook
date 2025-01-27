@@ -32,17 +32,29 @@ public class ReservationDAOImp implements ReservationDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
+
                 reservation.setResId(rs.getInt("res_id"));
                 reservation.setDatetime(rs.getTimestamp("res_date").toLocalDateTime());
 
-                Livre livre = new Livre();
-                livre.setId(rs.getInt("liv_id"));
-
+//                Récupération de tous les champs du client
                 Client client = new Client();
                 client.setClientId(rs.getInt("cli_id"));
+                client.setPrenom(rs.getString("cli_prenom"));
+                client.setNom(rs.getString("cli_nom"));
+                client.setEmail(rs.getString("cli_email"));
+                client.setAdresse(rs.getString("cli_adresse"));
+                client.setVille(rs.getString("cli_ville"));
+                client.setCodePostal(rs.getString("cli_code_postale"));
 
-                reservation.setLivre(livre);  // Association du livre
+//                Récupération de tous les champs du livre
+                Livre livre = new Livre();
+                livre.setId(rs.getInt("liv_id"));
+                livre.setTitre(rs.getString("liv_titre"));
+                livre.setResume(rs.getString("liv_resume"));
+                livre.setImage(rs.getString("liv_photo"));
+
                 reservation.setClient(client);  // Association du client
+                reservation.setLivre(livre);  // Association du livre
             }
 
         } catch (SQLException e) {
@@ -73,11 +85,22 @@ public class ReservationDAOImp implements ReservationDAO {
 
 
             while (rs.next()) {
-                Livre livre = new Livre();
-                livre.setId(rs.getInt("liv_id"));
-
+//                Récupération de tous les champs du client
                 Client client = new Client();
                 client.setClientId(rs.getInt("cli_id"));
+                client.setPrenom(rs.getString("cli_prenom"));
+                client.setNom(rs.getString("cli_nom"));
+                client.setEmail(rs.getString("cli_email"));
+                client.setAdresse(rs.getString("cli_adresse"));
+                client.setVille(rs.getString("cli_ville"));
+                client.setCodePostal(rs.getString("cli_code_postale"));
+
+//                Récupération de tous les champs du livre
+                Livre livre = new Livre();
+                livre.setId(rs.getInt("liv_id"));
+                livre.setTitre(rs.getString("liv_titre"));
+                livre.setResume(rs.getString("liv_resume"));
+                livre.setImage(rs.getString("liv_photo"));
 
                 Reservation reservation = new Reservation(
                         rs.getInt("res_id"),

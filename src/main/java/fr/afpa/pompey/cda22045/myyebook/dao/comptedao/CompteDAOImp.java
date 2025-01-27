@@ -4,10 +4,7 @@ import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
 import java.net.Inet4Address;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,11 +57,18 @@ public class CompteDAOImp implements CompteDAO {
         String sql = "INSERT INTO Compte (cpt_login, cpt_mdp) VALUES ( ?, ?)";
         int compteId = 0;
         try(
-                PreparedStatement ps = connection.prepareStatement(sql))
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
         {
             ps.setString(1, compte.getLogin());
             ps.setString(2, compte.getPassword());
-            int i = ps.executeUpdate();
+
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                compteId = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

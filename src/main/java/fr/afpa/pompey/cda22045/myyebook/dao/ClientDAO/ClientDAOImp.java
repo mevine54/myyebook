@@ -2,11 +2,11 @@ package fr.afpa.pompey.cda22045.myyebook.dao.ClientDAO;
 
 import fr.afpa.pompey.cda22045.myyebook.ConnectionBDD.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
+import fr.afpa.pompey.cda22045.myyebook.model.Emprunter;
+import fr.afpa.pompey.cda22045.myyebook.model.Reservation;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,28 +21,39 @@ public class ClientDAOImp implements ClientDAO {
     @Override
     public Client get(Integer id) throws SQLException {
         Client client = new Client();
-        String selectByID = ("select * from client where cl_id=?");
+        String selectByID = ("select * from client c " +
+                "JOIN compte cpt ON c.cpt_id = cpt.cpt_id " +
+                "WHERE cli_id=?");
 
         try(Connection connection = DatabaseConnection.getInstanceDB();
             PreparedStatement ps = connection.prepareStatement(selectByID)) {
+
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                client.setCompteId(rs.getInt("cpt_id"));
-                client.setNom(rs.getString("cpt_login"));
-                client.setPrenom(rs.getString("cpt_mdp"));
+
+            if(rs.next()) {
                 client.setClientId(rs.getInt("cli_id"));
                 client.setNom(rs.getString("cli_nom"));
                 client.setPrenom(rs.getString("cli_prenom"));
                 client.setEmail(rs.getString("cli_email"));
                 client.setAdresse(rs.getString("cli_adresse"));
                 client.setVille(rs.getString("cli_ville"));
-                client.setCodePostal(rs.getString("cl_code_postale"));
+                client.setCodePostal(rs.getString("cli_code_postale"));
 
-                ps.executeUpdate();
+//                Création de l'objet Compte associé au client
+                Compte compte = new Compte();
+                compte.setCompteId(rs.getInt("cpt_id"));
+                compte.setLogin(rs.getString("cpt_login"));
+                compte.setPassword(rs.getString("cpt_mdp"));
+
+                client.setCompteId(compte.getCompteId());
+                client.setLogin(compte.getLogin());
+                client.setPassword(compte.getPassword());
+
+
             }
         } catch (SQLException e) {
-            throw new SQLException("Imosible de trouver le client",e);
+            throw new SQLException("Impossible de trouver le client",e);
         }
         return client;
     }
@@ -57,8 +68,10 @@ public class ClientDAOImp implements ClientDAO {
     @Override
     public List<Client> getAll() throws SQLException {
         List<Client> clients = new ArrayList<>();
-        String sql = "SELECT * FROM Client cl" +
-                "join compte cp on cl.cpt_id=cp.cpt_id ";
+        String sql = "select * from client c " +
+                "JOIN compte cpt ON c.cpt_id = cpt.cpt_id " +
+                "JOIN emprunter e ON c.cli_id = e.cli_id " +
+                "JOIN reservation r ON c.cli_id = r.cli_id";
 
         try (   Connection connection = DatabaseConnection.getInstanceDB();
                 PreparedStatement ps = connection.prepareStatement(sql)
@@ -77,9 +90,34 @@ public class ClientDAOImp implements ClientDAO {
                         rs.getString("cli_ville"),
                         rs.getString("cli_code_postale")
                 ));
+
+//                Compte compte = new Compte();
+//                compte.setCompteId(rs.getInt("cpt_id"));
+//                compte.setLogin(rs.getString("cpt_login"));
+//                compte.setPassword(rs.getString("cpt_mdp"));
+
+                Emprunter emprunter = new Emprunter();
+                emprunter.setId(rs.getInt("emp_id"));
+                Timestamp empruntDate = rs.getTimestamp("emp_date_emprunt");
+                Timestamp retourDate = rs.getTimestamp("emp_date_retour");
+
+                if (empruntDate != null) {
+                    emprunter.setDatetimeEmprunt(empruntDate.toLocalDateTime());
+                }
+                if (retourDate != null) {
+                    emprunter.setDatetimeRetour(retourDate.toLocalDateTime());
+                }
+
+                Reservation reservation = new Reservation();
+                reservation.setResId(rs.getInt("res_id"));
+                Timestamp resDate = rs.getTimestamp("res_date");
+
+                if (resDate != null) {
+                    reservation.setDatetime(resDate.toLocalDateTime());
+                }
             }
         }catch (SQLException e) {
-            throw new SQLException("Imosible d'afficher les clients", e);
+            throw new SQLException("Impossible d'afficher les clients", e);
         }
         return clients;
     }
@@ -93,11 +131,11 @@ public class ClientDAOImp implements ClientDAO {
      */
     @Override
     public int insert(Client client) throws SQLException {
-        String insertClient = "INSERT INTO CLIENT(cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale) VALUES (?,?,?,?,?,?)";
+        String insertClient = "INSERT INTO CLIENT(cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale, cpt_id) VALUES (?,?,?,?,?,?,?)";
         int newID = 0;
 
         try (   Connection connection = DatabaseConnection.getInstanceDB();
-                PreparedStatement ps = connection.prepareStatement(insertClient)
+                PreparedStatement ps = connection.prepareStatement(insertClient, Statement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, client.getNom());
             ps.setString(2, client.getPrenom());
@@ -105,6 +143,8 @@ public class ClientDAOImp implements ClientDAO {
             ps.setString(4, client.getAdresse());
             ps.setString(5, client.getVille());
             ps.setString(6, client.getCodePostal());
+            ps.setInt(7, client.getCompteId());
+
 
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -113,7 +153,7 @@ public class ClientDAOImp implements ClientDAO {
             }
 
         } catch (SQLException e) {
-            throw new SQLException("Imosible d'inserer le client", e);
+            throw new SQLException("Imposible d'inserer le client", e);
         }
 
 
@@ -130,7 +170,7 @@ public class ClientDAOImp implements ClientDAO {
      */
     @Override
     public int update(Client client) throws SQLException {
-        String updateClient = "UPDATE CLIENT SET cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale WHERE cli_id= ?";
+        String updateClient = "UPDATE CLIENT SET cli_nom = ?, cli_prenom = ?, cli_email = ?, cli_adresse = ?, cli_ville = ?, cli_code_postale = ? WHERE cli_id = ?";
 
         try (
                 Connection connection = DatabaseConnection.getInstanceDB();
@@ -142,6 +182,7 @@ public class ClientDAOImp implements ClientDAO {
             ps.setString(4, client.getAdresse());
             ps.setString(5, client.getVille());
             ps.setString(6, client.getCodePostal());
+            ps.setInt(7, client.getClientId());
 
             return  ps.executeUpdate();
         } catch (SQLException e) {

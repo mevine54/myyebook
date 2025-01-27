@@ -26,6 +26,16 @@ public class Client extends Compte {
         setCodePostal(codePostal);
     }
 
+    public Client( String nom, String prenom, String email, String adresse, String ville, String codePostal) {
+        setNom(nom);
+        setPrenom(prenom);
+        setEmail(email);
+        setAdresse(adresse);
+        setVille(ville);
+        setCodePostal(codePostal);
+    }
+
+
     public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
         super(compte.getCompteId(), compte.getLogin(), compte.getPassword());
         setClientId(clientId);
@@ -140,14 +150,9 @@ public class Client extends Compte {
 
     @Override
     public String toString() {
-        return "Client{" +
-                "clientId=" + clientId +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", email='" + email + '\'' +
-                ", adresse='" + adresse + '\'' +
-                ", ville='" + ville + '\'' +
-                ", codePostal='" + codePostal + '\'' +
-                '}';
+        return "ClientID " + clientId +
+                " Prenom: " + prenom +
+                " Nom: " + nom
+                ;
     }
 }
