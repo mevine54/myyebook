@@ -43,7 +43,9 @@ public class ReservationTest {
     @Test
 public void testInsertRes() throws SQLException {
     // Création du client
-    Client client = new Client("asdd", "asdasd!A2", "Dupont", "Jean", "jean.dupont@example.com", "10 Rue de Paris", "Paris", "75001");
+        Compte compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
+
+        Client client = new Client(compte,null, "Dupont", "Jean", "jean.dupont@example.com", "10 Rue de Paris", "Paris", "75001");
     client.setClientId(1);  //  Vérifie que cet ID existe dans la base
 
     // Création du livre

@@ -30,8 +30,8 @@ public class ClientDAOImp implements ClientDAO {
                 );
 
                 client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),
@@ -63,8 +63,8 @@ public class ClientDAOImp implements ClientDAO {
                 );
 
                 Client client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),
@@ -88,9 +88,9 @@ public class ClientDAOImp implements ClientDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, client.getLogin());
-            ps.setString(2, client.getPassword());
-            ps.setString(3, client.getRole());
+            ps.setString(1, client.getCompte().getLogin());
+            ps.setString(2, client.getCompte().getPassword());
+            ps.setString(3, client.getCompte().getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
@@ -130,10 +130,10 @@ public class ClientDAOImp implements ClientDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, client.getLogin());
-            ps.setString(2, client.getPassword());
-            ps.setString(3, client.getRole());
-            ps.setInt(4, client.getCompteId());
+            ps.setString(1, client.getCompte().getLogin());
+            ps.setString(2, client.getCompte().getPassword());
+            ps.setString(3, client.getCompte().getRole());
+            ps.setInt(4, client.getCompte().getCompteId());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -224,8 +224,8 @@ public class ClientDAOImp implements ClientDAO {
                 );
 
                 client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),

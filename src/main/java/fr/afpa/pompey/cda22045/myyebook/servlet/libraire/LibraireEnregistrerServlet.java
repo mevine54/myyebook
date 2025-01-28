@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
@@ -45,9 +46,15 @@ public class LibraireEnregistrerServlet extends HttpServlet {
 
 
         // Enregistrer le libraire
-        Libraire libraire = new Libraire(
+        Compte compteLibraire = new Compte(
                 login,
-                password,
+                password
+        );
+
+
+        Libraire libraire = new Libraire(
+                compteLibraire,
+                null,
                 true,
                 nom,
                 prenom

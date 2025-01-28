@@ -29,10 +29,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 );
 
                 libraire = new Libraire(
+                        compte,
                         rs.getInt("lib_id"),
-                        compte.getCompteId(),
-                        compte.getLogin(),
-                        compte.getPassword(),
                         rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
@@ -60,10 +58,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 );
 
                 Libraire libraire = new Libraire(
+                        compte,
                         rs.getInt("lib_id"),
-                        compte.getCompteId(),
-                        compte.getLogin(),
-                        compte.getPassword(),
                         rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
@@ -83,9 +79,9 @@ public class LibraireDAOImp implements LibraireDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, libraire.getLogin());
-            ps.setString(2, libraire.getPassword());
-            ps.setString(3, libraire.getRole());
+            ps.setString(1, libraire.getCompte().getLogin());
+            ps.setString(2, libraire.getCompte().getPassword());
+            ps.setString(3, libraire.getCompte().getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
@@ -122,10 +118,10 @@ public class LibraireDAOImp implements LibraireDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, libraire.getLogin());
-            ps.setString(2, libraire.getPassword());
-            ps.setString(3, libraire.getRole());
-            ps.setInt(4, libraire.getCompteId());
+            ps.setString(1, libraire.getCompte().getLogin());
+            ps.setString(2, libraire.getCompte().getPassword());
+            ps.setString(3, libraire.getCompte().getRole());
+            ps.setInt(4, libraire.getCompte().getCompteId());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -234,10 +230,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 );
 
                 libraire = new Libraire(
+                        compte,
                         rs.getInt("lib_id"),
-                        compte.getCompteId(),
-                        compte.getLogin(),
-                        compte.getPassword(),
                         rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")

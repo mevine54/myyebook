@@ -11,6 +11,7 @@ import java.io.File;
 @Slf4j
 public class AppContextListener implements ServletContextListener {
 
+    private final String POIVRE = "DSEFGHVJKGYHXDFCGHVBFGGYHVJHKhjkjh";
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -25,6 +26,8 @@ public class AppContextListener implements ServletContextListener {
         log.info("dosier couverture: {}", uploadDirCouverture.getAbsolutePath());
         sce.getServletContext().setAttribute("dossierAuteur",uploadDirImgAuteur.getAbsolutePath());
         sce.getServletContext().setAttribute("dossierCouverture",uploadDirCouverture.getAbsolutePath());
+//        sce.getServletContext().setAttribute("poivre",POIVRE);
+
     }
 
     @Override

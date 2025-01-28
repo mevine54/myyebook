@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="col-2 px-3 bg-body-tertiary position-relative vh-100">
     <ul class="nav nav-pills flex-column mb-auto mt-3">

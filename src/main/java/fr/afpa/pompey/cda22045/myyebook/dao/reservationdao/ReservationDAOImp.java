@@ -35,8 +35,8 @@ public class ReservationDAOImp implements ReservationDAO {
                 );
 
                 Client client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),
@@ -101,8 +101,8 @@ public class ReservationDAOImp implements ReservationDAO {
                 );
 
                 Client client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),

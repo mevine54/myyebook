@@ -4,7 +4,8 @@ import fr.afpa.pompey.cda22045.myyebook.exception.*;
 import lombok.Getter;
 
 @Getter
-public class Client extends Compte {
+public class Client  {
+    private Compte compte;
     private Integer clientId;
     private String nom;
     private String prenom;
@@ -16,23 +17,8 @@ public class Client extends Compte {
     public Client() {
     }
 
-    public Client(String login, String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(login, password);
-        setRole("ROLE_CLIENT");
-        setNom(nom);
-        setPrenom(prenom);
-        setEmail(email);
-        setAdresse(adresse);
-        setVille(ville);
-        setCodePostal(codePostal);
-    }
-
-    public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        setCompteId(compte.getCompteId());
-        setLogin(compte.getLogin());
-        setPassword(compte.getPassword());
-        setRole("ROLE_CLIENT");
-        setNom(nom);
+    public Client(Compte compte, Integer clientId,String nom,String prenom, String email, String adresse, String ville, String codePostal) {
+        setCompte(compte);
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -42,19 +28,13 @@ public class Client extends Compte {
         setCodePostal(codePostal);
     }
 
-    public Client(Integer clientId, Integer compteId ,String login , String password,String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        setCompteId(compteId);
-        setLogin(login);
-        setPassword(password);
-        setRole("ROLE_CLIENT");
-        setClientId(clientId);
-        setNom(nom);
-        setPrenom(prenom);
-        setEmail(email);
-        setAdresse(adresse);
-        setVille(ville);
-        setCodePostal(codePostal);
+    private void setCompte(Compte compte) {
+        if (compte == null) {
+            throw new IllegalArgumentException("compte is null");
+        }
+        this.compte = compte;
     }
+
 
     public void setClientId(Integer clientId) {
         if (clientId != null && clientId <= 0) {

@@ -8,7 +8,8 @@ import fr.afpa.pompey.cda22045.myyebook.exception.RegexValidationException;
 import lombok.Getter;
 
 @Getter
-public class Libraire extends Compte {
+public class Libraire  {
+    private Compte compte;
     private Integer libId;
     private String nom;
     private String prenom;
@@ -17,23 +18,20 @@ public class Libraire extends Compte {
     public Libraire() {
     }
 
-    public Libraire(String login , String password , boolean estApprouve  ,String nom, String prenom) {
-        setLogin(login);
-        setPassword(password);
+    public Libraire(Compte compte,Integer libId, boolean estApprouve  ,String nom, String prenom) {
+        setCompte(compte);
         setEstApprouve(estApprouve);
         setNom(nom);
         setPrenom(prenom);
     }
 
-    public Libraire(Integer libId,Integer compteId, String login , String password , boolean estApprouve ,String nom, String prenom) {
-        setCompteId(compteId);
-        setLogin(login);
-        setPassword(password);
-        setEstApprouve(estApprouve);
-        setLibId(libId);
-        setNom(nom);
-        setPrenom(prenom);
+    private void setCompte(Compte compte) {
+        if (compte == null) {
+            throw new IllegalArgumentException("compte is null");
+        }
+        this.compte = compte;
     }
+
 
 
     public void setLibId(Integer libId) {
@@ -89,9 +87,9 @@ public class Libraire extends Compte {
 
     public void setEstApprouve(boolean estApprouve) {
         if (estApprouve){
-            setRole("ROLE_LIBRAIRE");
+            compte.setRole("ROLE_LIBRAIRE");
         }else{
-            setRole("ROLE_LIBRAIRE_ATTENTE");
+            compte.setRole("ROLE_LIBRAIRE_ATTENTE");
         }
         this.estApprouve = estApprouve;
     }

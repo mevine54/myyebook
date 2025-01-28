@@ -88,11 +88,15 @@ public class EmprunterDAOImpl implements EmprunterDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                Client client = new Client(
-                        resultSet.getInt("cli_id"),
+                Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
-                        resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_mdp")
+                );
+
+                Client client = new Client(
+                        compteClient,
+                        resultSet.getInt("cli_id"),
                         resultSet.getString("c.cli_nom"),
                         resultSet.getString("c.cli_prenom"),
                         resultSet.getString("c.cli_email"),
@@ -135,11 +139,15 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getTimestamp("res_date").toLocalDateTime()
                 );
 
-                Libraire libraire = new Libraire(
-                        resultSet.getInt("lib_id"),
+                Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
-                        resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_mdp")
+                );
+
+                Libraire libraire = new Libraire(
+                        compteLibraire,
+                        resultSet.getInt("lib_id"),
                         resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
@@ -179,11 +187,19 @@ public class EmprunterDAOImpl implements EmprunterDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Client client = new Client(
-                        resultSet.getInt("cli_id"),
+
+                Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
-                        resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_mdp")
+                );
+
+
+
+
+                Client client = new Client(
+                        compteClient,
+                        resultSet.getInt("cli_id"),
                         resultSet.getString("c.cli_nom"),
                         resultSet.getString("c.cli_prenom"),
                         resultSet.getString("c.cli_email"),
@@ -226,11 +242,15 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getTimestamp("res_date").toLocalDateTime()
                 );
 
-                Libraire libraire = new Libraire(
-                        resultSet.getInt("lib_id"),
+                Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
-                        resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_mdp")
+                );
+
+                Libraire libraire = new Libraire(
+                        compteLibraire,
+                        resultSet.getInt("lib_id"),
                         resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")

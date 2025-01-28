@@ -2,6 +2,7 @@ package fr.afpa.pompey.cda22045.myyebook.dao;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,9 @@ public class LibrairieDAOImpTest {
     @Test
     void insertValid() {
         try {
-            Libraire libraire = new Libraire("lomdfe","mqsdqsdqscxv12@L",true,"Nomlibraire","PrenomLibraire");
+            Compte compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
+
+            Libraire libraire = new Libraire(compte,null,true,"Nomlibraire","PrenomLibraire");
             Integer id  = libraireDAOImp.insert(libraire);
             System.out.println("L'id de la libraire insere est "+ id);
         } catch (SQLException e) {

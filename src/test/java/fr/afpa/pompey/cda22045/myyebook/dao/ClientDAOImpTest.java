@@ -3,6 +3,7 @@ package fr.afpa.pompey.cda22045.myyebook.dao;
 import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +44,9 @@ public class ClientDAOImpTest {
     @Test
     void insertValid() {
         try {
-            Client client = new Client("lomdfe","mqsdqsdqscxv12@L","Nomclient","PrenomClient","azeazreazre@gmail.com","10 azeaze","ytryr","44444");
+            Compte compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
+
+            Client client = new Client(compte,null,"Nomclient","PrenomClient","azeazreazre@gmail.com","10 azeaze","ytryr","44444");
             Integer id  = clientDAOImp.insert(client);
             System.out.println("L'id de la client insere est "+ id);
         } catch (SQLException e) {
