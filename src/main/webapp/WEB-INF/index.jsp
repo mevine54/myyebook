@@ -30,7 +30,7 @@
                     <a href="<c:url value='/livre?id=${livreEnAvant.id}'/>"
                        class="link-underline link-underline-opacity-0 link-underline-opacity-0-hover shadow-lg rounded">
                         <div class="card h-100">
-                            <img src="<c:url value='/assets/images/img.png'/>" class="card-img-top" alt="<c:out value="${livreEnAvant.titre}"/>">
+                            <img src="<c:url value="/assets/upload/couverture/${livreEnAvant.image}"/>"  class="card-img-top" alt="<c:out value="${livreEnAvant.titre}"/>">
                             <div class="card-body d-flex align-items-start justify-content-around flex-column">
                                 <h4 class="card-title"><c:out value="${livreEnAvant.titre}"/></h4>
                                 <p class="card-text d-none d-lg-block"><small class="text-body-secondary"><c:out
@@ -49,7 +49,7 @@
                         <div class="card mb-3 shadow rounded">
                             <div class="row g-0">
                                 <div class="col-lg-2 col-5 h-25">
-                                    <img src="<c:url value='/assets/images/img.png'/>" class="img-fluid rounded-start"
+                                    <img src="<c:url value="/assets/upload/couverture/${livre.image}"/>"  class="img-fluid rounded-start"
                                          alt="<c:out value='${livre.titre}'/>">
                                 </div>
                                 <div class="col-lg col-5">

@@ -82,7 +82,7 @@ public class LivreModificationServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + File.separator + newFileName);
+        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture")  + newFileName);
         imgPart.write(fichierACree.getAbsolutePath());
         if (ImageIO.read(fichierACree) != null) {
             log.info(fichierACree.getAbsolutePath());
@@ -90,7 +90,6 @@ public class LivreModificationServlet extends HttpServlet {
             AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
             try {
-
                 Livre livre = livreDAOImpl.get(Integer.valueOf(request.getParameter("id")));
                 Categorie categorie = categorieDAOImpl.get(categorieId);
                 Auteur auteur = auteurDAOImpl.get(auteurId);

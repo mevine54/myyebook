@@ -30,18 +30,32 @@
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
-                        <th>Libraire</th>
+                        <th>Id</th>
+                        <th>Photo</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>
-                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifAuteur">Modifier</a>
-                            <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
-                        </td>
-                    </tr>
+                    <c:forEach var="auteur" items="${requestScope.auteurs}">
+                        <tr id="row<c:out value='${auteur.auteurId}'/>">
+                            <td><c:out value="${auteur.auteurId}"/></td>
+                            <td><img src="<c:url value="/assets/upload/img_auteur/${auteur.photo}"/>" alt="<c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/>" class="img-thumbnail"
+                                     style="width: 50px; height: 50px;"></td>
+                            <td><c:out value="${auteur.nom}"/></td>
+                            <td><c:out value="${auteur.prenom}"/></td>
+                            <td>
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifAuteur?id=<c:out value='${auteur.auteurId}'/>">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${auteur.auteurId}'/>, 'ModifAuteur?id=${auteur.auteurId}&csrf=${sessionScope.csrfToken}')"
+                                >
+                                    Supprimer
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

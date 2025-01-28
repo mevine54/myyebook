@@ -64,7 +64,6 @@ function confirmDelete(id, url) {
                     );
                 }
             });
-
         }
     })
 }

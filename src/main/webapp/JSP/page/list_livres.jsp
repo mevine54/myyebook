@@ -43,7 +43,7 @@
                     <c:forEach var="livre" items="${requestScope.livres}">
                         <tr id="row<c:out value='${livre.id}'/>">
                             <td><c:out value="${livre.id}"/></td>
-                            <td><img src="<c:url value='/assets/images/img.png'/>" alt="..." class="img-thumbnail"
+                            <td><img src="<c:url value="/assets/upload/couverture/${livre.image}"/>" alt="<c:out value="${livre.titre}"/>" class="img-thumbnail"
                                      style="width: 50px; height: 50px;"></td>
                             <td><c:out value="${livre.titre}"/></td>
                             <td><c:out value="${livre.auteur.prenom}"/> <c:out value="${livre.auteur.nom}"/></td>
