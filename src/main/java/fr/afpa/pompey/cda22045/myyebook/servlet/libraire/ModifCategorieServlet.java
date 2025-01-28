@@ -72,10 +72,31 @@ public class ModifCategorieServlet extends HttpServlet {
                         nomCategorie
                 );
                 categorieDAOImpl.update(categorie);
-//                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
+              response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=successUpdate");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.warn("delete");
+        HttpSession session = req.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) req.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
+
+        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+        if (csrfReq.equals(csrfSession)) {
+            try {
+                categorieDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            log.warn("csrf different");
         }
     }
 
