@@ -78,11 +78,9 @@ public class LibraireDAOImp implements LibraireDAO {
     public Integer insert(Libraire libraire) throws SQLException {
         String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         Integer compteId = 0;
-        try {
-
-            Connection connection = DatabaseConnection.getInstanceDB();
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(false);
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, libraire.getLogin());
             ps.setString(2, libraire.getPassword());
             ps.setString(3, libraire.getRole());

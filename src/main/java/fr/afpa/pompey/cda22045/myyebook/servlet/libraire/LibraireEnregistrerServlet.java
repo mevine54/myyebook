@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
@@ -36,13 +37,15 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        System.out.println("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
         //Verifier les informations passent au regex
         Verification.CHARACTER(nom);
         Verification.CHARACTER(prenom);
 
-
+        Compte compte = new Compte(
+                login,
+                password
+        );
 
         // Enregistrer le libraire
         Libraire libraire = new Libraire(

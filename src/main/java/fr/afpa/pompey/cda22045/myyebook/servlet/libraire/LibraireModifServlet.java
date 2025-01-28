@@ -51,58 +51,46 @@ public class LibraireModifServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO: Implement
         // Récupérer les paramètres du formulaire
         System.out.println("libraire info post");
-        String idLibraire = request.getParameter("idLibraire");
+        HttpSession session = request.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) request.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
+
+        Integer idLibraire = Integer.valueOf(request.getParameter("idLibraire"));
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        String idCompte = request.getParameter("idCompte");
+
+        Integer idCompte = Integer.valueOf(request.getParameter("idCompte"));
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
+        LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
         if(nom == null || prenom == null || login == null || password == null) {
             response.sendRedirect(request.getContextPath() + "/ModifLibraire?info=error");
-            this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
-        } else {
-            LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
-            Libraire libraire = new Libraire(
-                    Integer.parseInt(idLibraire),
-                    Integer.parseInt(idCompte),
-                    login,
-                    password,
-                    true,
-                    nom,
-                    prenom
-            );
-            try {
-                libraireDAOImp.update(libraire);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
         }
-
-
-        // Valider et traiter les paramètres
-//        if (nom != null && !nom.isEmpty() && prenom != null && !prenom.isEmpty() && email != null && !email.isEmpty()
-//                && rue != null && !rue.isEmpty() && codePostal != null && !codePostal.isEmpty() && ville != null
-//                && !ville.isEmpty()) {
-//            // Afficher les paramètres dans la console
-//            System.out.println("Nom: " +nom);
-//            System.out.println("Prénom: " +prenom);
-//            System.out.println("email: " +email);
-//            System.out.println("rue: " +rue);
-//            System.out.println("codePostal: " +codePostal);
-//            System.out.println("ville: " +ville);
-//
-//            // Rediriger vers une page de confirmation ou afficher une réponse
-////            response.sendRedirect(request.getContextPath() + "/libraireinfo.jsp");
-//        } else {
-//            // Gérer lese erreurs de validation
-//            request.setAttribute("erreur", "Veuillez remplir tous les champs.");
-////            this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
-//        }
+        try {
+            Libraire libraire1 = libraireDAOImp.get(idLibraire);
+            if(libraire1 == null){
+//                response.sendRedirect(request.getContextPath() + "/accueil");
+            }else{
+                Libraire libraire = new Libraire(
+                        idLibraire,
+                        idCompte,
+                        login,
+                        password,
+                        false,
+                        nom,
+                        prenom
+                );
+                libraireDAOImp.update(libraire);
+                response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=successUpdate");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -125,6 +113,8 @@ public class LibraireModifServlet extends HttpServlet {
             log.warn("csrf different");
         }
     }
+
+
 
     @Override
     public void destroy() {
