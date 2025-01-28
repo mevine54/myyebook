@@ -34,7 +34,7 @@ public class CategorieDAOImpl implements CategorieDAO {
     @Override
     public List<Categorie> getAll() throws SQLException {
         List<Categorie> categories = new ArrayList<>();
-        String sql = "SELECT * FROM Categorie";
+        String sql = "SELECT * FROM Categorie ORDER BY cat_id";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
