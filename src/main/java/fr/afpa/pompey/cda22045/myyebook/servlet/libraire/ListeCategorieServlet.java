@@ -2,7 +2,6 @@ package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
-import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,7 +29,6 @@ public class ListeCategorieServlet extends HttpServlet {
         request.setAttribute("currentURL", currentURL);
         CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
         HttpSession session = request.getSession(true);
-        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
         try {
             List<Categorie> categories = categorieDAOImpl.getAll();
             request.setAttribute("categories", categories);

@@ -111,12 +111,12 @@ public class Livre {
                 "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", resume='" + resume + '\'' +
+                ", estEnAvant=" + estEnAvant +
                 ", image='" + image + '\'' +
                 ", auteur=" + auteur +
                 ", categorie=" + categorie +
                 '}';
     }
-
 }
 
 

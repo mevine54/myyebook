@@ -9,10 +9,7 @@ import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -98,6 +95,22 @@ public class LivreModificationServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.warn("delete");
+        HttpSession session = req.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) req.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
+
+        LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
+        if (csrfReq.equals(csrfSession)) {
+            try {
+                livreDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else{
+            log.warn("csrf different");
+        }
     }
 
     @Override

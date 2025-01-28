@@ -70,7 +70,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -162,7 +162,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -247,7 +247,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -301,7 +301,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
