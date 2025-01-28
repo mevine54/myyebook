@@ -26,7 +26,7 @@
                 </div>
             </a>
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-                <div class="d-flex w-100">
+<%--                <div class="d-flex w-100">--%>
                     <c:choose>
                         <c:when test="${not empty sessionScope.role}">
                             <!-- Utilisateur connecté masquer la barre de recherche -->
@@ -36,11 +36,10 @@
                                 }
                             </style>
                         </c:when>
-                    </c:choose>
-<%--                        <c:otherwise>--%>
+                        <c:otherwise>
                             <!-- Utilisateur non connecté affiche la barre de recherche-->
-                            <c:if test="${empty sessionScope.role}">
-                            <div class="form-control p-0 mt-2 mt-md-0 search-bar w-50" role="search">
+<%--                            <c:if test="${empty sessionScope.role}">--%>
+                            <div class="form-control p-0 mt-2 mt-md-0" role="search">
                                 <input id="search" class="form-control m-0 barnav" type="search"
                                        placeholder="Rechercher un livre..." name="search"
                                        hx-post="${livreRechercheUrl}"
@@ -50,9 +49,9 @@
                                        required
                                 >
                             </div>
-                            </c:if>
-<%--                        </c:otherwise>--%>
-
+<%--                            </c:if>--%>
+                        </c:otherwise>
+                    </c:choose>
                     <div class="d-flex justify-content-center flex-column flex-lg-row">
                         <c:choose>
                             <c:when test="${not empty sessionScope.role}">
