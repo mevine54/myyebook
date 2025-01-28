@@ -34,6 +34,7 @@ public class CSRFTokenFilter implements Filter {
                 contextPath + "/ListeLivre",
                 contextPath + "/LivreModification",
                 contextPath + "/ModifAuteur",
+                contextPath + "/modifAuteur",
                 contextPath + "/ModifCategorie",
                 contextPath + "/ModifLibraire",
                 contextPath + "/ModifClient",
@@ -56,19 +57,29 @@ public class CSRFTokenFilter implements Filter {
         // Vérifier uniquement pour les requêtes sensibles (POST, PUT, DELETE)
         String method = httpRequest.getMethod();
         log.info(method);
-        if (session != null && (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE"))) {
+        if (session != null && (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE"))  && routesAProtege.contains(requestURI) )  {
             // Récupérer le token CSRF envoyé par le client
+            log.info("REQUETE: {} ",String.valueOf(request));
             String csrfTokenFromClient = httpRequest.getParameter("csrf");
 
             // Récupérer le token CSRF stocké dans la session
             String csrfTokenFromServer = (String) session.getAttribute("csrfToken");
             System.out.println("filtre csrf verification");
-
+            log.info(csrfTokenFromClient);
+            log.info(csrfTokenFromServer);
             // Validation
             if (csrfTokenFromClient == null || !csrfTokenFromClient.equals(csrfTokenFromServer)) {
                 // Rejet si le token est invalide ou absent
                 System.out.println("filtre csrf invalide ou absent");
-                httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
+                if (!httpResponse.isCommitted()) {
+                    // Envoyer une réponse d'erreur 403 Forbidden
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
+                } else {
+                    // Si la réponse est déjà engagée, réinitialisez la réponse
+                    httpResponse.reset();
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
+                }
+                return;
             }
         } else if (session != null && (method.equalsIgnoreCase("GET") || method.equalsIgnoreCase("HEAD")) && routesAProtege.contains(requestURI)) {
             log.info("request uri : " + requestURI);

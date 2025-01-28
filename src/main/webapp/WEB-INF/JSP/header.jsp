@@ -5,7 +5,7 @@
 <%--<c:url value="/mesemprunts" var="mesempruntsUrl" />--%>
 <c:url value="/connexion" var="connexionUrl" />
 <c:url value="/client-enregistrer" var="clientenregistrerUrl" />
-<c:url value="/livre-recherche" var="livreRechercheUrl" />
+<c:url value="/accueil" var="livreRechercheUrl" />
 <c:set value="false" var="isConnected"/>
 
 

@@ -41,6 +41,5 @@
 
 
 <c:import url="/WEB-INF/JSP/footer.jsp" />
-<%--<%@include file="../footer.jsp"%>--%>
 </body>
 </html>
