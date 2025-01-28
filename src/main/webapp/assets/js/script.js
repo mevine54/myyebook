@@ -47,7 +47,6 @@ function confirmDelete(id, url) {
                 console.log(event.detail.pathInfo.requestPath)
                 console.log(url)
                 console.log(event.detail.pathInfo.requestPath === url )
-                console.log(event.detail.pathInfo.requestPath == url )
                 if (event.detail.requestConfig.verb.toUpperCase() === 'DELETE' && event.detail.successful && event.detail.pathInfo.requestPath === url) {
                     console.log(event.detail);
                     Swal.fire(
