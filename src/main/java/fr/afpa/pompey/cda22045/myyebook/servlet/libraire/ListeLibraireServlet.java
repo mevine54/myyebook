@@ -37,7 +37,7 @@ public class ListeLibraireServlet extends HttpServlet {
             request.setAttribute("currentURL", currentURL);
             this.getServletContext().getRequestDispatcher("/JSP/page/listeLibraire.jsp").forward(request, response);
         } catch (SQLException e) {
-            throw new ServletException("Cannot obtain libraire from DB", e);
+            throw new ServletException("Impossible d'obtenir les informations dans la base de données", e);
         }
     }
 

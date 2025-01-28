@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -40,7 +40,7 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Libraire</th>
+                            <th>ID</th>
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Actions</th>
@@ -48,13 +48,19 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.libraires}" var="libraire">
-                        <tr>
+                        <tr id="row${libraire.libId}">
                             <td>${libraire.libId}</td>
                             <td>${libraire.nom}</td>
                             <td>${libraire.prenom}</td>
                             <td>
-                                <a class="btn btn-outline-primary rounded-0 mx-1" href="${pageContext.request.contextPath}/ModifLibraire?id=${libraire.libId}">Modifier</a>
-                                <a class="btn btn-outline-danger rounded-0 mx-1" href="">Supprimer</a>
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifLibraire?id=<c:out value='${libraire.libId}'/>">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${libraire.libId}'/>,
+                                        'ModifLibraire?id=${libraire.libId}&csrf=${sessionScope.csrfToken}')"
+                                >
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>

@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 @WebServlet(name = "LibraireModifServlet", value = "/ModifLibraire")
@@ -76,10 +77,10 @@ public class LibraireModifServlet extends HttpServlet {
             );
             try {
                 libraireDAOImp.update(libraire);
-                response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+            response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
         }
 
 
@@ -102,6 +103,27 @@ public class LibraireModifServlet extends HttpServlet {
 //            request.setAttribute("erreur", "Veuillez remplir tous les champs.");
 ////            this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
 //        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.warn("delete");
+        HttpSession session = req.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) req.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
+
+        LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
+        if (csrfReq.equals(csrfSession)) {
+            try {
+                libraireDAOImp.delete(Integer.parseInt(req.getParameter("id")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            log.warn("csrf different");
+        }
     }
 
     @Override

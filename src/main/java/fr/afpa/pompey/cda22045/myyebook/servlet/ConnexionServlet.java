@@ -1,6 +1,5 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
-import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

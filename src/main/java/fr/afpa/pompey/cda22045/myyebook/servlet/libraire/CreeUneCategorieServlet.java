@@ -18,7 +18,7 @@ public class CreeUneCategorieServlet extends HttpServlet {
 
     @Override
     public void init() {
-
+        categorieDAOImpl = new CategorieDAOImpl();
 
     }
 
@@ -30,28 +30,28 @@ public class CreeUneCategorieServlet extends HttpServlet {
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
+
+
         this.getServletContext().getRequestDispatcher("/JSP/page/creeUneCategorie.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        categorieDAOImpl = new CategorieDAOImpl();
         String nomCategorie = request.getParameter("nomCategorie");
 
-        try{
+        try {
             Verification.CHARACTER(nomCategorie);
             Categorie categorie = new Categorie(nomCategorie);
             try {
                 categorieDAOImpl.insert(categorie);
-                response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=success");
+                response.sendRedirect(request.getContextPath() + "/ListeCategorie?info=success");
             } catch (SQLException e) {
-                response.sendRedirect(request.getContextPath() + "/CreeUneCategorie"+"?info=errorDB");
-                throw new RuntimeException(e);
+                response.sendRedirect(request.getContextPath() + "/CreeUneCategorie?info=errorDB");
+                throw new RuntimeException("Erreur lors de l'insertion de la catégorie", e);
             }
-        }catch (Exception e){
-            response.sendRedirect(request.getContextPath() + "/CreeUneCategorie"+"?info=error");
+        } catch (Exception e) {
+            response.sendRedirect(request.getContextPath() + "/CreeUneCategorie?info=error");
         }
-
     }
 
     @Override

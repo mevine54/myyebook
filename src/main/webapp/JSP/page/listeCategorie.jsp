@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -64,16 +64,17 @@
                     <c:forEach var="categorie" items="${requestScope.categories}">
 <%--                        mettre id dans l'ordre--%>
 
-                        <tr id="row<c:out value='${livre.id}'/>" >
+                        <tr id="row<c:out value='${categorie.id}'/>" >
                             <td>${categorie.id}</td>
                             <td>${categorie.nom}</td>
                             <td class="d-flex">
-                                <a class="btn btn-outline-primary rounded-0 mx-1" href="ModifCategorie?id=${categorie.id}">Modifier</a>
-                                <a class="btn btn-outline-danger rounded-0 mx-1"
-                                   href="#"
-                                   onclick="confirmDelete(event, ${livre.id})">
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifCategorie?id=<c:out value='${categorie.id}'/>">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${categorie.id}'/>, 'ModifCategorie?id=${categorie.id}&csrf=${sessionScope.csrfToken}')"
+                                >
                                     Supprimer
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>

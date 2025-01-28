@@ -1,7 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.categoriedao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
-import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 
 import java.sql.Connection;

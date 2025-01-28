@@ -1,13 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
-import fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
-import fr.afpa.pompey.cda22045.myyebook.dao.livredao.LivreDAOImpl;
-import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
-import fr.afpa.pompey.cda22045.myyebook.model.Livre;
-import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
-import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 @WebServlet(name = "ModifCategorieServlet", value = "/ModifCategorie")
 @Slf4j
@@ -56,7 +49,11 @@ public class ModifCategorieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) request.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
         String nomCategorie = request.getParameter("nomCategorie");
         String id = request.getParameter("id");
 
@@ -68,14 +65,14 @@ public class ModifCategorieServlet extends HttpServlet {
         try {
             Categorie categorie1 = categorieDAOImpl.get(Integer.parseInt(id));
             if(categorie1 == null){
-                response.sendRedirect(request.getContextPath() + "/accueil");
+//                response.sendRedirect(request.getContextPath() + "/accueil");
             }else{
                 Categorie categorie = new Categorie(
                         Integer.parseInt(id),
                         nomCategorie
                 );
                 categorieDAOImpl.update(categorie);
-                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
+//                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
