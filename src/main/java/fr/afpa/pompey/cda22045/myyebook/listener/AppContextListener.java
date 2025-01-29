@@ -44,6 +44,15 @@ public class AppContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        // Copier les fichiers avec les répertoires inversés
+        File destinationDir = new File(new File(sce.getServletContext().getRealPath("")).getParentFile() + File.separator + "uploads_myebook");
+        File sourceDir = new File(sce.getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload");
+
+        try {
+            copyDirectory(sourceDir, destinationDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         ServletContextListener.super.contextDestroyed(sce);
     }
 
@@ -53,7 +62,6 @@ public class AppContextListener implements ServletContextListener {
             if (!destDir.exists()) {
                 destDir.mkdir();
             }
-
             String[] children = sourceDir.list();
             for (String child : children) {
                 copyDirectory(new File(sourceDir, child), new File(destDir, child));
@@ -62,5 +70,4 @@ public class AppContextListener implements ServletContextListener {
             Files.copy(sourceDir.toPath(), destDir.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
     }
-
 }

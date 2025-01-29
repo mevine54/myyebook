@@ -69,7 +69,6 @@ public class Compte {
         int maxLen = 150;
         int minLen = 8;
         String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
-
         if (password == null) {
             throw new NullValueException("Le mot de passe ne peut pas être null");
         } else if (password.length() < minLen) {
@@ -79,7 +78,6 @@ public class Compte {
         } else if (!password.matches(regex)) {
             throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
         }
-
         if (PoivreToken.POIVRE == null || PoivreToken.POIVRE.isEmpty()) {
             throw new IllegalArgumentException("Le poivre ne peut pas être null");
         }
@@ -87,9 +85,8 @@ public class Compte {
 //        Hash hash = Password.hash(password).addPepper(poivre).withBcrypt();
 //        this.password = hash.toString();
         Hash hash = Password.hash(password).addPepper(PoivreToken.POIVRE).withBcrypt();
-//        this.password = hash.getResult(); // Stocker uniquement le hash
-        this.password = password; // Stocker uniquement le hash
-
+        this.password = hash.getResult(); // Stocker uniquement le hash
+//        this.password = password; // Stocker uniquement le hash
     }
 
     protected void setRole(String role) {

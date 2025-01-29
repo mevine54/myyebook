@@ -1,12 +1,13 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet;
 
+import com.password4j.Password;
 import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
-import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
+import fr.afpa.pompey.cda22045.myyebook.securite.PoivreToken;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
 @Slf4j
 @WebServlet(name = "connexionServlet", value = "/connexion")
@@ -47,8 +47,6 @@ public class ConnexionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String utilisateur = request.getParameter("utilisateur");
         String mdp = request.getParameter("mdp");
-        log.info("utilisateur: " + utilisateur + " mdp: " + mdp);
-
 
         CompteDAOImp compteDAOImpl = new CompteDAOImp();
         LibraireDAOImp libraireDAOImpl = new LibraireDAOImp();
@@ -57,15 +55,36 @@ public class ConnexionServlet extends HttpServlet {
         Compte compte = null;
         try {
             compte = compteDAOImpl.getParLogin(utilisateur);
-            if (compte != null && (compte.getRole().equals("ROLE_LIBRAIRE") || compte.getRole().equals("ROLE_LIBRAIRE_ATTENTE"))) {
-                Libraire libraire = libraireDAOImpl.getParCompteId(compte.getCompteId());
-                if (libraire != null) {
-                    session = request.getSession(true);
+            if (compte != null) {
+                String hashedPassword = compteDAOImpl.getHashedPasswordByLogin(utilisateur);
+                boolean estAuthentifie = Password.check(mdp, hashedPassword).addPepper(PoivreToken.POIVRE).withBcrypt();
+                log.info("compte: " + compte);
+
+                if (compte.getRole().equals("ROLE_LIBRAIRE") || compte.getRole().equals("ROLE_LIBRAIRE_ATTENTE")) {
+                    Libraire libraire = libraireDAOImpl.getParCompteId(compte.getCompteId());
+                    log.info("estAuthentifie: " + estAuthentifie);
+                    if (libraire != null && estAuthentifie) {
+                        session = request.getSession(true);
+                        if (libraire.isEstApprouve()) {
+                            session.setAttribute("role", "ROLE_LIBRAIRE");
+                            response.sendRedirect("monCompteLibraire");
+                        } else {
+                            session.setAttribute("role", "ROLE_LIBRAIRE_ATTENTE");
+                            // TODO: rediriger vers une page changer password
+                            response.sendRedirect("monCompteLibraire");
+                        }
+                    }
+                    log.info("libraire: " + libraire);
+                } else if ( compte.getRole().equals("ROLE_CLIENT") && estAuthentifie ) {
+                    Client client = clientDAOImp.getParCompteId(compte.getCompteId());
+                    if (client != null) {
+                        session = request.getSession(true);
+                        session.setAttribute("role", "ROLE_CLIENT");
+                        response.sendRedirect("monCompteClient");
+                    }
+                    log.info("client: " + client);
+
                 }
-                log.info("libraire: " + libraire);
-            } else if (compte != null && compte.getRole().equals("ROLE_CLIENT")) {
-                Client client = clientDAOImp.getParCompteId(compte.getCompteId());
-                log.info("client: " + client);
             }
         } catch (SQLException e) {
             log.error("Erreur lors de la récupération du compte", e);
@@ -82,8 +101,7 @@ public class ConnexionServlet extends HttpServlet {
             session.setAttribute("role", compte.getRole()); //Définit le rôle de l'utilisateur
             if (compte.getRole().equals("ROLE_LIBRAIRE")) {
                 response.sendRedirect("monCompteLibraire");
-            }
-            else if (compte.getRole().equals("ROLE_CLIENT")) {
+            } else if (compte.getRole().equals("ROLE_CLIENT")) {
                 response.sendRedirect("monCompteClient");
             }
             log.info("role session :" + session.getAttribute("role"));

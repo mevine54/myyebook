@@ -5,7 +5,7 @@
 <%--<c:url value="/mesemprunts" var="mesempruntsUrl" />--%>
 <c:url value="/connexion" var="connexionUrl"/>
 <c:url value="/client-enregistrer" var="clientenregistrerUrl"/>
-<c:url value="/livre-recherche" var="livreRechercheUrl"/>
+<c:url value="/accueil" var="livreRechercheUrl"/>
 <c:url value="/deconnexion" var="deconnexionUrl"/>
 <c:set value="false" var="isConnected"/>
 
@@ -28,13 +28,9 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 <%--                <div class="d-flex w-100">--%>
                     <c:choose>
-                        <c:when test="${not empty sessionScope.role}">
-                            <!-- Utilisateur connecté masquer la barre de recherche -->
-                            <style>
-                                .search-bar {
-                                    visibility: hidden;
-                                }
-                            </style>
+                        <c:when test="${sessionScope.role == 'ROLE_LIBRAIRE' or sessionScope.role == 'ROLE_LIBRAIRE_ATTENTE' }">
+
+
                         </c:when>
                         <c:otherwise>
                             <!-- Utilisateur non connecté affiche la barre de recherche-->
@@ -52,7 +48,8 @@
 <%--                            </c:if>--%>
                         </c:otherwise>
                     </c:choose>
-                    <div class="d-flex justify-content-center flex-column flex-lg-row">
+                    <div class="ms-auto d-flex justify-content-center flex-column flex-lg-row">
+
                         <c:choose>
                             <c:when test="${not empty sessionScope.role}">
                                 <a href="<c:out value="${deconnexionUrl}"/>"

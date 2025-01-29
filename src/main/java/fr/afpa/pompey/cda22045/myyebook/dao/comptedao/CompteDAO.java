@@ -12,5 +12,5 @@ public interface CompteDAO extends DAO<Compte> {
     default Integer getNbCompte() throws SQLException {
         return null;
     }
-
+    String getHashedPasswordByLogin(String login);
 }
