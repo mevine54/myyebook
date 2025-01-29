@@ -9,7 +9,16 @@ VALUES ('Hugo', 'Victor', '4313ade0-c1f5-45fc-9507-208b314cadcb.jpg'),
        ('Verne', 'Jules', '07e16bbf-c989-444f-ac81-ae7c253c9fb0.jpg'),
        ('Flaubert', 'Gustave', '0495cf24-113c-4798-b9b2-79f9e8d316e5.jpg'),
        ('Balzac', 'Honoré', '5b2ad815-a1f5-4e38-82ef-6c574da4e005.jpg'),
-       ('Molière', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg');
+       ('Molière', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('ghjghj', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('sdfgdsfgert', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('ertertert', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('klmklmjkt', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('bnvnvbnvbn', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('aoiupoilkj', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg'),
+       ('wxcwxcwxc', 'Jean-Baptiste', 'acd54ba5-a244-4944-894f-82be2078cc05.jpg')
+
+;
 
 -- Insertion dans la table Categorie
 INSERT INTO Categorie (cat_nom)
@@ -22,21 +31,44 @@ VALUES ('Roman'),
        ('Fantastique'),
        ('Biographie'),
        ('Policier'),
-       ('Humour');
+       ('Humour'),
+       ('azd'),
+       ('dqsd'),
+       ('dqsdqs'),
+       ('azeaze'),
+       ('yyrty'),
+       ('azaz'),
+       ('mlmkl')
+;
 
 -- Insertion dans la table Compte
+
+
+--  POIVRE : "poivre temporaire"
+-- 'lib1' :  password1M! : $2b$10$t5E9xZ52kV0A7OAUO.9QROQRGX4tfxEq4JhhOeBkKHTgEtsUBoVHy
+-- 'lib2' :  password2M! : $2b$10$lDi1MLHpX3pgoeh3Ee1p5euCpWO5q969gslckrNhXG8ejf9u/K.P2
+-- 'cli1' :  password3M! : $2b$10$nSWwXHHlURcnwgwY0cNHJe0F1xsBpgbXaOxHHGoIJ29g0ryzs97Hi
+-- 'cli2' :  password4M! : $2b$10$o3tD9FpBjoAX.GuQF.ymEu4Ulc4PxzRYB40ihCi6HzPOayMTxq92y
+-- 'cli3' :  password5M! : $2b$10$WtUTnvelpOlHnPtlcO1fdeTwFdY2kJo6ENi4PKkNZJdJaZTwf4RF.
+-- 'cli4' :  password6M! : $2b$10$gt5iimroHzXfsUfocgcRJ.iDCv6aB.Z6c9uI7iB.bS0Sc8dAVsqPK
+-- 'cli5' :  password7M! : $2b$10$uWOrs3AAg3humy4miQnoOuEC3Evkc3/kYwMbqjw2zCLO8BF6webdm
+-- 'cli6' :  password8M! : $2b$10$KFDUeK2.NOgj.QW1ozTNke6MR0CesF2OX4ZOEm71EGoZ0sFg4QYrO
+-- 'cli7' :  password9M! : $2b$10$9fzBt/HdyxWxOj9cDHHBcOO7Qhe7W9RbckuTH3/o4hBQvvDt3qCsu
+-- 'cli8' :  password10M! : $2b$10$UmUQwuTJkJOE7WkDiQP2F.2M2U5X6RTDzEkQVDCjmaFn9MorQSoiC
+-- 'lib3' :  password3M! : $2b$10$FUQOPa761dmPIa/f2Y7nkuvpqsPAUbNuGB6EZXDJ2ptgcvB/bypy6
+
 INSERT INTO Compte (cpt_login, cpt_mdp, cpt_role)
-VALUES ('lib1', 'password1M!', 'ROLE_LIBRAIRE'),
-       ('lib2', 'password2M!', 'ROLE_LIBRAIRE'),
-       ('cli1', 'password3M!', 'ROLE_CLIENT'),
-       ('cli2', 'password4M!', 'ROLE_CLIENT'),
-       ('cli3', 'password5M!', 'ROLE_CLIENT'),
-       ('cli4', 'password6M!', 'ROLE_CLIENT'),
-       ('cli5', 'password7M!', 'ROLE_CLIENT'),
-       ('cli6', 'password8M!', 'ROLE_CLIENT'),
-       ('cli7', 'password9M!', 'ROLE_CLIENT'),
-       ('cli8', 'password10M!', 'ROLE_CLIENT'),
-       ('lib3', 'password3M!', 'ROLE_LIBRAIRE_ATTENTE')
+VALUES ('lib1', '$2b$10$t5E9xZ52kV0A7OAUO.9QROQRGX4tfxEq4JhhOeBkKHTgEtsUBoVHy', 'ROLE_LIBRAIRE'),
+       ('lib2', '$2b$10$lDi1MLHpX3pgoeh3Ee1p5euCpWO5q969gslckrNhXG8ejf9u/K.P2', 'ROLE_LIBRAIRE'),
+       ('cli1', '$2b$10$nSWwXHHlURcnwgwY0cNHJe0F1xsBpgbXaOxHHGoIJ29g0ryzs97Hi', 'ROLE_CLIENT'),
+       ('cli2', '$2b$10$o3tD9FpBjoAX.GuQF.ymEu4Ulc4PxzRYB40ihCi6HzPOayMTxq92y', 'ROLE_CLIENT'),
+       ('cli3', '$2b$10$WtUTnvelpOlHnPtlcO1fdeTwFdY2kJo6ENi4PKkNZJdJaZTwf4RF.', 'ROLE_CLIENT'),
+       ('cli4', '$2b$10$gt5iimroHzXfsUfocgcRJ.iDCv6aB.Z6c9uI7iB.bS0Sc8dAVsqPK', 'ROLE_CLIENT'),
+       ('cli5', '$2b$10$uWOrs3AAg3humy4miQnoOuEC3Evkc3/kYwMbqjw2zCLO8BF6webdm', 'ROLE_CLIENT'),
+       ('cli6', '$2b$10$KFDUeK2.NOgj.QW1ozTNke6MR0CesF2OX4ZOEm71EGoZ0sFg4QYrO', 'ROLE_CLIENT'),
+       ('cli7', '$2b$10$9fzBt/HdyxWxOj9cDHHBcOO7Qhe7W9RbckuTH3/o4hBQvvDt3qCsu', 'ROLE_CLIENT'),
+       ('cli8', '$2b$10$UmUQwuTJkJOE7WkDiQP2F.2M2U5X6RTDzEkQVDCjmaFn9MorQSoiC', 'ROLE_CLIENT'),
+       ('lib3', '$2b$10$FUQOPa761dmPIa/f2Y7nkuvpqsPAUbNuGB6EZXDJ2ptgcvB/bypy6', 'ROLE_LIBRAIRE_ATTENTE')
 ;
 
 
@@ -88,8 +120,6 @@ VALUES ('Les Misérables', 'Un roman historique...', '1ad2a325-1021-4b83-bebb-db
        ('qsqsqs', 'Un cycle de romans...', 'ed062afb-9c40-44ab-b977-9f9e84c744bb.jpg', false, 9, 1),
        ('piopuipio', 'Un cycle de romans...', 'ed062afb-9c40-44ab-b977-9f9e84c744bb.jpg', false, 9, 1),
        ('zezezeze', 'Un cycle de romans...', 'ed062afb-9c40-44ab-b977-9f9e84c744bb.jpg', false, 9, 1)
-
-
 ;
 
 -- Insertion dans la table Exemplaire
