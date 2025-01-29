@@ -54,7 +54,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 Compte compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp")
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
                 );
 
                 Libraire libraire = new Libraire(
@@ -226,7 +227,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp")
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
                 );
 
                 libraire = new Libraire(

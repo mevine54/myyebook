@@ -15,7 +15,7 @@
     <title>Liste de libraire - Libraire</title>
 </head>
 <body>
-<%@include file="/WEB-INF/JSP/header.jsp" %>
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <%--
         COTE ADMIN
@@ -55,6 +55,6 @@
         </div>
     </div>
 </main>
-<%@include file="/WEB-INF/JSP/footer.jsp" %>
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

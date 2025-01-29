@@ -2,7 +2,6 @@ package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
-import fr.afpa.pompey.cda22045.myyebook.securite.CSRFTokenUtil;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,7 +29,6 @@ public class ModifCategorieServlet extends HttpServlet {
         //Instancie la classe HttpSession
         HttpSession session = request.getSession(true);
         //Génère un token CSRF
-        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
         try {
             //Récupère la catégorie par l'id
             Categorie categories = categorieDAOImpl.get(id);

@@ -5,6 +5,7 @@ import com.password4j.Hash;
 import com.password4j.Password;
 import com.password4j.types.Bcrypt;
 import fr.afpa.pompey.cda22045.myyebook.exception.*;
+import fr.afpa.pompey.cda22045.myyebook.securite.PoivreToken;
 import lombok.*;
 
 import java.util.List;
@@ -17,7 +18,6 @@ public class Compte {
     private String login;
     private String password;
     private String role;
-    protected static final String POIVRE = "DSEFGHVJKGYHXDFCGHVBFGGYHVJHKhjkjh";
 
     public Compte() {
     }
@@ -80,15 +80,15 @@ public class Compte {
             throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
         }
 
-        if (POIVRE == null || POIVRE.isEmpty()) {
+        if (PoivreToken.POIVRE == null || PoivreToken.POIVRE.isEmpty()) {
             throw new IllegalArgumentException("Le poivre ne peut pas être null");
         }
         // TODO: Hash password et un poivre
 //        Hash hash = Password.hash(password).addPepper(poivre).withBcrypt();
 //        this.password = hash.toString();
-        Hash hash = Password.hash(password).addPepper(POIVRE).withBcrypt();
-        this.password = hash.getResult(); // Stocker uniquement le hash
-//        this.password = password; // Stocker uniquement le hash
+        Hash hash = Password.hash(password).addPepper(PoivreToken.POIVRE).withBcrypt();
+//        this.password = hash.getResult(); // Stocker uniquement le hash
+        this.password = password; // Stocker uniquement le hash
 
     }
 

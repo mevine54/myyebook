@@ -9,12 +9,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "AccueilServlet", value = {"/index.jsp", "/accueil"})
+@Slf4j
 public class AccueilServlet extends HttpServlet {
 
     @Override
@@ -28,6 +30,7 @@ public class AccueilServlet extends HttpServlet {
         LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
         try {
             List<Livre> livreList = livreDAOImpl.getAll();
+            log.info("LISTE DE LIVRE : {}"  ,livreList.toString());
             request.setAttribute("livres", livreList);
             List<Livre> livresEnavant = livreDAOImpl.getEnAvant();
             request.setAttribute("livresEnavant", livresEnavant);

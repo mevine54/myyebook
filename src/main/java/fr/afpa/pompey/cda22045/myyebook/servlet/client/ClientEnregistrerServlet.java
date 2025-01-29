@@ -6,9 +6,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 
 @WebServlet(name = "enregistrerClientServlet", value = "/client-enregistrer")
+@Slf4j
 public class ClientEnregistrerServlet extends HttpServlet {
 
     @Override
@@ -17,17 +20,20 @@ public class ClientEnregistrerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         if (session != null) {
             String role = (String) session.getAttribute("role");
+            log.info("ROLE:{}" ,role);
             if ("ROLE_CLIENT".equals(role)) {
-                response.sendRedirect("index.jsp");
-            } else if ("ROLE_ADMIN".equals(role)) {
+                response.sendRedirect("accueil");
+            } else if ("ROLE_LIBRAIRE".equals(role)) {
                 response.sendRedirect("libraireinfo.jsp");
             }
+            this.getServletContext().getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
         } else {
             this.getServletContext().getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
         }
+
     }
 
     @Override

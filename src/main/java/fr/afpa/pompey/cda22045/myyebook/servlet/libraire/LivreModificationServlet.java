@@ -9,10 +9,7 @@ import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -70,13 +67,13 @@ public class LivreModificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Recup des parametres
-        String nom = request.getParameter("nom");
-        String auteur = request.getParameter("auteur");
-        String categorie = request.getParameter("categorie");
-        String resume = request.getParameter("resume");
+        String nomStr = request.getParameter("nom");
+        Integer auteurId = Integer.valueOf(request.getParameter("auteur"));
+        Integer categorieId = Integer.valueOf(request.getParameter("categorie"));
+        String resumeStr = request.getParameter("resume");
         Part imgPart = request.getPart("img");
 
-        System.out.println(nom + " " + auteur + " " + categorie + " " + resume + " " + imgPart.getSubmittedFileName());
+        System.out.println(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
         //TODO:    Gerer le chargement d'image
 
         // Enregistrement de l'image
@@ -85,12 +82,30 @@ public class LivreModificationServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + File.separator + newFileName);
+        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture")  + newFileName);
+        imgPart.write(fichierACree.getAbsolutePath());
         if (ImageIO.read(fichierACree) != null) {
-            imgPart.write(fichierACree.getAbsolutePath());
             log.info(fichierACree.getAbsolutePath());
+            LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
+            AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
+            CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+            try {
+                Livre livre = livreDAOImpl.get(Integer.valueOf(request.getParameter("id")));
+                Categorie categorie = categorieDAOImpl.get(categorieId);
+                Auteur auteur = auteurDAOImpl.get(auteurId);
+                livre.setTitre(nomStr);
+                livre.setAuteur(auteur);
+                livre.setCategorie(categorie);
+                livre.setResume(resumeStr);
+                livre.setImage(newFileName);
+                livreDAOImpl.update(livre);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         } else {
             log.warn("Ce fichier n'est pas une image valide");
+            fichierACree.delete();
         }
     }
 
@@ -98,6 +113,22 @@ public class LivreModificationServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.warn("delete");
+        HttpSession session = req.getSession();
+        String csrfSession = (String) session.getAttribute("csrfToken");
+        String csrfReq = (String) req.getParameter("csrf");
+        log.info("csrfSession: " + csrfSession);
+        log.info("csrfReq: " + csrfReq);
+
+        LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
+        if (csrfReq.equals(csrfSession)) {
+            try {
+                livreDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            log.warn("csrf different");
+        }
     }
 
     @Override

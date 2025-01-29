@@ -6,8 +6,10 @@ import fr.afpa.pompey.cda22045.myyebook.exception.LongueurMinimaleException;
 import fr.afpa.pompey.cda22045.myyebook.exception.NullValueException;
 import fr.afpa.pompey.cda22045.myyebook.exception.RegexValidationException;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Slf4j
 public class Libraire  {
     private Compte compte;
     private Integer libId;
@@ -20,6 +22,11 @@ public class Libraire  {
 
     public Libraire(Compte compte,Integer libId, boolean estApprouve  ,String nom, String prenom) {
         setCompte(compte);
+        if (estApprouve){
+            compte.setRole("ROLE_LIBRAIRE");
+        }else{
+            compte.setRole("ROLE_LIBRAIRE_ATTENTE");
+        }
         setEstApprouve(estApprouve);
         setNom(nom);
         setPrenom(prenom);
@@ -28,8 +35,12 @@ public class Libraire  {
     private void setCompte(Compte compte) {
         if (compte == null) {
             throw new IllegalArgumentException("compte is null");
+        }  else if ( compte.getRole().equals("ROLE_LIBRAIRE") || compte.getRole().equals("ROLE_LIBRAIRE_ATTENTE")   ) {
+            this.compte = compte;
+            log.info(compte.getRole());
+        }else{
+            throw new IllegalArgumentException("Ce compte n'appartient pas a une libraire");
         }
-        this.compte = compte;
     }
 
 
@@ -94,11 +105,11 @@ public class Libraire  {
         this.estApprouve = estApprouve;
     }
 
-
     @Override
     public String toString() {
         return "Libraire{" +
-                "libId=" + libId +
+                "compte=" + compte +
+                ", libId=" + libId +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", estApprouve=" + estApprouve +

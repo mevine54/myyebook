@@ -3,6 +3,8 @@
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
 <c:url value="/assets/css/bootstrapicons.css" var="bootstrapicons"/>
+<c:set var="auteurId" value="${param.id}" />
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,20 +27,27 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <div class="d-flex justify-content-center my-3">
-                    <h2>Modification de l'auteur</h2>
+                    <h2>Modifier un auteur</h2>
                 </div>
-                <form class="mx-auto col-lg-7" method="POST" action="ModifAuteur">
+                <form class="mx-auto col-lg-7" enctype="multipart/form-data"  method="POST" action="modifAuteur">
+                    <input type="hidden" name="id" value="<c:out value="${auteurId}" />" />
+
+                    <input type= "hidden"  name="csrf" value = "<c:out value='${sessionScope.csrfToken}'/>" />
                     <a href="${pageContext.request.contextPath}/ListeAuteur" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="nom" class="form-label">Nom de l'auteur</label>
                             <input type="text" class="form-control" id="nom" name="nom" required>
                         </div>
+                        <div class="col">
+                            <label for="prenom" class="form-label">Prénom de l'auteur</label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" required>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="formFile" class="form-label">Photo de l'auteur</label>
-                            <input class="form-control bi bi-file-image-fill-exclamation" type="file" id="formFile">
+                            <input class="form-control" type="file" id="formFile" name="image">
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">

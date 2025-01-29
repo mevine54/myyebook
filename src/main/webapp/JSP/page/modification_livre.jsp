@@ -29,6 +29,8 @@
         </div>
         <form class="mx-auto col-lg-7" enctype="multipart/form-data" method="POST"
               action="LivreModification">
+            <input type="hidden" name="id" value="<c:out value="${livre.id}"/>" />
+            <input type= "hidden"  name="csrf" value = "<c:out value='${sessionScope.csrfToken}'/>" />
             <a href="${pageContext.request.contextPath}/ListeLivre" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
             <div class="row mb-3">
                 <div class="col">
