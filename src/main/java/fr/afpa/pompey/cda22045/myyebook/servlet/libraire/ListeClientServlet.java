@@ -1,5 +1,8 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAO;
+import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,10 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "ListeClientServlet", value = "/ListeClient")
 public class ListeClientServlet extends HttpServlet {
 
+    private ClientDAOImp clientDAO;
     @Override
     public void init() {
 
@@ -23,6 +29,14 @@ public class ListeClientServlet extends HttpServlet {
         String currentURL = request.getRequestURL().toString();
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
+
+        ClientDAOImp clientDAO = new ClientDAOImp();
+        try {
+            List<Client> clients = clientDAO.getAll();
+            request.setAttribute("clients", clients);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         this.getServletContext().getRequestDispatcher("/JSP/page/listeClient.jsp").forward(request, response);
     }

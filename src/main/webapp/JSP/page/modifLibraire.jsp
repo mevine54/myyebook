@@ -29,27 +29,41 @@
                 <div class="d-flex justify-content-center my-3">
                     <h2>Modification un compte Libraire</h2>
                 </div>
-
-                <form class=" mx-auto col-7" method="POST" action="${pageContext.request.contextPath}/ModifLibraire">
+                <form class="mx-auto col-lg-7" method="POST" action="${pageContext.request.contextPath}/ModifLibraire">
+                    <c:if test="${param.info == 'error'}">
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Erreur lors de la modification du libraire !
+                        </div>
+                    </c:if>
                     <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
-                    <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
-                    <h3>Informations</h3>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="nom" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="nom" name="nom" required>
+                    <input type= "hidden"  name="csrf" value = "<c:out value='${sessionScope.csrfToken}'/>" />
+                    <c:if test="${not empty requestScope.libraire}">
+                        <input type="hidden" name="idLibraire" value="${libraire.libId}">
+                        <input type="hidden" name="idCompte" value="${libraire.compteId}">
+                        <h3>Informations</h3>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="text" class="form-control" id="nom" name="nom" value="${libraire.nom}" required>
+                            </div>
+                            <div class="col ">
+                                <label for="prenom" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" value="${libraire.prenom}" required>
+                            </div>
                         </div>
-                        <div class="col ">
-                            <label for="prenom" class="form-label">Prénom</label>
-                            <input type="text" class="form-control" id="prenom" name="prenom" required>
+                        <h3>Compte</h3>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="login" class="form-label">Login</label>
+                                <input type="text" class="form-control" id="login" name="login" value="${libraire.login}" required>
+                            </div>
+                            <div class="col ">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" value="${libraire.password}" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                    </div>
+
+                    </c:if>
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-outline-info rounded-0">Modifier</button>
                     </div>

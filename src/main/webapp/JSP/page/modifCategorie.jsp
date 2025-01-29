@@ -28,9 +28,10 @@
                     <h2>Modification de Categorie</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="ModifCategorie">
+                    <input type= "hidden"  name="csrf" value ="${sessionScope.csrfToken}"/>
                     <c:if test="${param.info == 'error'}">
                         <div class="alert alert-warning text-center" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la création de catégorie !
+                            <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la modification de catégorie !
                         </div>
                     </c:if>
                     <c:if test="${param.info == 'errorDB'}">
@@ -41,12 +42,13 @@
                     <a href="${pageContext.request.contextPath}/ListeCategorie" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">
-                            <c:forEach var="categorie" items="${requestScope.categories}">
+                            <c:if test="${not empty requestScope.categories}">
                                 <label for="nomCategorie" class="form-label">Nom de Catégorie</label>
-                                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-                                <input type="hidden" name="id" value="${categorie.id}">
-                                <input type="text" class="form-control" id="nomCategorie" name="nomCategorie" value="${categorie.nom}" required>
-                            </c:forEach>
+<%--                                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">--%>
+                                <input type="hidden" name="id" value="${categories.id}">
+                                <input type="text" class="form-control" id="nomCategorie" name="nomCategorie" value="${categories.nom}" required>
+                            </c:if>
+
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mt-3">
