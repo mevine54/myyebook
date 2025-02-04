@@ -30,7 +30,7 @@ public class ListeCategorieServlet extends HttpServlet {
         // Enregistre l'url dans la variable et envoye à la page JSP
         // request.setAttribute("currentURL", currentURL);
         CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
-//        HttpSession session = request.getSession(true);
+//        HttpSession session = request.getSession(false);
 //        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
 
         try {

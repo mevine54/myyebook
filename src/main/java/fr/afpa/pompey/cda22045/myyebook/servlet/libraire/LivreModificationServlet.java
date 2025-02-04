@@ -73,7 +73,7 @@ public class LivreModificationServlet extends HttpServlet {
         String resumeStr = request.getParameter("resume");
         Part imgPart = request.getPart("img");
 
-        System.out.println(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
+        log.info(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
         //TODO:    Gerer le chargement d'image
 
         // Enregistrement de l'image

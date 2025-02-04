@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -28,7 +28,7 @@
                     <h2>Crée une Catégorie</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="CreeUneCategorie">
-                    <input type= "hidden"  name="csrf" value ="${sessionScope.csrfToken}"/>
+                    <input type= "hidden"  name="csrf" value ="${requestScope.csrfToken}"/>
                     <c:if test="${param.info == 'error'}">
                         <div class="alert alert-warning text-center" role="alert">
                             <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la création de catégorie !

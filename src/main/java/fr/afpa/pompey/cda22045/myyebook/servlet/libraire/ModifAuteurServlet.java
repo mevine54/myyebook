@@ -41,7 +41,7 @@ public class ModifAuteurServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
 
         String idStr = request.getParameter("id");
         String nomStr = request.getParameter("nom");

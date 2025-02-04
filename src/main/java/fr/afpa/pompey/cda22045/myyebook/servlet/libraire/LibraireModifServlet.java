@@ -56,7 +56,7 @@ public class LibraireModifServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO: Implement
         // Récupérer les paramètres du formulaire
-        System.out.println("libraire info post");
+        log.info("libraire info post");
         String idLibraire = request.getParameter("idLibraire");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
@@ -102,12 +102,12 @@ public class LibraireModifServlet extends HttpServlet {
 //                && rue != null && !rue.isEmpty() && codePostal != null && !codePostal.isEmpty() && ville != null
 //                && !ville.isEmpty()) {
 //            // Afficher les paramètres dans la console
-//            System.out.println("Nom: " +nom);
-//            System.out.println("Prénom: " +prenom);
-//            System.out.println("email: " +email);
-//            System.out.println("rue: " +rue);
-//            System.out.println("codePostal: " +codePostal);
-//            System.out.println("ville: " +ville);
+//            log.info("Nom: " +nom);
+//            log.info("Prénom: " +prenom);
+//            log.info("email: " +email);
+//            log.info("rue: " +rue);
+//            log.info("codePostal: " +codePostal);
+//            log.info("ville: " +ville);
 //
 //            // Rediriger vers une page de confirmation ou afficher une réponse
 ////            response.sendRedirect(request.getContextPath() + "/libraireinfo.jsp");

@@ -60,8 +60,8 @@ public class Emprunter {
 
     public void setReservation(Reservation reservation) {
         if (reservation != null && reservation.getDatetime().isAfter(datetimeEmprunt)  ) {
-//            System.out.println(reservation.getDatetime());
-//            System.out.println(datetimeEmprunt);
+//            log.info(reservation.getDatetime());
+//            log.info(datetimeEmprunt);
 
             throw new IncoherenteDateException("La date de reservation ne peut pas etre posterieur à la date d'emprunt");
         }

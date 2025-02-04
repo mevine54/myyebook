@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.reservationdao.ReservationDAO;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 /**
  * The type Reservation test.
  */
+@Slf4j
 public class ReservationTest {
     /**
      * The Reservation dao.
@@ -82,10 +84,10 @@ public void testInsertRes() throws SQLException {
       assertNotNull(reservations, "La liste des réservations ne doit pas être nulle");
 
       if (reservations.isEmpty()) {
-          System.out.println("Aucune réservation enregistrée dans la base de données");
+          log.info("Aucune réservation enregistrée dans la base de données");
       } else {
 //          Affichage des réservations
-          reservations.forEach(System.out::println);
+          log.info(reservations.toString());
 
 //          Vérification des données de la première réservation
           Reservation reservation = reservations.get(0);
@@ -111,7 +113,7 @@ public void testInsertRes() throws SQLException {
         assertNotNull(resByID.getClient(), "Le client de la réservation ne doit pas être nul");
         assertNotNull(resByID.getLivre(), "Le livre de la réservation ne doit pas être nul");
         assertNotNull(resByID.getDatetime(), "La date de la réservation ne doit pas être nulle");
-        System.out.println(resByID);
+        log.info(String.valueOf(resByID));
     }
 
     @Test
@@ -132,7 +134,7 @@ public void testInsertRes() throws SQLException {
         assertEquals(LocalDate.of(2024, 1, 10).atStartOfDay(), updatedReservation.getDatetime(),
                 "La date de la réservation n'a pas été mise à jour.");
 
-        System.out.println(updatedReservation);
+        log.info(String.valueOf(updatedReservation));
     }
 
     @Test

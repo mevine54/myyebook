@@ -20,7 +20,7 @@ public class ClientEnregistrerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             String role = (String) session.getAttribute("role");
             log.info("ROLE:{}" ,role);
@@ -45,7 +45,7 @@ public class ClientEnregistrerServlet extends HttpServlet {
         String mdp1 = request.getParameter("mdp1");
         String mdp2 = request.getParameter("mdp2");
 
-        System.out.println("nom: " + nom + ", prenom: " + prenom + ", utilisateur: " + utilisateur + ", email: " + email + ", mdp: " + mdp1 + ", mdp2: " + mdp2);
+        log.info("nom: " + nom + ", prenom: " + prenom + ", utilisateur: " + utilisateur + ", email: " + email + ", mdp: " + mdp1 + ", mdp2: " + mdp2);
 
         // Vérifier les informations d'inscription (à implémenter)
         boolean isRegistered = registerUser(nom, prenom, email, utilisateur, mdp1, mdp2);

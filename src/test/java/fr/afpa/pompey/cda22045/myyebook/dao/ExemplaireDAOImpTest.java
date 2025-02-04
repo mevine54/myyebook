@@ -4,12 +4,14 @@ import fr.afpa.pompey.cda22045.myyebook.dao.exemplairedao.ExemplaireDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.dao.livredao.LivreDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Exemplaire;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class ExemplaireDAOImpTest {
 
     LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
@@ -26,9 +28,9 @@ public class ExemplaireDAOImpTest {
     void getByIdValid() {
         try {
             Exemplaire exemplaire = exemplaireDAOImpl.get(1);
-            System.out.println(exemplaire);
+            log.info(String.valueOf(exemplaire));
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -36,9 +38,9 @@ public class ExemplaireDAOImpTest {
     void getAllValid() {
         try {
             List<Exemplaire> exemplaires  = exemplaireDAOImpl.getAll();
-            System.out.println(exemplaires);
+            log.info(exemplaires.toString());
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -47,11 +49,11 @@ public class ExemplaireDAOImpTest {
         try {
             Livre livre = livreDAOImpl.get(1);
             Exemplaire exemplaire = new Exemplaire(null,livre);
-            System.out.println(livre);
+            log.info(String.valueOf(livre));
             Integer id  = exemplaireDAOImpl.insert(exemplaire);
-            System.out.println("L'id de l'exemplaire insere est "+ id);
+            log.info("L'id de l'exemplaire insere est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 //
@@ -62,9 +64,9 @@ public class ExemplaireDAOImpTest {
             Livre livre = livreDAOImpl.get(2);
             exemplaire.setLivre(livre);
             int id = exemplaireDAOImpl.update(exemplaire);
-            System.out.println("L'id de l'exemplaire modifie est "+ id);
+            log.info("L'id de l'exemplaire modifie est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 //
@@ -73,9 +75,9 @@ public class ExemplaireDAOImpTest {
     void deleteValid() {
         try {
             Integer id = exemplaireDAOImpl.delete(14);
-            System.out.println("L'id de l'exemplaire "+ id + " a bien ete supprimer");
+            log.info("L'id de l'exemplaire "+ id + " a bien ete supprimer");
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 }

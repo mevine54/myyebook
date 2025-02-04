@@ -6,12 +6,14 @@ import fr.afpa.pompey.cda22045.myyebook.dao.livredao.LivreDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class LivreDAOImpTest {
 
     LivreDAOImpl livreDAOImp = new LivreDAOImpl();
@@ -26,9 +28,9 @@ public class LivreDAOImpTest {
     void getByIdValid() {
         try {
             Livre livre = livreDAOImp.get(1);
-            System.out.println(livre);
+            log.info(String.valueOf(livre));
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -36,9 +38,9 @@ public class LivreDAOImpTest {
     void getAllValid() {
         try {
             List<Livre> livres  = livreDAOImp.getAll();
-            System.out.println(livres);
+            log.info(livres.toString());
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -49,9 +51,9 @@ public class LivreDAOImpTest {
             Categorie categorie = categorieDAOImp.get(1);
             Livre livre = new Livre(null,"titreLivre","resume losdfsdfdsf","image.jpg",false,auteur,categorie);
             Integer id  = livreDAOImp.insert(livre);
-            System.out.println("L'id du livre insere est "+ id);
+            log.info("L'id du livre insere est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -59,14 +61,14 @@ public class LivreDAOImpTest {
     void updateValid() {
         try {
             Livre livre = livreDAOImp.get(11);
-            System.out.println(livre);
+            log.info(String.valueOf(livre));
             livre.setTitre("BLABLA_titre");
             livre.setResume("BLABLA resume");
             livre.setImage("/BLABLA.jpg");
             Integer id  = livreDAOImp.update(livre);
-            System.out.println("L'id du livre modifie est "+ id);
+            log.info("L'id du livre modifie est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -76,9 +78,9 @@ public class LivreDAOImpTest {
         try {
             Integer id  = 11;
             livreDAOImp.delete(id);
-            System.out.println("L'id du livre "+ id + " a bien ete supprimer");
+            log.info("L'id du livre "+ id + " a bien ete supprimer");
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 }

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:url value="/accueil" var="accueilUrl"/>
@@ -28,13 +28,13 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 <%--                <div class="d-flex w-100">--%>
                     <c:choose>
-                        <c:when test="${sessionScope.role == 'ROLE_LIBRAIRE' or sessionScope.role == 'ROLE_LIBRAIRE_ATTENTE' }">
+                        <c:when test="${requestScope.role == 'ROLE_LIBRAIRE' or requestScope.role == 'ROLE_LIBRAIRE_ATTENTE' }">
 
 
                         </c:when>
                         <c:otherwise>
                             <!-- Utilisateur non connecté affiche la barre de recherche-->
-<%--                            <c:if test="${empty sessionScope.role}">--%>
+<%--                            <c:if test="${empty requestScope.role}">--%>
                             <div class="form-control p-0 mt-2 mt-md-0" role="search">
                                 <input id="search" class="form-control m-0 barnav" type="search"
                                        placeholder="Rechercher un livre..." name="search"
@@ -51,7 +51,7 @@
                     <div class="ms-auto d-flex justify-content-center flex-column flex-lg-row">
 
                         <c:choose>
-                            <c:when test="${not empty sessionScope.role}">
+                            <c:when test="${not empty requestScope.role}">
                                 <a href="<c:out value="${deconnexionUrl}"/>"
                                    class="ms-auto d-flex flex-wrap justify-content-lg-center align-items-center m-2 m-lg-0 link-underline link-underline-opacity-0 link-underline-opacity-0-hover text-white">
                                     <img src="<c:url value='/assets/images/logout.svg'/>"

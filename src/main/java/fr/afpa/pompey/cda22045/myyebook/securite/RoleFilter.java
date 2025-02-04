@@ -9,6 +9,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -80,12 +81,17 @@ public class RoleFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        String role =   null;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String contextPath = ((HttpServletRequest) request).getContextPath();
 
         String uri = httpRequest.getRequestURI().replace(contextPath, "") ;
-        String role = (String) httpRequest.getSession().getAttribute("role");
+        HttpSession session = httpRequest.getSession(false);
+
+        if (session!=null){
+            role = (String) session.getAttribute("role");
+        }
         log.info("ROLE: {}",role);
         log.info("URI: {}", uri );
         log.info("context: {}", contextPath);

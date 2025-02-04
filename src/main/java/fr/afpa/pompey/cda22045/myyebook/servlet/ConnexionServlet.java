@@ -38,9 +38,9 @@ public class ConnexionServlet extends HttpServlet {
 
         }
 //        request.getSession(false);
-//        HttpSession session = request.getSession(true);
+//        HttpSession session = request.getSession(false);
 //        request.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
-//        System.out.println(request.getAttribute("csrfToken"));
+//        log.info(request.getAttribute("csrfToken"));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ConnexionServlet extends HttpServlet {
         //TODO: Verifier mdp hashee
         if (compte != null && compte.getPassword().equals(mdp)) {
             if (session == null) {
-                session = request.getSession(true);
+                session = request.getSession(false);
             }
             log.info("utilisateur: " + utilisateur + " compte: " + compte);
             session.setAttribute("utilisateur", utilisateur);

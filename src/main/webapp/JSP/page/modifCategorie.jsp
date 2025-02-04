@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -28,7 +28,7 @@
                     <h2>Modification de Categorie</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="ModifCategorie">
-                    <input type= "hidden"  name="csrf" value ="${sessionScope.csrfToken}"/>
+                    <input type= "hidden"  name="csrf" value ="${requestScope.csrfToken}"/>
                     <c:if test="${param.info == 'error'}">
                         <div class="alert alert-warning text-center" role="alert">
                             <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la modification de catégorie !
@@ -44,7 +44,7 @@
                         <div class="col">
                             <c:if test="${not empty requestScope.categories}">
                                 <label for="nomCategorie" class="form-label">Nom de Catégorie</label>
-<%--                                <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">--%>
+<%--                                <input type="hidden" name="csrfToken" value="${requestScope.csrfToken}">--%>
                                 <input type="hidden" name="id" value="${categories.id}">
                                 <input type="text" class="form-control" id="nomCategorie" name="nomCategorie" value="${categories.nom}" required>
                             </c:if>

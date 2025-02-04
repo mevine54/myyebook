@@ -8,11 +8,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "CreeUnAuteurServlet", value = "/CreeUnAuteur")
+@Slf4j
 public class CreeUnAuteurServlet extends HttpServlet {
     private AuteurDAOImpl auteurDAOImpl;
 
@@ -36,7 +38,7 @@ public class CreeUnAuteurServlet extends HttpServlet {
         //Récupérer les informations du formulaire
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
-        System.out.println("nom: " +nom + " Prenom " + prenom);
+        log.info("nom: " +nom + " Prenom " + prenom);
 
         try{
             Verification.CHARACTER(nom);

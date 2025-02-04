@@ -4,12 +4,14 @@ import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class ClientDAOImpTest {
 
     ClientDAOImp clientDAOImp;
@@ -25,9 +27,9 @@ public class ClientDAOImpTest {
     void getByIdValid() {
         try {
             Client client = clientDAOImp.get(1);
-            System.out.println(client);
+            log.info(String.valueOf(client));
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -35,9 +37,9 @@ public class ClientDAOImpTest {
     void getAllValid() {
         try {
             List<Client> clients  = clientDAOImp.getAll();
-            System.out.println(clients);
+            log.info(clients.toString());
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -48,9 +50,9 @@ public class ClientDAOImpTest {
 
             Client client = new Client(compte,null,"Nomclient","PrenomClient","azeazreazre@gmail.com","10 azeaze","ytryr","44444");
             Integer id  = clientDAOImp.insert(client);
-            System.out.println("L'id de la client insere est "+ id);
+            log.info("L'id de la client insere est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -58,13 +60,13 @@ public class ClientDAOImpTest {
     void updateValid() {
         try {
             Client client = clientDAOImp.get(9);
-            System.out.println(client);
+            log.info(String.valueOf(client));
             client.setNom("BLABLANOM");
             client.setPrenom("BLABLAPRENOM");
             Integer id  = clientDAOImp.update(client);
-            System.out.println("L'id de la client modifie est "+ id);
+            log.info("L'id de la client modifie est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -74,9 +76,9 @@ public class ClientDAOImpTest {
         try {
             Integer id  = 9;
             clientDAOImp.delete(id);
-            System.out.println("L'id de la client "+ id + " a bien ete supprimer");
+            log.info("L'id de la client "+ id + " a bien ete supprimer");
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 }

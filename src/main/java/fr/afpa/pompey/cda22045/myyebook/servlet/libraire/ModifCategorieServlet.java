@@ -24,11 +24,15 @@ public class ModifCategorieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idStr = request.getParameter("id");
+        HttpSession session = request.getSession(false);
         Categorie categories;
         if (idStr != null && idStr.matches("\\d+")) {
             int id = Integer.parseInt(idStr);
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
             try {
+//                if ( session!=null ){
+//                    request.setAttribute("csrfToken",session.getAttribute("csrfToken"));
+//                }
                 categories = categorieDAOImpl.get(id);
                 if (categories != null) {
                     Categorie categorie = categorieDAOImpl.get(id);
@@ -54,11 +58,6 @@ public class ModifCategorieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) request.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfReq: " + csrfReq);
         String nomCategorie = request.getParameter("nomCategorie");
         String id = request.getParameter("id");
 
@@ -79,6 +78,16 @@ public class ModifCategorieServlet extends HttpServlet {
                 categorieDAOImpl.update(categorie);
 //                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+        try {
+            categorieDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

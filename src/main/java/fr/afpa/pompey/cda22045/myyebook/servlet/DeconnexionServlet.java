@@ -2,10 +2,8 @@ package fr.afpa.pompey.cda22045.myyebook.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
+
 import java.io.IOException;
 
 @WebServlet(name = "DeconnexionServlet", value = "/deconnexion")
@@ -19,6 +17,12 @@ public class DeconnexionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
+            Cookie[] cookies = request.getCookies();
+            for (Cookie cookie : cookies) {
+                cookie.setValue("");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+            }
             session.invalidate();
         }
         response.sendRedirect("accueil");

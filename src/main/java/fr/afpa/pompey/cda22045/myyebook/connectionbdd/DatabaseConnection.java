@@ -1,5 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.connectionbdd;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -7,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+@Slf4j
 public class DatabaseConnection {
 
     // public static final Logger LOGGER = Logger.getLogger(DatabaseConnection.class.getName);
@@ -53,11 +56,11 @@ public class DatabaseConnection {
 //        if (connection == null) {
 //            new DatabaseConnection();
 //            //LOGGER.info("RelationWithDB infos : Connection established");
-//            System.out.println("RelationWithDB infos : Connection established");
+//            log.info("RelationWithDB infos : Connection established");
 //        }
 //        else {
 //            //LOGGER.info("RelationWithDB infos : Connection already existing");
-//            System.out.println("RelationWithDB infos : Connection already existing");
+//            log.info("RelationWithDB infos : Connection already existing");
 //        }
 //        return getConnection();
 //    }
@@ -77,7 +80,7 @@ public class DatabaseConnection {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connection closed");
+                log.info("Connection closed");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

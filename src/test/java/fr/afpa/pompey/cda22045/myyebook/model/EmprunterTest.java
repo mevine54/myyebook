@@ -3,6 +3,7 @@ package fr.afpa.pompey.cda22045.myyebook.model;
 import fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao.EmprunterDAO;
 import fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao.EmprunterDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.exception.IdTropPetitException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Slf4j
 class EmprunterTest {
 
     EmprunterDAOImpl emprunterDAOImpl;
@@ -26,7 +27,7 @@ class EmprunterTest {
     void getByIdValid() {
         try {
             Emprunter emprunter = emprunterDAOImpl.get(2);
-            System.out.println(emprunter);
+            log.info(String.valueOf(emprunter));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,11 +69,11 @@ class EmprunterTest {
     @Test
     void updateTest() throws SQLException {
         Emprunter emp = emprunterDAOImpl.get(2);
-        System.out.println("emp: " + emp);
+        log.info("emp: " + emp);
         emp.setDatetimeEmprunt(LocalDate.of(2024, 12, 8).atStartOfDay());
 
 //        int reserveID = emp.getReservation().getResId();
-//        System.out.println("reserveID: " + reserveID);
+//        log.info("reserveID: " + reserveID);
 //        Client client = new Client();
 //        client.setClientId(1);
 //        Libraire libraire = new Libraire();

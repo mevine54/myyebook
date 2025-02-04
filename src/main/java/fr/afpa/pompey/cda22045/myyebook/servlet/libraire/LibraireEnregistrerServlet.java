@@ -9,10 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "enregistrerLibraireServlet", value = "/libraire-enregistrer")
+@Slf4j
 public class LibraireEnregistrerServlet extends HttpServlet {
     LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
     @Override
@@ -37,7 +40,7 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        System.out.println("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
+        log.info("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
         //Verifier les informations passent au regex
         Verification.CHARACTER(nom);
@@ -63,9 +66,9 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         // Enregistrer le libraire dans la base de données
         try {
             libraireDAOImp.insert(libraire);
-            System.out.println("Libraire enregistré");
+            log.info("Libraire enregistré");
         } catch (SQLException e) {
-            System.out.println("Erreur lors de l'enregistrement du libraire");
+            log.info("Erreur lors de l'enregistrement du libraire");
             throw new RuntimeException(e);
         }
 

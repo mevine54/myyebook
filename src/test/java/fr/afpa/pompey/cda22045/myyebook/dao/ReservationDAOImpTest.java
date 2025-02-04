@@ -6,12 +6,14 @@ import fr.afpa.pompey.cda22045.myyebook.dao.reservationdao.ReservationDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Reservation;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class ReservationDAOImpTest {
 
     LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
@@ -28,9 +30,9 @@ public class ReservationDAOImpTest {
     void getByIdValid() {
         try {
             Reservation reservation = reservationDAOImpl.get(1);
-            System.out.println(reservation);
+            log.info(String.valueOf(reservation));
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -38,9 +40,9 @@ public class ReservationDAOImpTest {
     void getAllValid() {
         try {
             List<Reservation> reservations  = reservationDAOImpl.getAll();
-            System.out.println(reservations);
+            log.info(reservations.toString());
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -50,11 +52,11 @@ public class ReservationDAOImpTest {
             Livre livre = livreDAOImpl.get(1);
             Client client = clientDAOImp.get(1);
             Reservation reservation = new Reservation(null,client,livre);
-            System.out.println(livre);
+            log.info(String.valueOf(livre));
             Integer id  = reservationDAOImpl.insert(reservation);
-            System.out.println("L'id de la reservation insere est "+ id);
+            log.info("L'id de la reservation insere est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 //
@@ -65,9 +67,9 @@ public class ReservationDAOImpTest {
             Livre livre = livreDAOImpl.get(2);
             reservation.setLivre(livre);
             int id = reservationDAOImpl.update(reservation);
-            System.out.println("L'id de l'reservation modifie est "+ id);
+            log.info("L'id de l'reservation modifie est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 //
@@ -76,9 +78,9 @@ public class ReservationDAOImpTest {
     void deleteValid() {
         try {
             Integer id = reservationDAOImpl.delete(5);
-            System.out.println("L'id de l'reservation "+ id + " a bien ete supprimer");
+            log.info("L'id de l'reservation "+ id + " a bien ete supprimer");
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 }

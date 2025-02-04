@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -57,7 +57,7 @@
                                    href="ModifLibraire?id=<c:out value='${libraire.libId}'/>">Modifier</a>
                                 <button type="button" class="btn btn-outline-danger rounded-0"
                                         hx-on:click="confirmDelete(<c:out value='${libraire.libId}'/>,
-                                        'ModifLibraire?id=${libraire.libId}&csrf=${sessionScope.csrfToken}')"
+                                        'ModifLibraire?id=${libraire.libId}&csrf=${requestScope.csrfToken}')"
                                 >
                                     Supprimer
                                 </button>

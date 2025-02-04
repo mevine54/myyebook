@@ -23,7 +23,7 @@ public class ListeLibraireServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
-//        HttpSession session = request.getSession(true);
+//        HttpSession session = request.getSession(false);
 //        session.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
 
         try {

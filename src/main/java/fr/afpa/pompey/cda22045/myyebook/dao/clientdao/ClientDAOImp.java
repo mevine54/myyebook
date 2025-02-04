@@ -3,11 +3,13 @@ package fr.afpa.pompey.cda22045.myyebook.dao.clientdao;
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ClientDAOImp implements ClientDAO {
 
     @Override
@@ -156,7 +158,7 @@ public class ClientDAOImp implements ClientDAO {
             connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
-            System.out.println(e.getMessage());
+            log.info(e.getMessage());
             throw new RuntimeException(e);
         } finally {
             connection.setAutoCommit(true);

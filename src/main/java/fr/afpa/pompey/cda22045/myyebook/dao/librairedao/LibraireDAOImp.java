@@ -3,11 +3,13 @@ package fr.afpa.pompey.cda22045.myyebook.dao.librairedao;
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class LibraireDAOImp implements LibraireDAO {
 
     @Override
@@ -88,7 +90,7 @@ public class LibraireDAOImp implements LibraireDAO {
             if (generatedKeysCompte.next()) {
                 sql = "INSERT INTO libraire ( lib_nom, lib_prenom,cpt_id) VALUES ( ?, ?,?)";
                 compteId = generatedKeysCompte.getInt(1);
-                System.out.println("COMPTE : -----  " + compteId);
+                log.info("COMPTE : -----  " + compteId);
                 ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, libraire.getNom());
                 ps.setString(2, libraire.getPrenom());
@@ -141,7 +143,7 @@ public class LibraireDAOImp implements LibraireDAO {
             connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
-            System.out.println(e.getMessage());
+            log.info(e.getMessage());
             throw new RuntimeException(e);
         } finally {
             connection.setAutoCommit(true);

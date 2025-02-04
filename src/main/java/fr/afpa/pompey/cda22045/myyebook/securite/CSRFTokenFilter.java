@@ -47,10 +47,8 @@ public class CSRFTokenFilter implements Filter {
         String requestURI = ((HttpServletRequest) request).getRequestURI();
 
 
-        System.out.println("filtre csrf appele");
-        // TODO: Mettre session a false
-//        HttpSession session = httpRequest.getSession(false);
-        HttpSession session = httpRequest.getSession(true);
+        log.info("filtre csrf appele");
+        HttpSession session = httpRequest.getSession(false);
 
         // Vérifier uniquement pour les requêtes sensibles (POST, PUT, DELETE)
         String method = httpRequest.getMethod();
@@ -62,13 +60,13 @@ public class CSRFTokenFilter implements Filter {
 
             // Récupérer le token CSRF stocké dans la session
             String csrfTokenFromServer = (String) session.getAttribute("csrfToken");
-            System.out.println("filtre csrf verification");
+            log.info("filtre csrf verification");
             log.info(csrfTokenFromClient);
             log.info(csrfTokenFromServer);
             // Validation
             if (csrfTokenFromClient == null || !csrfTokenFromClient.equals(csrfTokenFromServer)) {
                 // Rejet si le token est invalide ou absent
-                System.out.println("filtre csrf invalide ou absent");
+                log.info("filtre csrf invalide ou absent");
                 if (!httpResponse.isCommitted()) {
                     // Envoyer une réponse d'erreur 403 Forbidden
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Invalid CSRF token");
@@ -80,9 +78,10 @@ public class CSRFTokenFilter implements Filter {
                 return;
             }
         } else if (session != null && (method.equalsIgnoreCase("GET") || method.equalsIgnoreCase("HEAD")) && routesAProtege.contains(requestURI)) {
-            log.info("request uri : " + requestURI);
+            log.info("request uri : {}", requestURI);
             String uuidStr = UUID.randomUUID().toString();
             session.setAttribute("csrfToken", uuidStr);
+            request.setAttribute("csrfToken", uuidStr);
         }
         chain.doFilter(request, response);
 
