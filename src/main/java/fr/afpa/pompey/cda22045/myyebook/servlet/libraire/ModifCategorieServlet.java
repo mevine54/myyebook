@@ -63,7 +63,7 @@ public class ModifCategorieServlet extends HttpServlet {
 
         //Verif si id existe dans la table
         CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
-        if(nomCategorie == null || nomCategorie.isEmpty()){
+        if(nomCategorie == null || nomCategorie.isEmpty() || id == null || id.isEmpty()){
             response.sendRedirect(request.getContextPath() + "/ModifCategorie"+"?info=error");
         }
         try {
@@ -76,7 +76,7 @@ public class ModifCategorieServlet extends HttpServlet {
                         nomCategorie
                 );
                 categorieDAOImpl.update(categorie);
-//                response.sendRedirect(request.getContextPath() + "/ListeCategorie+"+"?info=successUpdate");
+                response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=successUpdate");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

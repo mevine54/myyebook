@@ -77,7 +77,7 @@
                 <div class="col-12 mb-3">
                     <label for="resume" class="form-label">Resume</label>
                     <textarea class="form-control" style="height: 150px" id="resume" name="resume"
-                              placeholder="Ecrirvez ici..."><c:out value="${livre.resume}"/></textarea>
+                              placeholder="Ecrivez ici..."><c:out value="${livre.resume}"/></textarea>
                 </div>
             </div>
             <div class="d-flex justify-content-center mt-3">

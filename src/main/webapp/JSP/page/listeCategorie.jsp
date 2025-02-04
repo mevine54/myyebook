@@ -70,7 +70,7 @@
                             <td class="d-flex">
                                 <a class="btn btn-outline-primary rounded-0"
                                    href="ModifCategorie?id=<c:out value='${categorie.id}'/>">Modifier</a>
-                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                <button type="button" class="ms-xxl-2  btn btn-outline-danger rounded-0"
                                         hx-on:click="confirmDelete(<c:out value='${categorie.id}'/>, 'ModifCategorie?id=${categorie.id}&csrf=${requestScope.csrfToken}')"
                                 >
                                     Supprimer

@@ -70,8 +70,10 @@ public class LivreModificationServlet extends HttpServlet {
         String nomStr = request.getParameter("nom");
         Integer auteurId = Integer.valueOf(request.getParameter("auteur"));
         Integer categorieId = Integer.valueOf(request.getParameter("categorie"));
+        boolean estEnavant = Boolean.parseBoolean(request.getParameter("estEnavant"));
         String resumeStr = request.getParameter("resume");
         Part imgPart = request.getPart("img");
+        String idStr = request.getParameter("id");
 
         log.info(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
         //TODO:    Gerer le chargement d'image
@@ -82,7 +84,7 @@ public class LivreModificationServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture")  + newFileName);
+        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
         imgPart.write(fichierACree.getAbsolutePath());
         if (ImageIO.read(fichierACree) != null) {
             log.info(fichierACree.getAbsolutePath());
@@ -90,10 +92,12 @@ public class LivreModificationServlet extends HttpServlet {
             AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
             try {
-                Livre livre = livreDAOImpl.get(Integer.valueOf(request.getParameter("id")));
                 Categorie categorie = categorieDAOImpl.get(categorieId);
                 Auteur auteur = auteurDAOImpl.get(auteurId);
+                // Modification d'un livre
+                Livre livre = livreDAOImpl.get(Integer.valueOf(idStr));
                 livre.setTitre(nomStr);
+                livre.setEstEnAvant(estEnavant);
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
                 livre.setResume(resumeStr);
