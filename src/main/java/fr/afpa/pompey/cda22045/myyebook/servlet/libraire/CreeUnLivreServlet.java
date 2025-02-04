@@ -81,13 +81,15 @@ public class CreeUnLivreServlet extends HttpServlet {
                 // Creation d'un livre
                 Categorie categorie = categorieDAOImpl.get(categorieId);
                 Auteur auteur = auteurDAOImpl.get(auteurId);
-                Livre livre = livreDAOImpl.get(Integer.valueOf(idStr));
-                livre.setTitre(nomStr);
-                livre.setAuteur(auteur);
-                livre.setEstEnAvant(estEnavant);
-                livre.setCategorie(categorie);
-                livre.setResume(resumeStr);
-                livre.setImage(newFileName);
+                Livre livre = new Livre(
+                        null,
+                        nomStr,
+                        resumeStr,
+                        newFileName,
+                        estEnavant,
+                        auteur,
+                        categorie
+                );
                 livreDAOImpl.insert(livre);
 
             } catch (SQLException e) {

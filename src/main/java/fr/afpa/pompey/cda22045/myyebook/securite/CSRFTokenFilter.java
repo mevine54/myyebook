@@ -55,14 +55,15 @@ public class CSRFTokenFilter implements Filter {
         log.info(method);
         if (session != null && (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE"))  && routesAProtege.contains(requestURI) )  {
             // Récupérer le token CSRF envoyé par le client
-            log.info("REQUETE: {} ",String.valueOf(request));
+            log.info("REQUETE: {} ",requestURI);
+           httpRequest.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
             String csrfTokenFromClient = httpRequest.getParameter("csrf");
 
             // Récupérer le token CSRF stocké dans la session
             String csrfTokenFromServer = (String) session.getAttribute("csrfToken");
             log.info("filtre csrf verification");
-            log.info(csrfTokenFromClient);
-            log.info(csrfTokenFromServer);
+            log.info("csrf requete: {}", csrfTokenFromClient);
+            log.info("csrf session: {}", csrfTokenFromServer);
             // Validation
             if (csrfTokenFromClient == null || !csrfTokenFromClient.equals(csrfTokenFromServer)) {
                 // Rejet si le token est invalide ou absent
