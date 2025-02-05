@@ -27,7 +27,8 @@ public class LibraireDAOImp implements LibraireDAO {
                 compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp")
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
                 );
 
                 libraire = new Libraire(
@@ -101,6 +102,7 @@ public class LibraireDAOImp implements LibraireDAO {
                     int libraireId = generatedKeysLibraire.getInt(1);
                     libraire.setLibId(libraireId);
                     connection.commit();
+                    connection.setAutoCommit(true);
                     return libraireId;
                 }
             }
@@ -108,14 +110,13 @@ public class LibraireDAOImp implements LibraireDAO {
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException(e);
-        } finally {
-            connection.setAutoCommit(true);
         }
         return compteId;
     }
 
     @Override
     public Integer update(Libraire libraire) throws SQLException {
+        int rowsAffected = 0;
         String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ?, cpt_role = ? WHERE cpt_id = ?";
         try {
             Connection connection = DatabaseConnection.getInstanceDB();
@@ -125,7 +126,7 @@ public class LibraireDAOImp implements LibraireDAO {
             ps.setString(2, libraire.getCompte().getPassword());
             ps.setString(3, libraire.getCompte().getRole());
             ps.setInt(4, libraire.getCompte().getCompteId());
-            int rowsAffected = ps.executeUpdate();
+            rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
                 sql = "UPDATE libraire SET lib_nom = ?, lib_prenom = ? WHERE lib_id = ?";
@@ -137,18 +138,15 @@ public class LibraireDAOImp implements LibraireDAO {
 
                 if (rowsAffected > 0) {
                     connection.commit();
-                    return rowsAffected;
+                    connection.setAutoCommit(true);
                 }
             }
-            connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
             log.info(e.getMessage());
             throw new RuntimeException(e);
-        } finally {
-            connection.setAutoCommit(true);
         }
-        return 0;
+        return rowsAffected;
     }
 
     @Override

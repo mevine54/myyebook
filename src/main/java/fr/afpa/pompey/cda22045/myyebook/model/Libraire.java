@@ -22,6 +22,7 @@ public class Libraire  {
 
     public Libraire(Compte compte,Integer libId, boolean estApprouve  ,String nom, String prenom) {
         setCompte(compte);
+        setLibId(libId);
         if (estApprouve){
             compte.setRole("ROLE_LIBRAIRE");
         }else{

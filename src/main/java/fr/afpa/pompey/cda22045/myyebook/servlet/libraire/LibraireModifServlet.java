@@ -37,9 +37,7 @@ public class LibraireModifServlet extends HttpServlet {
             try {
                 libraires = libraireDAOImp.get(id);
                 if (libraires != null) {
-                    Libraire libraire = libraireDAOImp.get(id);
-
-                    request.setAttribute("libraire", libraire);
+                    request.setAttribute("libraire", libraires);
                     this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
                 }
             } catch (SQLException e) {
@@ -63,59 +61,37 @@ public class LibraireModifServlet extends HttpServlet {
         String idCompte = request.getParameter("idCompte");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        String role = "ROLE_LIBRAIRE";
 
         if (nom == null || prenom == null || login == null || password == null) {
             response.sendRedirect(request.getContextPath() + "/ModifLibraire?info=error");
             this.getServletContext().getRequestDispatcher("/JSP/page/modifLibraire.jsp").forward(request, response);
         } else {
-            CompteDAO compteDAOImpl = new CompteDAOImp();
             LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
             try {
-                Compte compte = compteDAOImpl.get(Integer.parseInt(idCompte));
-
-                if (compte != null) {
-                    Libraire libraire = libraireDAOImp.get(Integer.parseInt(idLibraire));
-                    libraire.setNom(nom);
-                    libraire.setPrenom(prenom);
-
-//                    Libraire libraire = new Libraire(
-//                            compte,
-//                            Integer.parseInt(idLibraire),
-//                            login,
-//                            password,
-//                            true,
-//                            nom,
-//                            prenom
-//                    );
-
-                    libraireDAOImp.update(libraire);
+                Compte compte = new Compte(
+                        Integer.parseInt(idCompte),
+                        login,
+                        password,
+                        role
+                );
+                Libraire libraire = new Libraire(
+                        compte,
+                        Integer.parseInt(idLibraire),
+                        true,
+                        nom,
+                        prenom
+                );
+                int result = libraireDAOImp.update(libraire);
+                if(result == 1){
+                    response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
                 }
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            response.sendRedirect(request.getContextPath() + "/ListeLibraire?info=successModif");
+
         }
-
-
-        // Valider et traiter les paramètres
-//        if (nom != null && !nom.isEmpty() && prenom != null && !prenom.isEmpty() && email != null && !email.isEmpty()
-//                && rue != null && !rue.isEmpty() && codePostal != null && !codePostal.isEmpty() && ville != null
-//                && !ville.isEmpty()) {
-//            // Afficher les paramètres dans la console
-//            log.info("Nom: " +nom);
-//            log.info("Prénom: " +prenom);
-//            log.info("email: " +email);
-//            log.info("rue: " +rue);
-//            log.info("codePostal: " +codePostal);
-//            log.info("ville: " +ville);
-//
-//            // Rediriger vers une page de confirmation ou afficher une réponse
-////            response.sendRedirect(request.getContextPath() + "/libraireinfo.jsp");
-//        } else {
-//            // Gérer lese erreurs de validation
-//            request.setAttribute("erreur", "Veuillez remplir tous les champs.");
-////            this.getServletContext().getRequestDispatcher("/JSP/page/libraireinfo.jsp").forward(request, response);
-//        }
     }
 
     @Override

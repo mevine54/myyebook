@@ -38,8 +38,9 @@
                     <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <input type= "hidden"  name="csrf" value = "<c:out value='${requestScope.csrfToken}'/>" />
                     <c:if test="${not empty requestScope.libraire}">
+                    
                         <input type="hidden" name="idLibraire" value="${libraire.libId}">
-                        <input type="hidden" name="idCompte" value="${libraire.compteId}">
+                        <input type="hidden" name="idCompte" value="${libraire.compte.compteId}">
                         <h3>Informations</h3>
                         <div class="row mb-3">
                             <div class="col">
@@ -55,11 +56,11 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <label for="login" class="form-label">Login</label>
-                                <input type="text" class="form-control" id="login" name="login" value="${libraire.login}" required>
+                                <input type="text" class="form-control" id="login" name="login" value="${libraire.compte.login}" required>
                             </div>
                             <div class="col ">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" value="${libraire.password}" required>
+                                <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                         </div>
 

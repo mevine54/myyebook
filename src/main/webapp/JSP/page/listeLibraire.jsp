@@ -43,6 +43,7 @@
                             <th>ID</th>
                             <th>Nom</th>
                             <th>Prénom</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -52,13 +53,13 @@
                             <td>${libraire.libId}</td>
                             <td>${libraire.nom}</td>
                             <td>${libraire.prenom}</td>
+                            <td>${libraire.compte.role}</td>
                             <td>
                                 <a class="btn btn-outline-primary rounded-0"
                                    href="ModifLibraire?id=<c:out value='${libraire.libId}'/>">Modifier</a>
                                 <button type="button" class="btn btn-outline-danger rounded-0"
                                         hx-on:click="confirmDelete(<c:out value='${libraire.libId}'/>,
-                                        'ModifLibraire?id=${libraire.libId}&csrf=${requestScope.csrfToken}')"
-                                >
+                                        'ModifLibraire?id=${libraire.libId}&csrf=${requestScope.csrfToken}')">
                                     Supprimer
                                 </button>
                             </td>

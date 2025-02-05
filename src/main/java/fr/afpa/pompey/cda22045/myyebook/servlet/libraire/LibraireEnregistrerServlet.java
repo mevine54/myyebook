@@ -42,18 +42,13 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String password = request.getParameter("password");
         log.info("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
-        //Verifier les informations passent au regex
-        Verification.CHARACTER(nom);
-        Verification.CHARACTER(prenom);
-
-
-
         // Enregistrer le libraire
         Compte compteLibraire = new Compte(
+                null,
                 login,
-                password
+                password,
+                "ROLE_LIBRAIRE_ATTENTE"
         );
-
 
         Libraire libraire = new Libraire(
                 compteLibraire,
@@ -71,7 +66,6 @@ public class LibraireEnregistrerServlet extends HttpServlet {
             log.info("Erreur lors de l'enregistrement du libraire");
             throw new RuntimeException(e);
         }
-
 
         // Rediriger vers la page de liste des libraires
         response.sendRedirect(request.getContextPath() + "/ListeLibraire"+"?info=success");
