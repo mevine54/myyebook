@@ -80,7 +80,7 @@ public class Emprunter {
     }
 
     public void setDatetimeRetour(LocalDateTime datetimeRetour) {
-        if (datetimeRetour.isBefore(datetimeEmprunt) ) {
+        if ( datetimeRetour != null && datetimeRetour.isBefore(datetimeEmprunt) ) {
             throw new IncoherenteDateException("La date de retour ne peut pas être avant la date d'emprunt");
         }
         this.datetimeRetour = datetimeRetour;

@@ -46,6 +46,7 @@ public class RoleFilter implements Filter {
         libraireUris.add("/ModifCategorie");
         libraireUris.add("/ModifClient");
         libraireUris.add("/monCompteLibraire");
+        libraireUris.add("/ListeEmprunts");
         libraireUris.add("/deconnexion");
 
         Set<String> libraireAttenteUris = new HashSet<>();

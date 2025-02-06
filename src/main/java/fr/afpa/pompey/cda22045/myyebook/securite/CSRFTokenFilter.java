@@ -43,7 +43,8 @@ public class CSRFTokenFilter implements Filter {
                 contextPath + "/ModifClient",
                 contextPath + "/monCompteLibraire",
                 contextPath + "/mesemprunts",
-                contextPath + "/monCompteClient"
+                contextPath + "/monCompteClient",
+                contextPath + "/ListeEmprunts"
         );
 
         log.info("filtre csrf appele");

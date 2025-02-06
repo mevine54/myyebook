@@ -39,7 +39,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
 
     @Override
     public Integer update(Emprunter emprunter) throws SQLException {
-        String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ?, WHERE emp_id = ? ";
+        String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ? WHERE emp_id = ? ";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -91,7 +91,8 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
-                        resultSet.getString("cptcli.cpt_mdp")
+                        resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_role")
                 );
 
                 Client client = new Client(
@@ -142,7 +143,8 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
-                        resultSet.getString("cptlib.cpt_mdp")
+                        resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role")
                 );
 
                 Libraire libraire = new Libraire(
@@ -191,11 +193,9 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
-                        resultSet.getString("cptcli.cpt_mdp")
+                        resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_role")
                 );
-
-
-
 
                 Client client = new Client(
                         compteClient,
@@ -245,7 +245,8 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
-                        resultSet.getString("cptlib.cpt_mdp")
+                        resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role")
                 );
 
                 Libraire libraire = new Libraire(
@@ -273,6 +274,4 @@ public class EmprunterDAOImpl implements EmprunterDAO {
         }
         return emprunterList;
     }
-
-
 }
