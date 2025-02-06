@@ -21,9 +21,9 @@ public class ViePriveFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession(false);
         HttpServletResponse resp = (HttpServletResponse) response;
-        if (session != null) {
 
-            request.setAttribute("role", session.getAttribute("role"));
+        if (session != null) {
+            req.setAttribute("role", session.getAttribute("role"));
             if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
                 for (Cookie cookie : req.getCookies()) {
                     cookie.setValue("");
@@ -34,8 +34,11 @@ public class ViePriveFilter implements Filter {
             }
             log.info("ROLE VIE PRIVEE : SESSION NOT NULL");
         }
+
+        request.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
+
 //        log.info("ROLE VIE PRIVEE :{}", req.getAttribute("role"));
-        chain.doFilter(req, resp);
+        chain.doFilter( req, resp );
 //        chain.doFilter(request, response);
 
 

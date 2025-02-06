@@ -17,7 +17,12 @@ public class CSRFTokenFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String contextPath = ((HttpServletRequest) request).getContextPath();
+        // Convertir en HttpServletRequest/HttpServletResponse
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        String contextPath = httpRequest.getContextPath();
+        String requestURI = httpRequest.getRequestURI();
+
         List<String> routesAProtege = List.of(
                 contextPath + "/CreeUnAuteur",
                 contextPath + "/CreeUneCategorie",
@@ -40,12 +45,6 @@ public class CSRFTokenFilter implements Filter {
                 contextPath + "/mesemprunts",
                 contextPath + "/monCompteClient"
         );
-        // Convertir en HttpServletRequest/HttpServletResponse
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        String requestURI = ((HttpServletRequest) request).getRequestURI();
-
 
         log.info("filtre csrf appele");
         HttpSession session = httpRequest.getSession(false);
@@ -56,7 +55,7 @@ public class CSRFTokenFilter implements Filter {
         if (session != null && (method.equalsIgnoreCase("POST") || method.equalsIgnoreCase("PUT") || method.equalsIgnoreCase("DELETE"))  && routesAProtege.contains(requestURI) )  {
             // Récupérer le token CSRF envoyé par le client
             log.info("REQUETE: {} ",requestURI);
-           httpRequest.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
+           request.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
             String csrfTokenFromClient = httpRequest.getParameter("csrf");
 
             // Récupérer le token CSRF stocké dans la session

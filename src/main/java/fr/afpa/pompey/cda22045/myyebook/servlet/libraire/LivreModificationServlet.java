@@ -33,7 +33,6 @@ public class LivreModificationServlet extends HttpServlet {
     public void init() {
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idStr = request.getParameter("id");
@@ -58,7 +57,6 @@ public class LivreModificationServlet extends HttpServlet {
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/accueil");
-
         }
 //        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
 
@@ -103,10 +101,12 @@ public class LivreModificationServlet extends HttpServlet {
                 livre.setResume(resumeStr);
                 livre.setImage(newFileName);
                 livreDAOImpl.update(livre);
+                response.sendRedirect(request.getContextPath() + "/ListeLivre?info=success");
             } catch (SQLException e) {
+                response.sendRedirect(request.getContextPath() + "/LivreModification?info=errorDB");
+                log.warn("Erreur lors de la modification du livre");
                 throw new RuntimeException(e);
             }
-
         } else {
             log.warn("Ce fichier n'est pas une image valide");
             fichierACree.delete();

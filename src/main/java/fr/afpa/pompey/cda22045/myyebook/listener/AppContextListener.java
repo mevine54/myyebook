@@ -24,8 +24,8 @@ public class AppContextListener implements ServletContextListener {
         File uploadDirImgAuteur = new File(uploadParent + File.separator + "img_auteur");
         if (!uploadDirImgAuteur.exists()) uploadDirImgAuteur.mkdir();
         if (!uploadDirCouverture.exists()) uploadDirCouverture.mkdir();
-        log.info("dosier auteur: {}", uploadDirImgAuteur.getAbsolutePath());
-        log.info("dosier couverture: {}", uploadDirCouverture.getAbsolutePath());
+        log.info("dossier auteur: {}", uploadDirImgAuteur.getAbsolutePath());
+        log.info("dossier couverture: {}", uploadDirCouverture.getAbsolutePath());
         sce.getServletContext().setAttribute("dossierAuteur",uploadDirImgAuteur.getAbsolutePath() +  File.separator);
         sce.getServletContext().setAttribute("dossierCouverture",uploadDirCouverture.getAbsolutePath()  +  File.separator);
         File destinationDir = new File(sce.getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload");

@@ -51,7 +51,7 @@ function confirmDelete(id, url) {
                     console.log(event.detail);
                     Swal.fire(
                         'Supprimé !',
-                        'Le livre a été supprimé.',
+                        'La suppression c\'est bien déroulé.',
                         'success'
                     );
                     element.remove();

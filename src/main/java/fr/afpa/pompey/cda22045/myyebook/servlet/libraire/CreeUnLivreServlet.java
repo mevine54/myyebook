@@ -7,6 +7,7 @@ import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 2,
+        maxRequestSize = 1024 * 1024 * 2)
 @WebServlet(name = "CreeUnLivreServlet", value = "/CreeUnLivre")
 @Slf4j
 public class CreeUnLivreServlet extends HttpServlet {
@@ -91,8 +95,10 @@ public class CreeUnLivreServlet extends HttpServlet {
                         categorie
                 );
                 livreDAOImpl.insert(livre);
-
+                response.sendRedirect(request.getContextPath() + "/ListeLivre?info=success");
             } catch (SQLException e) {
+                response.sendRedirect(request.getContextPath() + "/CreeUnLivre?info=errorDB");
+                log.warn("Erreur lors de la création du livre");
                 throw new RuntimeException(e);
             }
 

@@ -84,7 +84,7 @@ public class RoleFilter implements Filter {
         String role =   null;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String contextPath = ((HttpServletRequest) request).getContextPath();
+        String contextPath = httpRequest.getContextPath();
 
         String uri = httpRequest.getRequestURI().replace(contextPath, "") ;
         HttpSession session = httpRequest.getSession(false);
@@ -92,15 +92,19 @@ public class RoleFilter implements Filter {
         if (session!=null){
             role = (String) session.getAttribute("role");
         }
+
         log.info("ROLE: {}",role);
         log.info("URI: {}", uri );
         log.info("context: {}", contextPath);
-        log.info("pathinfo: {}", ((HttpServletRequest) request).getPathInfo() );
+        log.info( "pathinfo: {}", httpRequest.getPathInfo() );
+        request.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
 
         if (  (role == null && !publicUris.contains( uri))  &&  !uri.startsWith("/assets/")) {
+            log.info("URI 401: {}", uri );
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "401 Unauthorized");
         }
         else if (  (role != null && !isUriAllowedForRole(role, uri))  &&  !uri.startsWith("/assets/") ) {
+            log.info("URI 403: {}", uri );
             httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "403 Forbidden");
         }
         else{
