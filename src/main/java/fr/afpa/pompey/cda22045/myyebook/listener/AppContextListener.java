@@ -17,7 +17,7 @@ public class AppContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // Initilisation des dossiers de sauvegardes photo auteur et couverture
+        // Initilisation des dossiers de sauvegardes photo auteur et couverture ( Hors container tomcat sinon les fichiers sont supprimés à chaque redemarrage)
         File uploadParent = new File(new File(sce.getServletContext().getRealPath("")).getParentFile() + File.separator + "uploads_myebook");
         if (!uploadParent.exists()) uploadParent.mkdir();
         File uploadDirCouverture = new File(uploadParent +  File.separator + "couverture");
@@ -28,6 +28,8 @@ public class AppContextListener implements ServletContextListener {
         log.info("dossier couverture: {}", uploadDirCouverture.getAbsolutePath());
         sce.getServletContext().setAttribute("dossierAuteur",uploadDirImgAuteur.getAbsolutePath() +  File.separator);
         sce.getServletContext().setAttribute("dossierCouverture",uploadDirCouverture.getAbsolutePath()  +  File.separator);
+
+        sce.getServletContext().setAttribute("dossierCouvertureReel",uploadDirCouverture.getAbsolutePath()  +  File.separator);
         File destinationDir = new File(sce.getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload");
         // Cr�er le dossier de destination s'il n'existe pas
         if (!destinationDir.exists()) {

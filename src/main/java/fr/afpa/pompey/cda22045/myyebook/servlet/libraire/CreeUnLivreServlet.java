@@ -74,10 +74,12 @@ public class CreeUnLivreServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
-        imgPart.write(fichierACree.getAbsolutePath());
-        if (ImageIO.read(fichierACree) != null) {
-            log.info(fichierACree.getAbsolutePath());
+        File fichierACreeHorsTomcat = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
+        File fichierAcreerDansTomcat = new File(getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload" + File.separator+ "couverture" + File.separator + newFileName);
+        imgPart.write(fichierACreeHorsTomcat.getAbsolutePath());
+        imgPart.write(fichierAcreerDansTomcat.getAbsolutePath());
+        if (ImageIO.read(fichierACreeHorsTomcat) != null) {
+            log.info(fichierACreeHorsTomcat.getAbsolutePath());
             LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
             AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
@@ -104,7 +106,7 @@ public class CreeUnLivreServlet extends HttpServlet {
 
         } else {
             log.warn("Ce fichier n'est pas une image valide");
-            fichierACree.delete();
+            fichierACreeHorsTomcat.delete();
         }
     }
 
