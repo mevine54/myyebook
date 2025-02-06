@@ -102,7 +102,6 @@ public class LibraireDAOImp implements LibraireDAO {
                     int libraireId = generatedKeysLibraire.getInt(1);
                     libraire.setLibId(libraireId);
                     connection.commit();
-                    connection.setAutoCommit(true);
                     return libraireId;
                 }
             }
@@ -110,13 +109,20 @@ public class LibraireDAOImp implements LibraireDAO {
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    log.warn("Impossible de rétablir l'autocommit", e);
+                }
+            }
         }
         return compteId;
     }
 
     @Override
     public Integer update(Libraire libraire) throws SQLException {
-        int rowsAffected = 0;
         String sql = "UPDATE Compte SET cpt_login = ?, cpt_mdp = ?, cpt_role = ? WHERE cpt_id = ?";
         try {
             Connection connection = DatabaseConnection.getInstanceDB();
@@ -126,7 +132,7 @@ public class LibraireDAOImp implements LibraireDAO {
             ps.setString(2, libraire.getCompte().getPassword());
             ps.setString(3, libraire.getCompte().getRole());
             ps.setInt(4, libraire.getCompte().getCompteId());
-            rowsAffected = ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
                 sql = "UPDATE libraire SET lib_nom = ?, lib_prenom = ? WHERE lib_id = ?";
@@ -138,15 +144,24 @@ public class LibraireDAOImp implements LibraireDAO {
 
                 if (rowsAffected > 0) {
                     connection.commit();
-                    connection.setAutoCommit(true);
+                    return rowsAffected;
                 }
             }
+            connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
             log.info(e.getMessage());
             throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    log.warn("Impossible de rétablir l'autocommit", e);
+                }
+            }
         }
-        return rowsAffected;
+        return 0;
     }
 
     @Override
