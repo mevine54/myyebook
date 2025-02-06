@@ -41,18 +41,12 @@ public class ModifAuteurServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Récupération des paramètres
-        HttpSession session = request.getSession(false);
 
         String idStr = request.getParameter("id");
         String nomStr = request.getParameter("nom");
         String prenomStr = request.getParameter("prenom");
         Part imgPart = request.getPart("image");
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) request.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfReq: " + csrfReq);
         AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
-
 
         // Enregistrement de l'image
         String fileName = imgPart.getSubmittedFileName();
@@ -60,11 +54,13 @@ public class ModifAuteurServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierAuteur") + newFileName);
-        log.info("fichier cree: {}", fichierACree);
-        imgPart.write(fichierACree.getAbsolutePath());
-        if (ImageIO.read(fichierACree) != null) {
-            log.info(fichierACree.getAbsolutePath());
+        File fichierACreeHorsTomcat = new File(getServletContext().getAttribute("dossierAuteur") + newFileName);
+        File fichierAcreerDansTomcat = new File(getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload" + File.separator + "img_auteur" + File.separator + newFileName);
+        log.info("fichier cree: {}", fichierACreeHorsTomcat);
+        imgPart.write(fichierACreeHorsTomcat.getAbsolutePath());
+        imgPart.write(fichierAcreerDansTomcat.getAbsolutePath());
+        if (ImageIO.read(fichierACreeHorsTomcat) != null) {
+            log.info(fichierACreeHorsTomcat.getAbsolutePath());
 
             try {
                 Auteur auteur = auteurDAOImpl.get(Integer.valueOf(idStr));
@@ -72,12 +68,14 @@ public class ModifAuteurServlet extends HttpServlet {
                 auteur.setPrenom(prenomStr);
                 auteur.setPhoto(newFileName);
                 auteurDAOImpl.update(auteur);
+                response.sendRedirect(request.getContextPath() + "/ListeAuteur?info=successUpdate");
             } catch (SQLException e) {
+                response.sendRedirect(request.getContextPath() + "/ModifAuteur?info=errorDB");
                 throw new RuntimeException(e);
             }
         } else {
             log.warn("Ce n'est pas une image valide");
-            fichierACree.delete();
+            fichierACreeHorsTomcat.delete();
         }
     }
 
@@ -85,23 +83,14 @@ public class ModifAuteurServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.warn("delete");
-        HttpSession session = req.getSession();
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) req.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfRequ: " + csrfReq);
-
         AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
-        if (csrfReq.equals(csrfSession)) {
 
-            try {
-                auteurDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            log.warn("csrf different");
+        try {
+            auteurDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
     @Override

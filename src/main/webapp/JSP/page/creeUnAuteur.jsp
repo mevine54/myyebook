@@ -27,7 +27,8 @@
                 <div class="d-flex justify-content-center my-3">
                     <h2>Crée un auteur</h2>
                 </div>
-                <form class="mx-auto col-lg-7" method="POST" action="CreeUnAuteur">
+                <form class="mx-auto col-lg-7" enctype="multipart/form-data" method="POST" action="CreeUnAuteur">
+                    <input type= "hidden"  name="csrf" value = "<c:out value='${requestScope.csrfToken}'/>" />
                     <a href="${pageContext.request.contextPath}/ListeAuteur" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
                     <div class="row mb-3">
                         <div class="col">

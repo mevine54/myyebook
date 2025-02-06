@@ -74,7 +74,6 @@ public class LivreModificationServlet extends HttpServlet {
         String idStr = request.getParameter("id");
 
         log.info(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
-        //TODO:    Gerer le chargement d'image
 
         // Enregistrement de l'image
         String fileName = imgPart.getSubmittedFileName();
@@ -82,10 +81,12 @@ public class LivreModificationServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
-        imgPart.write(fichierACree.getAbsolutePath());
-        if (ImageIO.read(fichierACree) != null) {
-            log.info(fichierACree.getAbsolutePath());
+        File fichierACreeHorsTomcat = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
+        File fichierAcreerDansTomcat = new File(getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload" + File.separator + "couverture" + File.separator + newFileName);
+        imgPart.write(fichierACreeHorsTomcat.getAbsolutePath());
+        imgPart.write(fichierAcreerDansTomcat.getAbsolutePath());
+        if (ImageIO.read(fichierACreeHorsTomcat) != null) {
+            log.info(fichierACreeHorsTomcat.getAbsolutePath());
             LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
             AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
@@ -101,7 +102,7 @@ public class LivreModificationServlet extends HttpServlet {
                 livre.setResume(resumeStr);
                 livre.setImage(newFileName);
                 livreDAOImpl.update(livre);
-                response.sendRedirect(request.getContextPath() + "/ListeLivre?info=success");
+                response.sendRedirect(request.getContextPath() + "/ListeLivre?info=successUpdate");
             } catch (SQLException e) {
                 response.sendRedirect(request.getContextPath() + "/LivreModification?info=errorDB");
                 log.warn("Erreur lors de la modification du livre");
@@ -109,31 +110,21 @@ public class LivreModificationServlet extends HttpServlet {
             }
         } else {
             log.warn("Ce fichier n'est pas une image valide");
-            fichierACree.delete();
+            fichierACreeHorsTomcat.delete();
         }
     }
-
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.warn("delete");
-        HttpSession session = req.getSession();
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) req.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfReq: " + csrfReq);
 
         LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
-        if (csrfReq.equals(csrfSession)) {
-            try {
-                livreDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            log.warn("csrf different");
+        try {
+            livreDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void destroy() {

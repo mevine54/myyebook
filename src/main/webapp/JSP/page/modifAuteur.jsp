@@ -29,7 +29,7 @@
                 <div class="d-flex justify-content-center my-3">
                     <h2>Modifier un auteur</h2>
                 </div>
-                <form class="mx-auto col-lg-7" enctype="multipart/form-data"  method="POST" action="modifAuteur">
+                <form class="mx-auto col-lg-7" enctype="multipart/form-data"  method="POST" action="ModifAuteur">
                     <input type="hidden" name="id" value="<c:out value="${auteurId}" />" />
 
                     <input type= "hidden"  name="csrf" value = "<c:out value='${requestScope.csrfToken}'/>" />

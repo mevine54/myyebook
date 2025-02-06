@@ -23,6 +23,32 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp"/>
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des Livres</h1>
+                <c:if test="${param.info == 'success'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Création du livre réussie !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'successUpdate'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Modification du livre réussie !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'errorRecupDB'}">
+                    <div class="alert alert-warning text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Impossible de récupérer les données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'errorDB'}">
+                    <div class="alert alert-danger text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Erreur d'enregistrement dans la base de données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'successDelete'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Suppression du livre réussie !
+                    </div>
+                </c:if>
+
                 <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3"
                                                            href="${pageContext.request.contextPath}/CreeUnLivre">Créer
                     un livre</a></div>
