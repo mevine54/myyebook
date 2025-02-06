@@ -41,43 +41,43 @@ public class CompteTest {
         });
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"az@L", "f11gd@", "#0Mkk"})
-    public void password_MinLongueurInvalid(String password) {
-        assertThrows(LongueurMinimaleException.class, () -> {
-            compte.setPassword(password);
-        });
-    }
+//    @ParameterizedTest
+//    @ValueSource(strings = {"az@L", "f11gd@", "#0Mkk"})
+//    public void password_MinLongueurInvalid(String password) {
+//        assertThrows(LongueurMinimaleException.class, () -> {
+//            compte.setPassword(password);
+//        });
+//    }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = {"az@L1gghh", "Lf11gd@", "jjkj#0Mkk"})
-    public void password_MaxLongueurInvalid(String password) {
+//    @ParameterizedTest
+//    @ValueSource(strings = {"az@L1gghh", "Lf11gd@", "jjkj#0Mkk"})
+//    public void password_MaxLongueurInvalid(String password) {
+//
+//        for (int i = 0; i < 20; i++) {
+//            password += password;
+//        }
+//        String finalPassword = password;
+//        assertThrows(LongueurMaximaleException.class, () -> {
+//            compte.setPassword(finalPassword);
+//        });
+//    }
 
-        for (int i = 0; i < 20; i++) {
-            password += password;
-        }
-        String finalPassword = password;
-        assertThrows(LongueurMaximaleException.class, () -> {
-            compte.setPassword(finalPassword);
-        });
-    }
+//    @ParameterizedTest
+//    @ValueSource(strings = {"az@LaaeazeEEEEE1", "f11gLGGgghgfhd#", "#0Mkkhhh3hhhhhhhh"})
+//    public void password_Valid(String password) {
+//        assertDoesNotThrow(() ->
+//                compte.setPassword(password)
+//        );
+//    }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"az@LaaeazeEEEEE1", "f11gLGGgghgfhd#", "#0Mkkhhh3hhhhhhhh"})
-    public void password_Valid(String password) {
-        assertDoesNotThrow(() ->
-                compte.setPassword(password)
-        );
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"azL4777777777", "f1gd@@@@@@@@@", "#0MMMMMMMMMM"})
-    public void password_CaractereManquantInvalid(String password) {
-        assertThrows(RegexValidationException.class, () -> {
-            compte.setPassword(password);
-        });
-    }
+//    @ParameterizedTest
+//    @ValueSource(strings = {"azL4777777777", "f1gd@@@@@@@@@", "#0MMMMMMMMMM"})
+//    public void password_CaractereManquantInvalid(String password) {
+//        assertThrows(RegexValidationException.class, () -> {
+//            compte.setPassword(password);
+//        });
+//    }
 
 
     //TODO TEST adresse

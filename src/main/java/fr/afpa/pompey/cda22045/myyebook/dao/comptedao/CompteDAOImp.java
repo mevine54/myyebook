@@ -1,7 +1,6 @@
 package fr.afpa.pompey.cda22045.myyebook.dao.comptedao;
 
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
-import fr.afpa.pompey.cda22045.myyebook.dao.comptedao.CompteDAO;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
 import java.sql.*;
@@ -134,5 +133,25 @@ public class CompteDAOImp implements CompteDAO {
             throw new RuntimeException(e);
         }
         return compte;
+    }
+
+
+    @Override
+    public String getHashedPasswordByLogin(String login){
+        String sql = "SELECT cpt_mdp FROM compte WHERE cpt_login = ?";
+        String hashedPassword = null;
+        try(
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setString(1, login);
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()){
+                hashedPassword =  resultSet.getString("cpt_mdp");
+            }
+            return hashedPassword;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

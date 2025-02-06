@@ -5,7 +5,6 @@
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
 <%--<c:url value="/accueil" var="accueilUrl"/>--%>
-<c:url value="/assets/images/couverturelivre.jpg" var="couv_livre"/>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,10 +23,10 @@
 
         <div class="container">
             <div class="row my-5">
-                <div class="col-lg-3">
-                    <img src="${couv_livre}" alt="<c:out value="${requestScope.livre.titre}"/>" class="img-fluid">
+                <div class="col-lg-5">
+                    <img src="<c:url value="/assets/upload/couverture/${requestScope.livre.image}"/>" alt="<c:out value="${requestScope.livre.titre}"/>" class="img-fluid">
                 </div>
-                <div class="col-9 d-flex flex-column">
+                <div class="col-7 d-flex flex-column">
                     <div class="fs-3 fw-bold mt-2">
                         <c:out value="${requestScope.livre.titre}"/>
                     </div>
@@ -60,15 +59,15 @@
                     <a href="<c:url value='/livre?id=${livreSimilaire.id}'/>">
                         <div class="my-2 mx-2">
                             <div class="card" style="width: 150px;">
-                                <img src="${couv_livre}" class="card-img-top"
-                                     alt="<c:out value="${requestScope.livre.titre}"/>">
+                                <img src="<c:url value="/assets/upload/couverture/${livreSimilaire.image}"/>" class="card-img-top"
+                                     alt="<c:out value="${livreSimilaire.titre}"/>">
                             </div>
                         </div>
                     </a>
                 </c:forEach>
                 <div class="my-2 mx-2">
                     <div class="card bg-white" style="width: 150px;">
-                        <img src="${couv_livre}" class="card-img-top opacity-25" alt="...">
+                        <img src="<c:url value="/assets/upload/couverture/${requestScope.livre.image}"/>" class="card-img-top opacity-25" alt="...">
                         <div class="card-img-overlay d-flex justify-content-center align-items-center">
                             <h5 class="card-title text-center text-dark fw-bold">Voir plus</h5>
                         </div>

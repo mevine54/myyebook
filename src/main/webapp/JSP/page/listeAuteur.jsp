@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="${bootstrapicons}">
     <title>Liste de auteurs - Libraire</title>
 </head>
-<body>
-<%@include file="/WEB-INF/JSP/header.jsp" %>
+<%-- SERVLET: ListeLivreServlet --%>
+<body class="d-flex flex-column justify-content-between vh-100" >
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <%--
         COTE ADMIN
@@ -26,28 +27,68 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des auteurs</h1>
-                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/CreeUnAuteur">Créer un auteur</a></div>
-                <table class="table table-bordered mt-5">
+                <c:if test="${param.info == 'success'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Création de l'auteur réussie !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'successUpdate'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Modification de l'auteur réussie !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'errorRecupDB'}">
+                    <div class="alert alert-warning text-center" role="alert">
+                        <i class="bi bi-info-circle-fill"></i> Impossible de récupérer les données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'errorDB'}">
+                    <div class="alert alert-danger text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Erreur d'enregistrement dans la base de données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'successDelete'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Suppression de l'auteur réussie !
+                    </div>
+                </c:if>
+
+                <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/CreeUnAuteur">Créer un auteur</a></div>
+                <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Libraire</th>
+                        <th>Id</th>
+                        <th>Photo</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>
-                            <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifAuteur">Modifier</a>
-                            <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
-                        </td>
-                    </tr>
+                    <c:forEach var="auteur" items="${requestScope.auteurs}">
+                        <tr id="row<c:out value='${auteur.auteurId}'/>">
+                            <td><c:out value="${auteur.auteurId}"/></td>
+                            <td><img src="<c:url value="/assets/upload/img_auteur/${auteur.photo}"/>" alt="<c:out value="${auteur.prenom}"/> <c:out value="${auteur.nom}"/>" class="img-thumbnail"
+                                     style="width: 50px; height: 50px;"></td>
+                            <td><c:out value="${auteur.nom}"/></td>
+                            <td><c:out value="${auteur.prenom}"/></td>
+                            <td>
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifAuteur?id=<c:out value='${auteur.auteurId}'/>">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${auteur.auteurId}'/>, 'ModifAuteur?id=${auteur.auteurId}&csrf=${requestScope.csrfToken}')"
+                                >
+                                    Supprimer
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </main>
-<%@include file="/WEB-INF/JSP/footer.jsp" %>
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

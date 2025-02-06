@@ -4,7 +4,8 @@ import fr.afpa.pompey.cda22045.myyebook.exception.*;
 import lombok.Getter;
 
 @Getter
-public class Client extends Compte {
+public class Client {
+    private Compte compte;
     private Integer clientId;
     private String nom;
     private String prenom;
@@ -16,23 +17,9 @@ public class Client extends Compte {
     public Client() {
     }
 
-    public Client(String login, String password, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        super(login, password);
-        setRole("ROLE_CLIENT");
-        setNom(nom);
-        setPrenom(prenom);
-        setEmail(email);
-        setAdresse(adresse);
-        setVille(ville);
-        setCodePostal(codePostal);
-    }
-
-    public Client(Integer clientId, Compte compte, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        setCompteId(compte.getCompteId());
-        setLogin(compte.getLogin());
-        setPassword(compte.getPassword());
-        setRole("ROLE_CLIENT");
-        setNom(nom);
+    public Client(Compte compte, Integer clientId, String nom, String prenom, String email, String adresse, String ville, String codePostal) {
+        compte.setRole("ROLE_CLIENT");
+        setCompte(compte);
         setClientId(clientId);
         setNom(nom);
         setPrenom(prenom);
@@ -42,19 +29,15 @@ public class Client extends Compte {
         setCodePostal(codePostal);
     }
 
-    public Client(Integer clientId, Integer compteId ,String login , String password,String nom, String prenom, String email, String adresse, String ville, String codePostal) {
-        setCompteId(compteId);
-        setLogin(login);
-        setPassword(password);
-        setRole("ROLE_CLIENT");
-        setClientId(clientId);
-        setNom(nom);
-        setPrenom(prenom);
-        setEmail(email);
-        setAdresse(adresse);
-        setVille(ville);
-        setCodePostal(codePostal);
+    private void setCompte(Compte compte) {
+        if (compte == null) {
+            throw new IllegalArgumentException("compte is null");
+        } else if (!compte.getRole().equals("ROLE_CLIENT")) {
+            throw new IllegalArgumentException("Ce compte n'appartient pas a un client");
+        }
+        this.compte = compte;
     }
+
 
     public void setClientId(Integer clientId) {
         if (clientId != null && clientId <= 0) {
@@ -76,7 +59,7 @@ public class Client extends Compte {
             throw new LongueurMinimaleException("Le nom du client est trop court:" + nom + ", " + nom.length() + " caracteres");
         } else if (nom.length() > longueurMax) {
             throw new LongueurMaximaleException("Le nom du client est trop long:" + nom + ", " + nom.length() + " caracteres");
-        } else  if (!nom.matches(regex)) {
+        } else if (!nom.matches(regex)) {
             throw new RegexValidationException("Le nom n'est pas valide. Veuillez entrer un nom contenant uniquement des lettres et des espaces, avec une longueur de " + longueurMin + " à " + longueurMax + " caractères");
         }
         this.nom = nom;
@@ -124,7 +107,7 @@ public class Client extends Compte {
     }
 
     public void setVille(String ville) {
-        if (ville == null){
+        if (ville == null) {
             throw new NullValueException("La ville ne peut pas être null");
         }
         if ((!ville.isBlank()) && ville.matches("^[a-zA-Z ]*[-a-zA-Z ]*$")) {
@@ -149,7 +132,8 @@ public class Client extends Compte {
     @Override
     public String toString() {
         return "Client{" +
-                "clientId=" + clientId +
+                "compte=" + compte +
+                ", clientId=" + clientId +
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +

@@ -39,7 +39,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
 
     @Override
     public Integer update(Emprunter emprunter) throws SQLException {
-        String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ?, WHERE emp_id = ? ";
+        String sql = "UPDATE Emprunter SET cli_id = ?, exe_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, res_id = ?, lib_id = ? WHERE emp_id = ? ";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -88,11 +88,16 @@ public class EmprunterDAOImpl implements EmprunterDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                Client client = new Client(
-                        resultSet.getInt("cli_id"),
+                Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
                         resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_role")
+                );
+
+                Client client = new Client(
+                        compteClient,
+                        resultSet.getInt("cli_id"),
                         resultSet.getString("c.cli_nom"),
                         resultSet.getString("c.cli_prenom"),
                         resultSet.getString("c.cli_email"),
@@ -135,11 +140,16 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getTimestamp("res_date").toLocalDateTime()
                 );
 
-                Libraire libraire = new Libraire(
-                        resultSet.getInt("lib_id"),
+                Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role")
+                );
+
+                Libraire libraire = new Libraire(
+                        compteLibraire,
+                        resultSet.getInt("lib_id"),
                         resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
@@ -179,11 +189,17 @@ public class EmprunterDAOImpl implements EmprunterDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Client client = new Client(
-                        resultSet.getInt("cli_id"),
+
+                Compte compteClient = new Compte(
                         resultSet.getInt("c.cpt_id"),
                         resultSet.getString("cptcli.cpt_login"),
                         resultSet.getString("cptcli.cpt_mdp"),
+                        resultSet.getString("cptcli.cpt_role")
+                );
+
+                Client client = new Client(
+                        compteClient,
+                        resultSet.getInt("cli_id"),
                         resultSet.getString("c.cli_nom"),
                         resultSet.getString("c.cli_prenom"),
                         resultSet.getString("c.cli_email"),
@@ -226,11 +242,16 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         resultSet.getTimestamp("res_date").toLocalDateTime()
                 );
 
-                Libraire libraire = new Libraire(
-                        resultSet.getInt("lib_id"),
+                Compte compteLibraire = new Compte(
                         resultSet.getInt("l.cpt_id"),
                         resultSet.getString("cptlib.cpt_login"),
                         resultSet.getString("cptlib.cpt_mdp"),
+                        resultSet.getString("cptlib.cpt_role")
+                );
+
+                Libraire libraire = new Libraire(
+                        compteLibraire,
+                        resultSet.getInt("lib_id"),
                         resultSet.getBoolean("lib_est_approuve"),
                         resultSet.getString("lib_nom"),
                         resultSet.getString("lib_prenom")
@@ -253,6 +274,4 @@ public class EmprunterDAOImpl implements EmprunterDAO {
         }
         return emprunterList;
     }
-
-
 }

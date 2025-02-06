@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -15,7 +15,7 @@
     <title>Liste de libraire - Libraire</title>
 </head>
 <body>
-<%@include file="/WEB-INF/JSP/header.jsp" %>
+<c:import url="/WEB-INF/JSP/header.jsp" />
 <main>
     <%--
         COTE ADMIN
@@ -31,30 +31,46 @@
                         Création du libraire réussie !
                     </div>
                 </c:if>
+                <c:if test="${param.info == 'successModif'}">
+                    <div class="alert alert-success" role="alert">
+                        Modification du libraire réussie !
+                    </div>
+                </c:if>
                 <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0 mb-3" href="${pageContext.request.contextPath}/libraire-enregistrer">Créer un libraire</a></div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Libraire</th>
-                            <th>Email</th>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>John Doe</td>
-                            <td>john.doe@gmail.com</td>
+                    <c:forEach items="${requestScope.libraires}" var="libraire">
+                        <tr id="row${libraire.libId}">
+                            <td>${libraire.libId}</td>
+                            <td>${libraire.nom}</td>
+                            <td>${libraire.prenom}</td>
+                            <td>${libraire.compte.role}</td>
                             <td>
-                                <a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/ModifLibraire">Modifier</a>
-                                <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifLibraire?id=<c:out value='${libraire.libId}'/>">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${libraire.libId}'/>,
+                                        'ModifLibraire?id=${libraire.libId}&csrf=${requestScope.csrfToken}')">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </main>
-<%@include file="/WEB-INF/JSP/footer.jsp" %>
+<c:import url="/WEB-INF/JSP/footer.jsp" />
 </body>
 </html>

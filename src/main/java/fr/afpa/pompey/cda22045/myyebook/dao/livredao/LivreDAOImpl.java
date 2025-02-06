@@ -27,7 +27,6 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setInt(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -70,7 +69,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -101,7 +100,7 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setString(1, livre.getTitre());
             ps.setString(2, livre.getResume());
             ps.setString(3, livre.getImage());
-//            ps.setBoolean(4, livre.getEnAvant());
+            ps.setBoolean(4, livre.isEstEnAvant());
             ps.setInt(4, livre.getAuteur().getAuteurId());
             ps.setInt(5, livre.getCategorie().getId());
             ps.executeUpdate();
@@ -124,7 +123,7 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setString(1, livre.getTitre());
             ps.setString(2, livre.getResume());
             ps.setString(3, livre.getImage());
-//            ps.setBoolean(4, livre.getEnAvant());
+            ps.setBoolean(4, livre.isEstEnAvant());
             ps.setInt(4, livre.getAuteur().getAuteurId());
             ps.setInt(5, livre.getCategorie().getId());
             ps.setInt(6, livre.getId());
@@ -162,7 +161,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -197,7 +196,6 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setInt(1, catId);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -247,7 +245,6 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -301,7 +298,7 @@ public class LivreDAOImpl implements LivreDAO {
                 livre.setTitre(resultSet.getString("liv_titre"));
                 livre.setResume(resultSet.getString("liv_resume"));
                 livre.setImage(resultSet.getString("liv_photo"));
-//                livre.setEnAvant(resultSet.getBoolean("liv_en_avant"));
+                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),

@@ -19,7 +19,7 @@ public class ClientTest {
     void setUp() {
         compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
 
-        client = new Client(null,compte,"nomclient","prenomclient","email@example.com","12 rue blabla","ville","54000");
+        client = new Client(compte,null,"nomclient","prenomclient","email@example.com","12 rue blabla","ville","54000");
     }
 
     @ParameterizedTest

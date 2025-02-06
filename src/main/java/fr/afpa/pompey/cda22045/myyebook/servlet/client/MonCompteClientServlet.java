@@ -35,7 +35,7 @@ public class MonCompteClientServlet extends HttpServlet {
         String rue = request.getParameter("rue");
         String codePostal = request.getParameter("codepostal");
         String ville = request.getParameter("ville");
-//        System.out.println("nom: " +nom + " Prenom " + prenom + " email: " + email + " rue " + rue + " CP " + codePostal + " ville " + ville);
+//        log.info("nom: " +nom + " Prenom " + prenom + " email: " + email + " rue " + rue + " CP " + codePostal + " ville " + ville);
     }
 
     @Override

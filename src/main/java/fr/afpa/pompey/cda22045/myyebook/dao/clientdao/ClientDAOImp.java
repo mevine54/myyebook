@@ -3,11 +3,13 @@ package fr.afpa.pompey.cda22045.myyebook.dao.clientdao;
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ClientDAOImp implements ClientDAO {
 
     @Override
@@ -30,8 +32,8 @@ public class ClientDAOImp implements ClientDAO {
                 );
 
                 client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),
@@ -63,8 +65,8 @@ public class ClientDAOImp implements ClientDAO {
                 );
 
                 Client client = new Client(
-                        rs.getInt("cli_id"),
                         compte,
+                        rs.getInt("cli_id"),
                         rs.getString("cli_nom"),
                         rs.getString("cli_prenom"),
                         rs.getString("cli_email"),
@@ -88,9 +90,9 @@ public class ClientDAOImp implements ClientDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, client.getLogin());
-            ps.setString(2, client.getPassword());
-            ps.setString(3, client.getRole());
+            ps.setString(1, client.getCompte().getLogin());
+            ps.setString(2, client.getCompte().getPassword());
+            ps.setString(3, client.getCompte().getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
@@ -130,10 +132,10 @@ public class ClientDAOImp implements ClientDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, client.getLogin());
-            ps.setString(2, client.getPassword());
-            ps.setString(3, client.getRole());
-            ps.setInt(4, client.getCompteId());
+            ps.setString(1, client.getCompte().getLogin());
+            ps.setString(2, client.getCompte().getPassword());
+            ps.setString(3, client.getCompte().getRole());
+            ps.setInt(4, client.getCompte().getCompteId());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -156,7 +158,7 @@ public class ClientDAOImp implements ClientDAO {
             connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
-            System.out.println(e.getMessage());
+            log.info(e.getMessage());
             throw new RuntimeException(e);
         } finally {
             connection.setAutoCommit(true);
@@ -201,5 +203,42 @@ public class ClientDAOImp implements ClientDAO {
                 connection.rollback();
                 throw new RuntimeException(e);
             }
-        }    }
+        }
+    }
+
+    @Override
+    public Client getParCompteId(Integer cptId) throws SQLException {
+        Client client = null;
+        Compte compte = null;
+        String sql = "SELECT * FROM compte c INNER JOIN client cl on c.cpt_id = cl.cpt_id WHERE c.cpt_id = ? ;";
+
+        try (
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                compte = new Compte(
+                        rs.getInt("cpt_id"),
+                        rs.getString("cpt_login"),
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
+                );
+
+                client = new Client(
+                        compte,
+                        rs.getInt("cli_id"),
+                        rs.getString("cli_nom"),
+                        rs.getString("cli_prenom"),
+                        rs.getString("cli_email"),
+                        rs.getString("cli_adresse"),
+                        rs.getString("cli_ville"),
+                        rs.getString("cli_code_postale")
+                );
+            }
+
+        }
+
+        return client;
+    }
 }

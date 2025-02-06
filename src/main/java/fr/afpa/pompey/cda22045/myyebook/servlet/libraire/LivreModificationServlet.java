@@ -9,10 +9,7 @@ import fr.afpa.pompey.cda22045.myyebook.model.Livre;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
@@ -35,7 +32,6 @@ public class LivreModificationServlet extends HttpServlet {
     @Override
     public void init() {
     }
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,7 +57,6 @@ public class LivreModificationServlet extends HttpServlet {
             }
         } else {
             response.sendRedirect(request.getContextPath() + "/accueil");
-
         }
 //        this.getServletContext().getRequestDispatcher("/accueil").forward(request, response);
 
@@ -70,14 +65,15 @@ public class LivreModificationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Recup des parametres
-        String nom = request.getParameter("nom");
-        String auteur = request.getParameter("auteur");
-        String categorie = request.getParameter("categorie");
-        String resume = request.getParameter("resume");
+        String nomStr = request.getParameter("nom");
+        Integer auteurId = Integer.valueOf(request.getParameter("auteur"));
+        Integer categorieId = Integer.valueOf(request.getParameter("categorie"));
+        boolean estEnavant = Boolean.parseBoolean(request.getParameter("estEnavant"));
+        String resumeStr = request.getParameter("resume");
         Part imgPart = request.getPart("img");
+        String idStr = request.getParameter("id");
 
-        System.out.println(nom + " " + auteur + " " + categorie + " " + resume + " " + imgPart.getSubmittedFileName());
-        //TODO:    Gerer le chargement d'image
+        log.info(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
 
         // Enregistrement de l'image
         String fileName = imgPart.getSubmittedFileName();
@@ -85,20 +81,50 @@ public class LivreModificationServlet extends HttpServlet {
         String uuid = UUID.randomUUID().toString();
         String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
         String newFileName = uuid + fileExtension;
-        File fichierACree = new File(getServletContext().getAttribute("dossierCouverture") + File.separator + newFileName);
-        if (ImageIO.read(fichierACree) != null) {
-            imgPart.write(fichierACree.getAbsolutePath());
-            log.info(fichierACree.getAbsolutePath());
+        File fichierACreeHorsTomcat = new File(getServletContext().getAttribute("dossierCouverture") + newFileName);
+        File fichierAcreerDansTomcat = new File(getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload" + File.separator + "couverture" + File.separator + newFileName);
+        imgPart.write(fichierACreeHorsTomcat.getAbsolutePath());
+        imgPart.write(fichierAcreerDansTomcat.getAbsolutePath());
+        if (ImageIO.read(fichierACreeHorsTomcat) != null) {
+            log.info(fichierACreeHorsTomcat.getAbsolutePath());
+            LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
+            AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
+            CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
+            try {
+                Categorie categorie = categorieDAOImpl.get(categorieId);
+                Auteur auteur = auteurDAOImpl.get(auteurId);
+                // Modification d'un livre
+                Livre livre = livreDAOImpl.get(Integer.valueOf(idStr));
+                livre.setTitre(nomStr);
+                livre.setEstEnAvant(estEnavant);
+                livre.setAuteur(auteur);
+                livre.setCategorie(categorie);
+                livre.setResume(resumeStr);
+                livre.setImage(newFileName);
+                livreDAOImpl.update(livre);
+                response.sendRedirect(request.getContextPath() + "/ListeLivre?info=successUpdate");
+            } catch (SQLException e) {
+                response.sendRedirect(request.getContextPath() + "/LivreModification?info=errorDB");
+                log.warn("Erreur lors de la modification du livre");
+                throw new RuntimeException(e);
+            }
         } else {
             log.warn("Ce fichier n'est pas une image valide");
+            fichierACreeHorsTomcat.delete();
         }
     }
 
-
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.warn("delete");
+
+        LivreDAOImpl livreDAOImpl = new LivreDAOImpl();
+        try {
+            livreDAOImpl.delete(Integer.parseInt(req.getParameter("id")));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     @Override
     public void destroy() {

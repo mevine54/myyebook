@@ -17,7 +17,9 @@ public class LibraireTest {
 
     @BeforeEach
     void setUp() {
-        libraire = new Libraire("monlogin","motdepasseSecure11!",true,"nomlibraire","prenomlibraire");
+        compte = new Compte(1,"monlogin","motdepasseSecure1!","ROLE_CLIENT");
+
+        libraire = new Libraire(compte,null,true,"nomlibraire","prenomlibraire");
     }
 
     @ParameterizedTest

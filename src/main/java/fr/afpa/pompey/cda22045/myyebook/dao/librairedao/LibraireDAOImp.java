@@ -3,11 +3,13 @@ package fr.afpa.pompey.cda22045.myyebook.dao.librairedao;
 import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class LibraireDAOImp implements LibraireDAO {
 
     @Override
@@ -25,14 +27,13 @@ public class LibraireDAOImp implements LibraireDAO {
                 compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp")
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
                 );
 
                 libraire = new Libraire(
+                        compte,
                         rs.getInt("lib_id"),
-                        compte.getCompteId(),
-                        compte.getLogin(),
-                        compte.getPassword(),
                         rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
@@ -56,14 +57,13 @@ public class LibraireDAOImp implements LibraireDAO {
                 Compte compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
-                        rs.getString("cpt_mdp")
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
                 );
 
                 Libraire libraire = new Libraire(
+                        compte,
                         rs.getInt("lib_id"),
-                        compte.getCompteId(),
-                        compte.getLogin(),
-                        compte.getPassword(),
                         rs.getBoolean("lib_est_approuve"),
                         rs.getString("lib_nom"),
                         rs.getString("lib_prenom")
@@ -83,15 +83,15 @@ public class LibraireDAOImp implements LibraireDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, libraire.getLogin());
-            ps.setString(2, libraire.getPassword());
-            ps.setString(3, libraire.getRole());
+            ps.setString(1, libraire.getCompte().getLogin());
+            ps.setString(2, libraire.getCompte().getPassword());
+            ps.setString(3, libraire.getCompte().getRole());
             ps.executeUpdate();
             ResultSet generatedKeysCompte = ps.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
                 sql = "INSERT INTO libraire ( lib_nom, lib_prenom,cpt_id) VALUES ( ?, ?,?)";
                 compteId = generatedKeysCompte.getInt(1);
-                System.out.println("COMPTE : -----  " + compteId);
+                log.info("COMPTE : -----  " + compteId);
                 ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, libraire.getNom());
                 ps.setString(2, libraire.getPrenom());
@@ -110,7 +110,13 @@ public class LibraireDAOImp implements LibraireDAO {
             connection.rollback();
             throw new RuntimeException(e);
         } finally {
-            connection.setAutoCommit(true);
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    log.warn("Impossible de rétablir l'autocommit", e);
+                }
+            }
         }
         return compteId;
     }
@@ -122,10 +128,10 @@ public class LibraireDAOImp implements LibraireDAO {
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, libraire.getLogin());
-            ps.setString(2, libraire.getPassword());
-            ps.setString(3, libraire.getRole());
-            ps.setInt(4, libraire.getCompteId());
+            ps.setString(1, libraire.getCompte().getLogin());
+            ps.setString(2, libraire.getCompte().getPassword());
+            ps.setString(3, libraire.getCompte().getRole());
+            ps.setInt(4, libraire.getCompte().getCompteId());
             int rowsAffected = ps.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -144,10 +150,16 @@ public class LibraireDAOImp implements LibraireDAO {
             connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
-            System.out.println(e.getMessage());
+            log.info(e.getMessage());
             throw new RuntimeException(e);
         } finally {
-            connection.setAutoCommit(true);
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    log.warn("Impossible de rétablir l'autocommit", e);
+                }
+            }
         }
         return 0;
     }
@@ -212,5 +224,38 @@ public class LibraireDAOImp implements LibraireDAO {
                 connection.close();
             }
         }
+    }
+
+
+    @Override
+    public Libraire getParCompteId(Integer cptId) throws SQLException {
+        Libraire libraire = null;
+        Compte compte = null;
+        String sql = "SELECT * FROM compte c INNER JOIN libraire l on c.cpt_id = l.cpt_id WHERE c.cpt_id = ? ;";
+
+        try (
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, cptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                compte = new Compte(
+                        rs.getInt("cpt_id"),
+                        rs.getString("cpt_login"),
+                        rs.getString("cpt_mdp"),
+                        rs.getString("cpt_role")
+                );
+
+                libraire = new Libraire(
+                        compte,
+                        rs.getInt("lib_id"),
+                        rs.getBoolean("lib_est_approuve"),
+                        rs.getString("lib_nom"),
+                        rs.getString("lib_prenom")
+                );
+            }
+
+        }
+        return libraire;
     }
 }

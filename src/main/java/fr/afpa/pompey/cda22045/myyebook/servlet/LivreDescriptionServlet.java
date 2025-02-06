@@ -7,12 +7,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @WebServlet(name = "LivreDescriptionServlet", value = "/livre")
+@Slf4j
 public class LivreDescriptionServlet extends HttpServlet {
 
     @Override
@@ -26,7 +29,7 @@ public class LivreDescriptionServlet extends HttpServlet {
 
         if (idStr != null && idStr.matches("\\d+")) {
             int id = Integer.parseInt(idStr);
-            System.out.println(id);
+            log.info(String.valueOf(id));
             LivreDAOImpl livreDaoImpl = new LivreDAOImpl();
             Livre livre;
             List<Livre> livreSimilaireList;
@@ -39,7 +42,7 @@ public class LivreDescriptionServlet extends HttpServlet {
                     this.getServletContext().getRequestDispatcher("/JSP/page/livredescription.jsp").forward(request, response);
                 }
             } catch (SQLException e) {
-                System.out.println("sql exception");
+                log.info("sql exception");
                 throw new RuntimeException(e);
             }
         }

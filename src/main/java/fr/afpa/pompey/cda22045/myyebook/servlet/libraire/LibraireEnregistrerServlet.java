@@ -1,6 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.librairedao.LibraireDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 import fr.afpa.pompey.cda22045.myyebook.model.Libraire;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
@@ -8,10 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "enregistrerLibraireServlet", value = "/libraire-enregistrer")
+@Slf4j
 public class LibraireEnregistrerServlet extends HttpServlet {
     LibraireDAOImp libraireDAOImp = new LibraireDAOImp();
     @Override
@@ -36,18 +40,19 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        System.out.println("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
-
-        //Verifier les informations passent au regex
-        Verification.CHARACTER(nom);
-        Verification.CHARACTER(prenom);
-
-
+        log.info("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
         // Enregistrer le libraire
-        Libraire libraire = new Libraire(
+        Compte compteLibraire = new Compte(
+                null,
                 login,
                 password,
+                "ROLE_LIBRAIRE_ATTENTE"
+        );
+
+        Libraire libraire = new Libraire(
+                compteLibraire,
+                null,
                 true,
                 nom,
                 prenom
@@ -56,12 +61,11 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         // Enregistrer le libraire dans la base de données
         try {
             libraireDAOImp.insert(libraire);
-            System.out.println("Libraire enregistré");
+            log.info("Libraire enregistré");
         } catch (SQLException e) {
-            System.out.println("Erreur lors de l'enregistrement du libraire");
+            log.info("Erreur lors de l'enregistrement du libraire");
             throw new RuntimeException(e);
         }
-
 
         // Rediriger vers la page de liste des libraires
         response.sendRedirect(request.getContextPath() + "/ListeLibraire"+"?info=success");

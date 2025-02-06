@@ -4,15 +4,26 @@ import fr.afpa.pompey.cda22045.myyebook.dao.auteurdao.AuteurDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.utilitaires.Verification;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.UUID;
 
+
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 2,
+        maxRequestSize = 1024 * 1024 * 2)
 @WebServlet(name = "CreeUnAuteurServlet", value = "/CreeUnAuteur")
+@Slf4j
 public class CreeUnAuteurServlet extends HttpServlet {
     private AuteurDAOImpl auteurDAOImpl;
 
@@ -33,23 +44,40 @@ public class CreeUnAuteurServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Récupérer les informations du formulaire
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        System.out.println("nom: " +nom + " Prenom " + prenom);
+        // Récupération des paramètres
 
-        try{
-            Verification.CHARACTER(nom);
-            Verification.CHARACTER(prenom);
-            Auteur auteur = new Auteur(nom, prenom, "image.png");
+        String idStr = request.getParameter("id");
+        String nomStr = request.getParameter("nom");
+        String prenomStr = request.getParameter("prenom");
+        Part imgPart = request.getPart("image");
+        AuteurDAOImpl auteurDAOImpl = new AuteurDAOImpl();
+
+        // Enregistrement de l'image
+        String fileName = imgPart.getSubmittedFileName();
+        log.info("fichier uploade : {}", fileName);
+        String uuid = UUID.randomUUID().toString();
+        String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
+        String newFileName = uuid + fileExtension;
+        File fichierACreeHorsTomcat = new File(getServletContext().getAttribute("dossierAuteur") + newFileName);
+        File fichierAcreerDansTomcat = new File(getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "upload" + File.separator + "img_auteur" + File.separator + newFileName);
+        log.info("fichier cree: {}", fichierACreeHorsTomcat);
+        imgPart.write(fichierACreeHorsTomcat.getAbsolutePath());
+        imgPart.write(fichierAcreerDansTomcat.getAbsolutePath());
+        if (ImageIO.read(fichierACreeHorsTomcat) != null) {
+            log.info(fichierACreeHorsTomcat.getAbsolutePath());
             try {
+                Auteur auteur = new Auteur(
+                        nomStr, prenomStr, newFileName
+                );
                 auteurDAOImpl.insert(auteur);
-                response.sendRedirect(request.getContextPath() + "/ListeCategorie"+"?info=success");
+                response.sendRedirect(request.getContextPath() + "/ListeAuteur?info=success");
             } catch (SQLException e) {
+                response.sendRedirect(request.getContextPath() + "/CreeUnAuteur?info=errorDB");
                 throw new RuntimeException(e);
             }
-        }catch (Exception e){
-            response.sendRedirect(request.getContextPath() + "/CreeUneCategorie"+"?info=error");
+        } else {
+            log.warn("Ce n'est pas une image valide");
+            fichierACreeHorsTomcat.delete();
         }
     }
 

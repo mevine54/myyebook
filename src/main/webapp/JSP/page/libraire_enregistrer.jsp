@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="true"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
 <c:url value="/assets/css/style.css" var="style"/>
@@ -36,7 +36,7 @@
                         </div>
                     </c:if>
                     <a href="${pageContext.request.contextPath}/ListeLibraire" class="btn btn-outline-primary fw-bold rounded-0 mb-3 px-3"><i class="bi bi-arrow-left-short"></i> Retour</a>
-                    <input type="hidden" name="csrfToken" value="<c:out value="${sessionScope.csrfToken}" />">
+                    <input type="hidden" name="csrf" value="<c:out value="${requestScope.csrfToken}" />">
                     <h3>Informations</h3>
                     <div class="row mb-3">
                         <div class="col">

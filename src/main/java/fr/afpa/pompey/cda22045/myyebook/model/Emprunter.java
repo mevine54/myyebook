@@ -60,8 +60,8 @@ public class Emprunter {
 
     public void setReservation(Reservation reservation) {
         if (reservation != null && reservation.getDatetime().isAfter(datetimeEmprunt)  ) {
-//            System.out.println(reservation.getDatetime());
-//            System.out.println(datetimeEmprunt);
+//            log.info(reservation.getDatetime());
+//            log.info(datetimeEmprunt);
 
             throw new IncoherenteDateException("La date de reservation ne peut pas etre posterieur à la date d'emprunt");
         }
@@ -80,7 +80,7 @@ public class Emprunter {
     }
 
     public void setDatetimeRetour(LocalDateTime datetimeRetour) {
-        if (datetimeRetour.isBefore(datetimeEmprunt) ) {
+        if ( datetimeRetour != null && datetimeRetour.isBefore(datetimeEmprunt) ) {
             throw new IncoherenteDateException("La date de retour ne peut pas être avant la date d'emprunt");
         }
         this.datetimeRetour = datetimeRetour;

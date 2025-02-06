@@ -2,12 +2,14 @@ package fr.afpa.pompey.cda22045.myyebook.dao;
 
 import fr.afpa.pompey.cda22045.myyebook.dao.categoriedao.CategorieDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 public class CategorieDAOImpTest {
 
     CategorieDAOImpl categorieDAOImp = new CategorieDAOImpl();
@@ -21,9 +23,9 @@ public class CategorieDAOImpTest {
     void getByIdValid() {
         try {
             Categorie categorie = categorieDAOImp.get(1);
-            System.out.println(categorie);
+            log.info(String.valueOf(categorie));
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -31,9 +33,9 @@ public class CategorieDAOImpTest {
     void getAllValid() {
         try {
             List<Categorie> categories  = categorieDAOImp.getAll();
-            System.out.println(categories);
+            log.info(categories.toString());
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -42,9 +44,9 @@ public class CategorieDAOImpTest {
         try {
             Categorie categorie = new Categorie(null,"temp");
             Integer id  = categorieDAOImp.insert(categorie);
-            System.out.println("L'id de la  categorie insere est "+ id);
+            log.info("L'id de la  categorie insere est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 //
@@ -52,12 +54,12 @@ public class CategorieDAOImpTest {
     void updateValid() {
         try {
             Categorie categorie = categorieDAOImp.get(15);
-            System.out.println(categorie);
+            log.info(String.valueOf(categorie));
             categorie.setNom("BLABLA");
             Integer id  = categorieDAOImp.update(categorie);
-            System.out.println("L'id de la libraire modifie est "+ id);
+            log.info("L'id de la libraire modifie est "+ id);
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 
@@ -67,9 +69,9 @@ public class CategorieDAOImpTest {
         try {
             Integer id  = 15;
             categorieDAOImp.delete(id);
-            System.out.println("L'id du compte "+ id + " a bien ete supprimer");
+            log.info("L'id du compte "+ id + " a bien ete supprimer");
         } catch (SQLException e) {
-            System.out.println("Exception SQL: " + e.getMessage() );
+            log.info("Exception SQL: " + e.getMessage() );
         }
     }
 }

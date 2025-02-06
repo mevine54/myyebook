@@ -28,6 +28,7 @@
                     <h2>Crée une Catégorie</h2>
                 </div>
                 <form class="mx-auto col-lg-7" method="POST" action="CreeUneCategorie">
+                    <input type= "hidden"  name="csrf" value ="${requestScope.csrfToken}"/>
                     <c:if test="${param.info == 'error'}">
                         <div class="alert alert-warning text-center" role="alert">
                             <i class="bi bi-exclamation-triangle-fill"></i> Erreur de la création de catégorie !

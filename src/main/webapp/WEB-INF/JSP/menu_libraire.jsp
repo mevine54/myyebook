@@ -52,6 +52,14 @@
             </a>
         </li>
         <li>
+            <a href="${pageContext.request.contextPath}/ListeEmprunts"
+               class="nav-link ${currentURL.contains('/ListeEmprunts') ? 'active' : 'link-dark'}"
+            ${currentURL.contains('/ListeEmprunts') ? 'aria-current="page"' : ''}>
+                <i class="bi bi-list-check" width="16" height="16"></i>
+                Liste des emprunts
+            </a>
+        </li>
+        <li>
             <a href="${pageContext.request.contextPath}/deconnexion" class="nav-link link-dark text-danger fw-bolder">
                 <i class="bi bi-box-arrow-left" width="16" height="16"></i>
                 Déconnexion

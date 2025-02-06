@@ -1,7 +1,11 @@
 package fr.afpa.pompey.cda22045.myyebook.model;
 
 
+import com.password4j.Hash;
+import com.password4j.Password;
+import com.password4j.types.Bcrypt;
 import fr.afpa.pompey.cda22045.myyebook.exception.*;
+import fr.afpa.pompey.cda22045.myyebook.securite.PoivreToken;
 import lombok.*;
 
 import java.util.List;
@@ -21,7 +25,6 @@ public class Compte {
     public Compte(String login, String password) {
         setLogin(login);
         setPassword(password);
-
     }
 
     public Compte(Integer compteId, String login, String password) {
@@ -65,8 +68,7 @@ public class Compte {
     public void setPassword(String password) {
         int maxLen = 150;
         int minLen = 8;
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
-
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~])[A-Za-z\\d!\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~]{" + minLen + "," + maxLen + "}$";
         if (password == null) {
             throw new NullValueException("Le mot de passe ne peut pas être null");
         } else if (password.length() < minLen) {
@@ -76,9 +78,15 @@ public class Compte {
         } else if (!password.matches(regex)) {
             throw new RegexValidationException("Le mot de passe doit contenir au moins " + minLen + " caractères, une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial");
         }
-        // TODO: Hash password
-        this.password = password;
-
+        if (PoivreToken.POIVRE == null || PoivreToken.POIVRE.isEmpty()) {
+            throw new IllegalArgumentException("Le poivre ne peut pas être null");
+        }
+        // TODO: Hash password et un poivre
+//        Hash hash = Password.hash(password).addPepper(poivre).withBcrypt();
+//        this.password = hash.toString();
+        Hash hash = Password.hash(password).addPepper(PoivreToken.POIVRE).withBcrypt();
+        this.password = hash.getResult(); // Stocker uniquement le hash
+//        this.password = password; // Stocker uniquement le hash
     }
 
     protected void setRole(String role) {

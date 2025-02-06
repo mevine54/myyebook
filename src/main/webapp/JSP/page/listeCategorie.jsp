@@ -37,33 +37,44 @@
                     </div>
                 </c:if>
                 <c:if test="${param.info == 'errorRecupDB'}">
-                    <div class="alert alert-danger text-center" role="alert">
+                    <div class="alert alert-warning text-center" role="alert">
                         <i class="bi bi-info-circle-fill"></i> Impossible de récupérer les données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'errorDB'}">
+                    <div class="alert alert-danger text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Erreur d'enregistrement dans la base de données !
+                    </div>
+                </c:if>
+                <c:if test="${param.info == 'successDelete'}">
+                    <div class="alert alert-success text-center" role="alert">
+                        <i class="bi bi-info circle-fill"></i> Suppression de catégorie réussie !
                     </div>
                 </c:if>
                 <div class="d-flex justify-content-end"><a class="btn btn-outline-primary rounded-0" href="${pageContext.request.contextPath}/CreeUneCategorie">Créer un catégorie</a></div>
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nom de catégorie</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="categorie" items="${requestScope.categories}">
-                        <tr>
+<%--                        mettre id dans l'ordre--%>
+
+                        <tr id="row<c:out value='${categorie.id}'/>" >
+                            <td>${categorie.id}</td>
                             <td>${categorie.nom}</td>
                             <td class="d-flex">
-                                <form action="ListeLivre?action=modifier" method="POST">
-                                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-                                    <input type="hidden" name="id" value="${categorie.id}">
-                                    <button type="submit" class="btn btn-outline-primary rounded-0 mx-1">Modifier</button>
-                                </form>
-                                <form action="ListeLivre?action=supprimer" method="POST">
-                                    <input type="hidden" name="csrfToken" value="${sessionScope.csrfToken}">
-                                    <input type="hidden" name="id" value="${categorie.id}">
-                                    <button type="submit" class="btn btn-outline-danger rounded-0 mx-1">Supprimer</button>
-                                </form>
+                                <a class="btn btn-outline-primary rounded-0"
+                                   href="ModifCategorie?id=<c:out value='${categorie.id}'/>">Modifier</a>
+                                <button type="button" class="ms-xxl-2  btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${categorie.id}'/>, 'ModifCategorie?id=${categorie.id}&csrf=${requestScope.csrfToken}')"
+                                >
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>
