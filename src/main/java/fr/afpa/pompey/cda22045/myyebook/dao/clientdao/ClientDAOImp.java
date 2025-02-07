@@ -115,7 +115,6 @@ public class ClientDAOImp implements ClientDAO {
                     return clientId;
                 }
             }
-            connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException(e);
