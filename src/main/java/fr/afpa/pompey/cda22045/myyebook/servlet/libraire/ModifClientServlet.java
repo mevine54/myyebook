@@ -45,7 +45,7 @@ public class ModifClientServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, RuntimeException {
         ClientDAOImp clientDAOImp = new ClientDAOImp();
         log.warn("post");
         HttpSession session = request.getSession();
@@ -68,34 +68,37 @@ public class ModifClientServlet extends HttpServlet {
 
 
         //Verifie si les mots de passe sont identiques
-        if (!password.equals(password2)) {
-            log.warn("Les mots de passe ne sont pas identiques");
-            response.sendRedirect(request.getContextPath() + "/MotifClient?info=error");
-        }
 
-        try {
-            if (clientDAOImp.get(clientId) != null) {
-                Compte compte = new Compte(
-                        compteId,
-                        login,
-                        password
-                );
-                Client client = new Client(
-                        compte,
-                        clientId,
-                        nom,
-                        prenom,
-                        email,
-                        adresse,
-                        ville,
-                        codePostal
-                );
-                clientDAOImp.update(client);
+        if (!password.equals(password2)) {
+            response.sendRedirect(request.getContextPath() + "/MotifClient?info=error");
+            //new RuntimeException("Les mots de passe ne sont pas identiques");
+        }else{
+
+            try {
+                if (clientDAOImp.get(clientId) != null) {
+                    Compte compte = new Compte(
+                            compteId,
+                            login,
+                            password
+                    );
+                    Client client = new Client(
+                            compte,
+                            clientId,
+                            nom,
+                            prenom,
+                            email,
+                            adresse,
+                            ville,
+                            codePostal
+                    );
+                    clientDAOImp.update(client);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            response.sendRedirect(request.getContextPath() + "/ListeClient?info=success");
+
         }
-        response.sendRedirect(request.getContextPath() + "/ListeClient?info=success");
 
     }
 
