@@ -43,7 +43,7 @@
                             <th>ID</th>
                             <th>Nom</th>
                             <th>Prénom</th>
-                            <th>Role</th>
+                            <th>Approuvé</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -53,7 +53,14 @@
                             <td>${libraire.libId}</td>
                             <td>${libraire.nom}</td>
                             <td>${libraire.prenom}</td>
-                            <td>${libraire.compte.role}</td>
+                            <td>
+                                <div class="form-check form-switch fs-5">
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="switch<c:out value='${libraire.libId}'/>"
+                                           <c:if test="${libraire.estApprouve}">checked</c:if> disabled> <label
+                                        class="form-check-label" for="switch<c:out value='${libraire.libId}'/>"></label>
+                                </div>
+                            </td>
                             <td>
                                 <a class="btn btn-outline-primary rounded-0"
                                    href="ModifLibraire?id=<c:out value='${libraire.libId}'/>">Modifier</a>
