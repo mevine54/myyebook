@@ -26,6 +26,11 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp"/>
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des clients</h1>
+                <c:if test="${not empty requestScope.success}">
+                    <div class="alert alert-success" role="alert">
+                        La modification a été pris en compte avec succès.
+                    </div>
+                </c:if>
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
