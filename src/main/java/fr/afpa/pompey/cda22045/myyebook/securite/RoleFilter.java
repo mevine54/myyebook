@@ -24,12 +24,15 @@ import java.util.Set;
 public class RoleFilter implements Filter {
 
     private Map<String, Set<String>> roleToUriMap = new HashMap<>();
-    Set<String> publicUris = new HashSet<>();
+    private Set<String> publicUris = new HashSet<>();
+    private Set<String> libraireUris = new HashSet<>();
+    private Set<String> libraireAttenteUris = new HashSet<>();
+    private Set<String> clientUris = new HashSet<>();
+    private Set<String> allUris = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Définir les URI autorisées pour chaque rôle
-        Set<String> libraireUris = new HashSet<>();
         libraireUris.add("/CreeUnAuteur");
         libraireUris.add("/CreeUneCategorie");
         libraireUris.add("/CreeUnLivre");
@@ -49,11 +52,9 @@ public class RoleFilter implements Filter {
         libraireUris.add("/ListeEmprunts");
         libraireUris.add("/deconnexion");
 
-        Set<String> libraireAttenteUris = new HashSet<>();
         libraireAttenteUris.add("/LibraireAttente");
         libraireAttenteUris.add("/deconnexion");
 
-        Set<String> clientUris = new HashSet<>();
         clientUris.add("/mesemprunts");
         clientUris.add("/monCompteClient");
         clientUris.add("/deconnexion");
@@ -72,16 +73,19 @@ public class RoleFilter implements Filter {
         publicUris.add("/livre");
         publicUris.add("/connexion");
         publicUris.add("/client-enregistrer");
-
-
-
 //        /accueil , index.jsp , /livre
+        // Faire l'union de tous les URI
+        allUris.addAll(clientUris);
+        allUris.addAll(publicUris);
+        allUris.addAll(libraireUris);
+        allUris.addAll(libraireAttenteUris);
 
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+
         String role =   null;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -89,6 +93,7 @@ public class RoleFilter implements Filter {
 
         String uri = httpRequest.getRequestURI().replace(contextPath, "") ;
         HttpSession session = httpRequest.getSession(false);
+
 
         if (session!=null){
             role = (String) session.getAttribute("role");
@@ -99,8 +104,15 @@ public class RoleFilter implements Filter {
         log.info("context: {}", contextPath);
         log.info( "pathinfo: {}", httpRequest.getPathInfo() );
         request.getParameterMap().forEach((key, value) -> log.info("REQUETE PARAMETER key: {} value: {}", key, value));
+        if ( !allUris.contains( uri ) && !uri.startsWith("/assets") && !uri.startsWith("/error") ) {
+            log.info("URI 404: {}", uri );
+            allUris.forEach(s->
+                    log.info("URI: {} ", s));
+            httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND, "404 Not found");
 
-        if (  (role == null && !publicUris.contains( uri))  &&  !uri.startsWith("/assets/")) {
+        }
+
+        else if (  (role == null && !publicUris.contains( uri))  &&  !uri.startsWith("/assets/")) {
             log.info("URI 401: {}", uri );
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "401 Unauthorized");
         }
