@@ -1,13 +1,13 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
+
 import fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao.EmprunterDAOImpl;
-import fr.afpa.pompey.cda22045.myyebook.dao.reservationdao.ReservationDAOImp;
 import fr.afpa.pompey.cda22045.myyebook.model.Emprunter;
-import fr.afpa.pompey.cda22045.myyebook.model.Reservation;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -51,7 +51,7 @@ public class ListeEmpruntsServlet extends HttpServlet {
                     validerEmprunts(id);
                     response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=valider");
                 } else if (info.equals("rendre")) {
-                    rendreEmprunts(id);
+//                    rendreEmprunts(id);
                     response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=rendre");
                 } else {
                     response.sendRedirect(request.getContextPath() + "/accueil");
@@ -81,18 +81,18 @@ public class ListeEmpruntsServlet extends HttpServlet {
         }
     }
 
-    private void rendreEmprunts (Integer id) {
-        ReservationDAOImp reservationDAOImp = new ReservationDAOImp();
-        try {
-            Emprunter emprunter = verifieSiLEmpruntExiste(id);
-            if(emprunter.getDatetimeRetour() != null) {
-                emprunterDAOImpl.delete(id);
-                reservationDAOImp.delete(emprunter.getReservation().getResId());
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private void rendreEmprunts (Integer id) {
+//        ReservationDAOImp reservationDAOImp = new ReservationDAOImp();
+//        try {
+//            Emprunter emprunter = verifieSiLEmpruntExiste(id);
+//            if(emprunter.getDatetimeRetour() != null) {
+//                emprunterDAOImpl.delete(id);
+//                reservationDAOImp.delete(emprunter.getReservation().getResId());
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     private Emprunter verifieSiLEmpruntExiste (Integer id) {
         try {

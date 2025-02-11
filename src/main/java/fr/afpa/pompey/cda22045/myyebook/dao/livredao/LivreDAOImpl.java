@@ -5,6 +5,8 @@ import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Auteur;
 import fr.afpa.pompey.cda22045.myyebook.model.Categorie;
 import fr.afpa.pompey.cda22045.myyebook.model.Livre;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LivreDAOImpl implements LivreDAO {
+    private static final Logger log = LoggerFactory.getLogger(LivreDAOImpl.class);
+
     @Override
     public Livre get(Integer id) throws SQLException {
         Livre livre = null;
@@ -44,7 +48,9 @@ public class LivreDAOImpl implements LivreDAO {
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
                         resultSet.getBoolean("liv_en_avant"),
-                        auteur, categorie
+                        auteur,
+                        categorie,
+                        resultSet.getInt("quantite")
                 );
             }
         } catch (SQLException e) {
@@ -64,12 +70,7 @@ public class LivreDAOImpl implements LivreDAO {
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Livre livre = new Livre();
-                livre.setId(resultSet.getInt("liv_id"));
-                livre.setTitre(resultSet.getString("liv_titre"));
-                livre.setResume(resultSet.getString("liv_resume"));
-                livre.setImage(resultSet.getString("liv_photo"));
-                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
+
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -81,8 +82,19 @@ public class LivreDAOImpl implements LivreDAO {
                         resultSet.getInt("cat_id"),
                         resultSet.getString("cat_nom")
                 );
+
+                Livre livre = new Livre(
+                        resultSet.getInt("liv_id"),
+                        resultSet.getString("liv_titre"),
+                        resultSet.getString("liv_resume"),
+                        resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
+                        auteur, categorie, resultSet.getInt("quantite")
+                );
+
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
+                log.info(String.valueOf(livre));
                 livres.add(livre);
             }
         } catch (SQLException e) {
@@ -93,7 +105,7 @@ public class LivreDAOImpl implements LivreDAO {
 
     @Override
     public Integer insert(Livre livre) throws SQLException {
-        String sql = "INSERT INTO livre (liv_titre, liv_resume, liv_photo, aut_id, cat_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO livre (liv_titre, liv_resume, liv_photo, liv_en_avant, aut_id, cat_id,quantite) VALUES (?, ?, ?, ?, ?,?,?)";
         Integer id = null;
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -101,8 +113,9 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setString(2, livre.getResume());
             ps.setString(3, livre.getImage());
             ps.setBoolean(4, livre.isEstEnAvant());
-            ps.setInt(4, livre.getAuteur().getAuteurId());
-            ps.setInt(5, livre.getCategorie().getId());
+            ps.setInt(5, livre.getAuteur().getAuteurId());
+            ps.setInt(6, livre.getCategorie().getId());
+            ps.setInt(7, livre.getQuantite());
             ps.executeUpdate();
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
@@ -116,7 +129,7 @@ public class LivreDAOImpl implements LivreDAO {
 
     @Override
     public Integer update(Livre livre) throws SQLException {
-        String sql = "UPDATE livre SET liv_titre = ?, liv_resume = ?, liv_photo = ?, aut_id = ?, cat_id = ? WHERE liv_id = ?";
+        String sql = "UPDATE livre SET liv_titre = ?, liv_resume = ?, liv_photo = ?,liv_en_avant = ?, aut_id = ?, cat_id = ?, quantite= ? WHERE liv_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -124,9 +137,10 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setString(2, livre.getResume());
             ps.setString(3, livre.getImage());
             ps.setBoolean(4, livre.isEstEnAvant());
-            ps.setInt(4, livre.getAuteur().getAuteurId());
-            ps.setInt(5, livre.getCategorie().getId());
-            ps.setInt(6, livre.getId());
+            ps.setInt(5, livre.getAuteur().getAuteurId());
+            ps.setInt(6, livre.getCategorie().getId());
+            ps.setInt(7, livre.getQuantite());
+            ps.setInt(8, livre.getId());
             return ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -156,12 +170,9 @@ public class LivreDAOImpl implements LivreDAO {
             ps.setInt(1, autId);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                Livre livre = new Livre();
-                livre.setId(resultSet.getInt("liv_id"));
-                livre.setTitre(resultSet.getString("liv_titre"));
-                livre.setResume(resultSet.getString("liv_resume"));
-                livre.setImage(resultSet.getString("liv_photo"));
-                livre.setEstEnAvant(resultSet.getBoolean("liv_en_avant"));
+
+
+
                 // Récupère Auteur et Categorie by their IDs
                 Auteur auteur = new Auteur(
                         resultSet.getInt("aut_id"),
@@ -173,6 +184,16 @@ public class LivreDAOImpl implements LivreDAO {
                         resultSet.getInt("cat_id"),
                         resultSet.getString("cat_nom")
                 );
+                Livre livre = new Livre(
+                        resultSet.getInt("liv_id"),
+                        resultSet.getString("liv_titre"),
+                        resultSet.getString("liv_resume"),
+                        resultSet.getString("liv_photo"),
+                        resultSet.getBoolean("liv_en_avant"),
+                        auteur,categorie,
+                        resultSet.getInt("quantite")
+                );
+
                 livre.setAuteur(auteur);
                 livre.setCategorie(categorie);
                 livres.add(livre);
@@ -208,13 +229,15 @@ public class LivreDAOImpl implements LivreDAO {
                         resultSet.getString("cat_nom")
                 );
                 Livre livre = new Livre(
-                        resultSet.getInt("liv_id") ,
+                        resultSet.getInt("liv_id"),
                         resultSet.getString("liv_titre"),
                         resultSet.getString("liv_resume"),
                         resultSet.getString("liv_photo"),
                         resultSet.getBoolean("liv_en_avant"),
-                        auteur,categorie
-                        );
+                        auteur,
+                        categorie,
+                        resultSet.getInt("quantite")
+                );
                 livres.add(livre);
             }
         } catch (SQLException e) {
@@ -228,7 +251,7 @@ public class LivreDAOImpl implements LivreDAO {
         List<Livre> livres = new ArrayList<>();
         String sql = "SELECT * FROM livre l\n" +
                 "INNER JOIN auteur a ON a.aut_id = l.aut_id\n" +
-                "INNER JOIN categorie c ON c.cat_id = l.cat_id\n"+
+                "INNER JOIN categorie c ON c.cat_id = l.cat_id\n" +
                 "WHERE LOWER(liv_titre) LIKE ? OR LOWER(aut_nom) LIKE ? OR LOWER(aut_prenom) LIKE ?";
 
 

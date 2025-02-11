@@ -70,6 +70,7 @@ public class LivreModificationServlet extends HttpServlet {
         Integer categorieId = Integer.valueOf(request.getParameter("categorie"));
         boolean estEnavant = Boolean.parseBoolean(request.getParameter("estEnavant"));
         String resumeStr = request.getParameter("resume");
+        String quantiteStr = request.getParameter("quantite");
         Part imgPart = request.getPart("img");
         String idStr = request.getParameter("id");
 
@@ -101,6 +102,8 @@ public class LivreModificationServlet extends HttpServlet {
                 livre.setCategorie(categorie);
                 livre.setResume(resumeStr);
                 livre.setImage(newFileName);
+                livre.setQuantite(Integer.parseInt(quantiteStr));
+                log.info(" Quantite : {} ",quantiteStr);
                 livreDAOImpl.update(livre);
                 response.sendRedirect(request.getContextPath() + "/ListeLivre?info=successUpdate");
             } catch (SQLException e) {

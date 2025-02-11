@@ -50,7 +50,7 @@
                         <tr id="row${emprunter.id}">
                             <td>${emprunter.id}</td>
                             <td>${emprunter.client.nom} ${emprunter.client.prenom}</td>
-                            <td>${emprunter.exemplaire.livre.titre} ${emprunter.exemplaire.livre.auteur.nom} ${emprunter.exemplaire.livre.auteur.prenom}</td>
+                            <td>${emprunter.livre.titre} ${emprunter.livre.auteur.nom} ${emprunter.livre.auteur.prenom}</td>
                             <td>
                                 <form method="post" action="${pageContext.request.contextPath}/ListeEmprunts" >
                                     <input type="hidden" name="id" value="${emprunter.id}">
