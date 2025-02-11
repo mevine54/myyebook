@@ -76,10 +76,10 @@ public class LibraireDAOImp implements LibraireDAO {
 
     @Override
     public Integer insert(Libraire libraire) throws SQLException {
+        Integer libId = null;
         String sql = "INSERT INTO Compte (cpt_login, cpt_mdp,cpt_role) VALUES ( ?, ?,?)";
         Integer compteId = 0;
         try {
-
             Connection connection = DatabaseConnection.getInstanceDB();
             connection.setAutoCommit(false);
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -95,17 +95,17 @@ public class LibraireDAOImp implements LibraireDAO {
                 ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, libraire.getNom());
                 ps.setString(2, libraire.getPrenom());
-                ps.setInt(3, compteId );
+                ps.setInt(3, compteId);
                 ps.executeUpdate();
                 ResultSet generatedKeysLibraire = ps.getGeneratedKeys();
                 if (generatedKeysLibraire.next()) {
                     int libraireId = generatedKeysLibraire.getInt(1);
                     libraire.setLibId(libraireId);
                     connection.commit();
-                    return libraireId;
                 }
+            } else {
+                connection.rollback();
             }
-            connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException(e);
@@ -118,7 +118,7 @@ public class LibraireDAOImp implements LibraireDAO {
                 }
             }
         }
-        return compteId;
+        return libId;
     }
 
     @Override
@@ -199,7 +199,7 @@ public class LibraireDAOImp implements LibraireDAO {
                 connection.commit();
                 return id;
             } else {
-                throw new SQLException("No compte found for libraireId: " + id );
+                throw new SQLException("No compte found for libraireId: " + id);
             }
         } catch (SQLException e) {
             if (connection != null) {
