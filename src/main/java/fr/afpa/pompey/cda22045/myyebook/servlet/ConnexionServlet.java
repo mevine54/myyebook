@@ -37,10 +37,7 @@ public class ConnexionServlet extends HttpServlet {
             this.getServletContext().getRequestDispatcher("/JSP/page/connexion.jsp").forward(request, response);
 
         }
-//        request.getSession(false);
-//        HttpSession session = request.getSession(false);
-//        request.setAttribute("csrfToken", CSRFTokenUtil.generateCSRFToken());
-//        log.info(request.getAttribute("csrfToken"));
+
     }
 
     @Override
@@ -58,6 +55,10 @@ public class ConnexionServlet extends HttpServlet {
             if (compte != null) {
                 String hashedPassword = compteDAOImpl.getHashedPasswordByLogin(utilisateur);
                 boolean estAuthentifie = Password.check(mdp, hashedPassword).addPepper(PoivreToken.POIVRE).withBcrypt();
+                if ( ! estAuthentifie){
+                    response.sendRedirect("connexion?info=cred-invalid");
+                }
+
                 log.info("compte: " + compte);
 
                 if (compte.getRole().equals("ROLE_LIBRAIRE") || compte.getRole().equals("ROLE_LIBRAIRE_ATTENTE")) {
@@ -89,8 +90,7 @@ public class ConnexionServlet extends HttpServlet {
         } catch (SQLException e) {
             log.error("Erreur lors de la récupération du compte", e);
             response.sendRedirect("connexion.jsp?error=true");
-            return;
-        }
+            return;}
         //TODO: Verifier mdp hashee
         if (compte != null && compte.getPassword().equals(mdp)) {
             if (session == null) {
