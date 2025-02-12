@@ -22,7 +22,7 @@ public class ListeLivreEmprunter extends HttpServlet {
         //Enregistre l'url dans la variable et envoye à la page JSP
         request.setAttribute("currentURL", currentURL);
 
-        this.getServletContext().getRequestDispatcher("/JSP/page/liste_liver_emprunter.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/JSP/page/liste_livre_emprunter.jsp").forward(request, response);
     }
 
     @Override

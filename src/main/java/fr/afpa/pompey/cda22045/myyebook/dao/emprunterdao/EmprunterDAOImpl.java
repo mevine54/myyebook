@@ -35,15 +35,30 @@ public class EmprunterDAOImpl implements EmprunterDAO {
 
     @Override
     public Integer update(Emprunter emprunter) throws SQLException {
-        String sql = "UPDATE Emprunter SET cli_id = ?, liv_id = ?, emp_date_emprunt = ?, emp_date_retour = ?, emp_date_emprunt = ?, lib_id = ? WHERE emp_id = ? ";
+        String sql = "UPDATE Emprunter SET cli_id = ?, liv_id = ?, emp_res_date = ?,  emp_date_emprunt = ?, emp_date_retour = ?, lib_id = ? WHERE emp_id = ? ";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, emprunter.getClient().getClientId());
             ps.setInt(2, emprunter.getLivre().getId());
-            ps.setTimestamp(3, Timestamp.valueOf(emprunter.getDatetimeEmprunt()));
-            ps.setTimestamp(4, Timestamp.valueOf(emprunter.getDatetimeRetour()));
-            ps.setTimestamp(5, Timestamp.valueOf(emprunter.getDatetimeRetour()));
+
+            if (emprunter.getDatetimeReservation() != null) {
+                ps.setTimestamp(3, Timestamp.valueOf(emprunter.getDatetimeReservation()));
+            } else {
+                ps.setNull(3, java.sql.Types.TIMESTAMP);
+            }
+
+            if (emprunter.getDatetimeEmprunt() != null) {
+                ps.setTimestamp(4, Timestamp.valueOf(emprunter.getDatetimeEmprunt()));
+            } else {
+                ps.setNull(4, java.sql.Types.TIMESTAMP);
+            }
+            if (emprunter.getDatetimeRetour() != null) {
+                ps.setTimestamp(5, Timestamp.valueOf(emprunter.getDatetimeRetour()));
+            } else {
+                ps.setNull(5, java.sql.Types.TIMESTAMP);
+            }
+
             ps.setInt(6, emprunter.getLibraire().getLibId());
             ps.setInt(7, emprunter.getId());
             return ps.executeUpdate();
@@ -75,7 +90,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 "INNER JOIN Compte cptcli ON cptcli.cpt_id = c.cpt_id  " +
                 "INNER JOIN Compte cptlib ON cptlib.cpt_id = l.cpt_id  " +
                 "INNER JOIN Categorie cat ON cat.cat_id = li.cat_id  " +
-                "WHERE emp_id = 1";
+                "WHERE emp_id = ?";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -145,7 +160,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         libraire,
                         livre,
                         resultSet.getTimestamp("emp_res_date").toLocalDateTime(),
-                        resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime(),
+                        resultSet.getTimestamp("emp_date_emprunt")  != null ? resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime() : null,
                         resultSet.getTimestamp("emp_date_retour") != null ? resultSet.getTimestamp("emp_date_retour").toLocalDateTime() : null
                 );
             }
@@ -165,8 +180,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                 "INNER JOIN Auteur a ON li.aut_id = a.aut_id  " +
                 "INNER JOIN Compte cptcli ON cptcli.cpt_id = c.cpt_id  " +
                 "INNER JOIN Compte cptlib ON cptlib.cpt_id = l.cpt_id  " +
-                "INNER JOIN Categorie cat ON cat.cat_id = li.cat_id  " +
-                "WHERE emp_id = 1";
+                "INNER JOIN Categorie cat ON cat.cat_id = li.cat_id ";
 
         try (Connection connection = DatabaseConnection.getInstanceDB();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -235,7 +249,7 @@ public class EmprunterDAOImpl implements EmprunterDAO {
                         libraire,
                         livre,
                         resultSet.getTimestamp("emp_res_date").toLocalDateTime(),
-                        resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime(),
+                        resultSet.getTimestamp("emp_date_emprunt") != null ? resultSet.getTimestamp("emp_date_emprunt").toLocalDateTime() : null,
                         resultSet.getTimestamp("emp_date_retour") != null ? resultSet.getTimestamp("emp_date_retour").toLocalDateTime() : null
                 );
 

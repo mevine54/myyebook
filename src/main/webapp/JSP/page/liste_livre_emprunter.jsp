@@ -24,8 +24,6 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp" />
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des Livres emprunté</h1>
-
-
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>

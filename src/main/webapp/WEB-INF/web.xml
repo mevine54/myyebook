@@ -20,4 +20,31 @@
         <error-code>404</error-code>
         <location>/erreur-404.html</location>
     </error-page>
+    <security-role>
+        <role-name>ROLE_CLIENT</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROLE_LIBRAIRE</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ROLE_LIBRAIRE_ATTENTE</role-name>
+    </security-role>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/login.html</form-login-page>
+            <form-error-page>/login-error.html</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Public</web-resource-name>
+            <url-pattern>/public/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ROLE_CLIENT</role-name>
+            <role-name>ROLE_LIBRAIRE</role-name>
+            <role-name>ROLE_LIBRAIRE_ATTENTE</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

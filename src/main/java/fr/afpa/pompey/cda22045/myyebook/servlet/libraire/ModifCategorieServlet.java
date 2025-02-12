@@ -24,15 +24,11 @@ public class ModifCategorieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idStr = request.getParameter("id");
-        HttpSession session = request.getSession(false);
         Categorie categories;
         if (idStr != null && idStr.matches("\\d+")) {
             int id = Integer.parseInt(idStr);
             CategorieDAOImpl categorieDAOImpl = new CategorieDAOImpl();
             try {
-//                if ( session!=null ){
-//                    request.setAttribute("csrfToken",session.getAttribute("csrfToken"));
-//                }
                 categories = categorieDAOImpl.get(id);
                 if (categories != null) {
                     Categorie categorie = categorieDAOImpl.get(id);
