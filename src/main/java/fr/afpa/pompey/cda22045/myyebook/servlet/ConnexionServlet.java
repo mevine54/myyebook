@@ -35,9 +35,7 @@ public class ConnexionServlet extends HttpServlet {
             response.sendRedirect("monCompteLibraire.jsp");
         } else {
             this.getServletContext().getRequestDispatcher("/JSP/page/connexion.jsp").forward(request, response);
-
         }
-
     }
 
     @Override
@@ -55,7 +53,7 @@ public class ConnexionServlet extends HttpServlet {
             if (compte != null) {
                 String hashedPassword = compteDAOImpl.getHashedPasswordByLogin(utilisateur);
                 boolean estAuthentifie = Password.check(mdp, hashedPassword).addPepper(PoivreToken.POIVRE).withBcrypt();
-                if ( ! estAuthentifie){
+                if (!estAuthentifie) {
                     response.sendRedirect("connexion?info=cred-invalid");
                 }
 
@@ -76,7 +74,7 @@ public class ConnexionServlet extends HttpServlet {
                         }
                     }
                     log.info("libraire: " + libraire);
-                } else if ( compte.getRole().equals("ROLE_CLIENT") && estAuthentifie ) {
+                } else if (compte.getRole().equals("ROLE_CLIENT") && estAuthentifie) {
                     Client client = clientDAOImp.getParCompteId(compte.getCompteId());
                     if (client != null) {
                         session = request.getSession(true);
@@ -84,46 +82,15 @@ public class ConnexionServlet extends HttpServlet {
                         response.sendRedirect("monCompteClient");
                     }
                     log.info("client: " + client);
-
                 }
+            }
+            else{
+                response.sendRedirect("connexion?info=cred-invalid");
             }
         } catch (SQLException e) {
             log.error("Erreur lors de la récupération du compte", e);
             response.sendRedirect("connexion.jsp?error=true");
-            return;}
-        //TODO: Verifier mdp hashee
-        if (compte != null && compte.getPassword().equals(mdp)) {
-            if (session == null) {
-                session = request.getSession(false);
-            }
-            log.info("utilisateur: " + utilisateur + " compte: " + compte);
-            session.setAttribute("utilisateur", utilisateur);
-            session.setAttribute("role", compte.getRole()); //Définit le rôle de l'utilisateur
-            if (compte.getRole().equals("ROLE_LIBRAIRE")) {
-                response.sendRedirect("monCompteLibraire");
-            } else if (compte.getRole().equals("ROLE_CLIENT")) {
-                response.sendRedirect("monCompteClient");
-            }
-            log.info("role session :" + session.getAttribute("role"));
-        } else if (compte == null) {
-            // Rediriger vers la page d'erreur avec un code de statut HTTP
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Vous n'avez pas de compte.");
         }
-
-
-//            // Définir le rôle de l'utilisateur
-//            if ("lib1".equals(utilisateur) && "P@ssw0rd1".equals(mdp)) {
-////                "ROLE_LIBRAIRE","ROLE_LIBRAIRE_ATTENTE","ROLE_CLIENT"
-//                session.setAttribute("role", "ROLE_LIBRAIRE");
-//                response.sendRedirect("moncomptelibraire.jsp");
-//            } else {
-//                session.setAttribute("role", "ROLE_CLIENT");
-//                response.sendRedirect("moncompteclient.jsp");
-//            }
-//        } else {
-//            // Rediriger vers la page de connexion avec un message d'erreur
-//            response.sendRedirect("connexion.jsp?error=true");
-//        }
     }
 
 
