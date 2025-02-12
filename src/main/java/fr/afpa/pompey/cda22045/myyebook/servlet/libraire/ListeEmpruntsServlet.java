@@ -34,7 +34,6 @@ public class ListeEmpruntsServlet extends HttpServlet {
             String currentURL = request.getRequestURL().toString();
             //Enregistre l'url dans la variable et envoye à la page JSP
             request.setAttribute("currentURL", currentURL);
-
             log.info(emprunterList.toString());
             this.getServletContext().getRequestDispatcher("/JSP/page/listeEmprunts.jsp").forward(request, response);
         } catch (SQLException e) {
@@ -71,19 +70,6 @@ public class ListeEmpruntsServlet extends HttpServlet {
                     }
                 }
             }
-//            if (!(info == null) && !(id == null)) {
-//                if (info.equals("valider")) {
-//                    validerEmprunts(id);
-//                    response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=valider");
-//                } else if (info.equals("rendre")) {
-////                    rendreEmprunts(id);
-//                    response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=rendre");
-//                } else {
-//                    response.sendRedirect(request.getContextPath() + "/accueil");
-//                }
-//            }else {
-//            response.sendRedirect(request.getContextPath() + "/accueil");
-//            }
         } catch (
                 Exception e) {
             throw new RuntimeException(e);
@@ -101,39 +87,6 @@ public class ListeEmpruntsServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-
     }
 
-//    private void validerEmprunts (Integer id){
-//        try {
-//            Emprunter emprunter = verifieSiLEmpruntExiste(id);
-//            if(emprunter.getDatetimeRetour() == null) {
-//                emprunter.setDatetimeRetour(java.time.LocalDateTime.now());
-//                emprunterDAOImpl.update(emprunter);
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    private void rendreEmprunts (Integer id) {
-//        ReservationDAOImp reservationDAOImp = new ReservationDAOImp();
-//        try {
-//            Emprunter emprunter = verifieSiLEmpruntExiste(id);
-//            if(emprunter.getDatetimeRetour() != null) {
-//                emprunterDAOImpl.delete(id);
-//                reservationDAOImp.delete(emprunter.getReservation().getResId());
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
-//    private Emprunter verifieSiLEmpruntExiste (Integer id) {
-//        try {
-//            return emprunterDAOImpl.get(id);
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
