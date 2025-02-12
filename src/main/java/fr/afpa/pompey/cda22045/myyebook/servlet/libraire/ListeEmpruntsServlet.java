@@ -43,31 +43,27 @@ public class ListeEmpruntsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String info = request.getParameter("info");
         String idStr = request.getParameter("id");
         String empruntstatut = request.getParameter("empruntstatut" + idStr);
         Integer emprunterId = Integer.parseInt(idStr);
-        //Verifie si les valeurs ne sont pas nulles
         try {
             // TODO: verifier la quantite de livre disponible avant emprunt
-            if (emprunterId != null) {
-                Emprunter emprunter = emprunterDAOImpl.get(emprunterId);
-                if (emprunter != null) {
-                    if (empruntstatut.equals("attente")) {
-                        emprunter.setDatetimeRetour(null);
-                        emprunter.setDatetimeEmprunt(null);
-                        emprunterDAOImpl.update(emprunter);
-                        response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=attente");
-                    } else if (empruntstatut.equals("encours")) {
-                        emprunter.setDatetimeEmprunt(LocalDateTime.now());
-                        emprunter.setDatetimeRetour(null);
-                        emprunterDAOImpl.update(emprunter);
-                        response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=valider");
-                    } else if (empruntstatut.equals("terminer")) {
-                        emprunter.setDatetimeRetour(LocalDateTime.now());
-                        emprunterDAOImpl.update(emprunter);
-                        response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=rendre");
-                    }
+            Emprunter emprunter = emprunterDAOImpl.get(emprunterId);
+            if (emprunter != null) {
+                if (empruntstatut.equals("attente")) {
+                    emprunter.setDatetimeRetour(null);
+                    emprunter.setDatetimeEmprunt(null);
+                    emprunterDAOImpl.update(emprunter);
+                    response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=attente");
+                } else if (empruntstatut.equals("encours")) {
+                    emprunter.setDatetimeEmprunt(LocalDateTime.now());
+                    emprunter.setDatetimeRetour(null);
+                    emprunterDAOImpl.update(emprunter);
+                    response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=valider");
+                } else if (empruntstatut.equals("terminer")) {
+                    emprunter.setDatetimeRetour(LocalDateTime.now());
+                    emprunterDAOImpl.update(emprunter);
+                    response.sendRedirect(request.getContextPath() + "/ListeEmprunts?info=rendre");
                 }
             }
         } catch (

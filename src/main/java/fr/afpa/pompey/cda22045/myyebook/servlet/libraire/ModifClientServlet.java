@@ -10,7 +10,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -47,12 +46,6 @@ public class ModifClientServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, RuntimeException {
         ClientDAOImp clientDAOImp = new ClientDAOImp();
-        log.warn("post");
-        HttpSession session = request.getSession();
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) request.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfReq: " + csrfReq);
 
         Integer clientId = Integer.valueOf(request.getParameter("clientId"));
         Integer compteId = Integer.valueOf(request.getParameter("compteId"));
@@ -72,8 +65,7 @@ public class ModifClientServlet extends HttpServlet {
         if (!password.equals(password2)) {
             response.sendRedirect(request.getContextPath() + "/MotifClient?info=error");
             //new RuntimeException("Les mots de passe ne sont pas identiques");
-        }else{
-
+        } else {
             try {
                 if (clientDAOImp.get(clientId) != null) {
                     Compte compte = new Compte(
@@ -97,7 +89,6 @@ public class ModifClientServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             response.sendRedirect(request.getContextPath() + "/ListeClient?info=success");
-
         }
 
     }
@@ -106,13 +97,6 @@ public class ModifClientServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ClientDAOImp clientDAOImp = new ClientDAOImp();
         EmprunterDAOImpl emprunterDAOImpl = new EmprunterDAOImpl();
-        log.warn("delete");
-        HttpSession session = req.getSession();
-        String csrfSession = (String) session.getAttribute("csrfToken");
-        String csrfReq = (String) req.getParameter("csrf");
-        log.info("csrfSession: " + csrfSession);
-        log.info("csrfReq: " + csrfReq);
-
         Integer id = Integer.valueOf(req.getParameter("id"));
 
         try {
@@ -129,7 +113,7 @@ public class ModifClientServlet extends HttpServlet {
                     }
                 }
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             resp.sendRedirect(req.getContextPath() + "/accueil");
             throw new RuntimeException(e);
         }
