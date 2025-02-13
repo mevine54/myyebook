@@ -1,5 +1,7 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.client;
 
+import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,56 +9,86 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "enregistrerClientServlet", value = "/client-enregistrer")
 public class ClientEnregistrerServlet extends HttpServlet {
+    private ClientDAOImp clientDAOImp;
 
     @Override
     public void init() {
+        clientDAOImp = new ClientDAOImp();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = null;//request.getSession(false);
-        if (session != null) {
-            String role = (String) session.getAttribute("role");
-            if ("ROLE_CLIENT".equals(role)) {
-                response.sendRedirect("index.jsp");
-            } else if ("ROLE_ADMIN".equals(role)) {
-                response.sendRedirect("libraireinfo.jsp");
+        String idStr = request.getParameter("id");
+        Client client;
+
+        if (idStr != null && !idStr.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idStr);
+                client = clientDAOImp.get(id);
+                if (client != null) {
+                    request.setAttribute("client", client);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendRedirect(request.getContextPath() + "/JSP/page/clientenregistrer.jsp?error=invalid_id");
+                return;
             }
-        } else {
-            this.getServletContext().getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
         }
+        request.getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String login = request.getParameter("login");
+//        String role = request.getParameter("role");
         String nom = request.getParameter("nom");
         String prenom = request.getParameter("prenom");
         String email = request.getParameter("email");
         String utilisateur = request.getParameter("utilisateur");
         String mdp1 = request.getParameter("mdp1");
         String mdp2 = request.getParameter("mdp2");
+        String adresse = request.getParameter("adresse");
+        String ville = request.getParameter("ville");
+        String cp = request.getParameter("cp");
+        String role = request.getParameter("ROLE_CLIENT");
 
-        System.out.println("nom: " + nom + ", prenom: " + prenom + ", utilisateur: " + utilisateur + ", email: " + email + ", mdp: " + mdp1 + ", mdp2: " + mdp2);
 
-        // Vérifier les informations d'inscription (à implémenter)
-        boolean isRegistered = registerUser(nom, prenom, email, utilisateur, mdp1, mdp2);
-
-        if (isRegistered) {
-            response.sendRedirect("connexion.jsp");
-        } else {
-            response.sendRedirect("clientenregistrer.jsp?error=true");
+        // Validation des champs requis
+        if (nom == null || nom.isEmpty() || prenom == null || prenom.isEmpty() ||
+                email == null || email.isEmpty() || utilisateur == null || utilisateur.isEmpty() ||
+                mdp1 == null || mdp1.isEmpty() || !mdp1.equals(mdp2)) {
+            response.sendRedirect(request.getContextPath() + "/JSP/page/clientenregistrer.jsp?error=validation_failed");
+            return;
         }
-    }
 
-    private boolean registerUser(String nom, String prenom, String email, String utilisateur, String mdp1, String mdp2) {
-        // Implémentez la logique d'enregistrement ici
-        return true; // Exemple de retour
-    }
+        try {
+//            if (clientDAOImp.emailExiste(email)) {
+//                request.setAttribute("errorMessage", "email exist deja");
+//                request.getRequestDispatcher("/JSP/page/clientenregistrer.jsp").forward(request, response);
+//            } else {}
+            Client client = new Client();
+            client.setLogin(utilisateur);
+            client.setNom(nom);
+            client.setPrenom(prenom);
+            client.setEmail(email);
+            client.setPassword(mdp1);
+            client.setAdresse(adresse);
+            client.setVille(ville);
+            client.setCodePostal(cp);
 
-    @Override
-    public void destroy() {
+
+
+            clientDAOImp.insert(client);
+
+            response.sendRedirect(request.getContextPath() + "/connexion?info=success");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/JSP/page/clientenregistrer.jsp?error=sql_exception");
+        }
     }
 }

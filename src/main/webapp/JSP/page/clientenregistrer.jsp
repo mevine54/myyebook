@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%--<%@ page session="false" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url value="/assets/css/bootstrap5.css" var="bootstrap"/>
@@ -26,7 +26,8 @@
             <div class="fs-2">Créer un compte</div>
         </div>
         <form class=" mx-auto col-lg-7 mt-2"  method="POST" action="${clientEnregistrer}">
-            <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">
+<%--            <input type="hidden" name="id" value="<c:out value="${client.clientId}" />">--%>
+            <input type="hidden" name="csrf" value="<c:out value="${sessionScope.csrfToken}"/>">
             <div class="row mb-3">
                 <div class="col-lg">
                     <label for="nom" class="form-label">Nom</label>
@@ -56,6 +57,22 @@
                     <label for="mdp2" class="form-label">Confirmer votre mot de passe</label>
                     <input type="text" class="form-control" id="mdp2" name="mdp2" placeholder="Confirmez votre mot de passe" required>
                 </div>
+
+                <div class="col-12 col-lg-6 mt-2 mt-lg-0">
+                    <label for="adresse" class="form-label">Ajouter votre adresse</label>
+                    <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Votre adresse" required>
+                </div>
+                <div class="col-12 col-lg-6 mt-2 mt-lg-0">
+                    <label for="ville" class="form-label">Ajouter votre ville</label>
+                    <input type="text" class="form-control" id="ville" name="ville" placeholder="Votre ville" required>
+                </div>
+
+                <div class="col-12 col-lg-6 mt-2 mt-lg-0">
+                    <label for="cp" class="form-label">Ajouter votre code postale</label>
+                    <input type="text" class="form-control" id="cp" name="cp" placeholder="Votre CP" required>
+                </div>
+
+
             </div>
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-outline-info fw-bold rounded-0 mt-lg-3 mb-3">Créer mon compte</button>

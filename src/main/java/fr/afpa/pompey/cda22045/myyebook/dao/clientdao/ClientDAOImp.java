@@ -4,11 +4,12 @@ import fr.afpa.pompey.cda22045.myyebook.connectionbdd.DatabaseConnection;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
 import fr.afpa.pompey.cda22045.myyebook.model.Compte;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDAOImp implements ClientDAO {
+public class ClientDAOImp implements fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAO {
 
     @Override
     public Client get(Integer cliId) throws SQLException {
@@ -55,6 +56,7 @@ public class ClientDAOImp implements ClientDAO {
                 PreparedStatement ps = connection.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+//                System.out.println(rs.getString("cpt_role") + " " + rs.getString("cli_id"));
                 Compte compte = new Compte(
                         rs.getInt("cpt_id"),
                         rs.getString("cpt_login"),
@@ -81,31 +83,41 @@ public class ClientDAOImp implements ClientDAO {
 
     @Override
     public Integer insert(Client client) throws SQLException {
-        String sql = "INSERT INTO Compte (cpt_login, cpt_mdp, cpt_role) VALUES (?, ?, ?)";
-        Integer compteId = 0;
-        try {
 
-            Connection connection = DatabaseConnection.getInstanceDB();
+
+
+        String sqlCompte = "INSERT INTO Compte (cpt_login, cpt_mdp, cpt_role) VALUES (?, ?, ?)";
+        String sqlClient = "INSERT INTO client (cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale, cpt_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DatabaseConnection.getInstanceDB();
+             PreparedStatement psCompte = connection.prepareStatement(sqlCompte, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement psClient = connection.prepareStatement(sqlClient, Statement.RETURN_GENERATED_KEYS)) {
+
             connection.setAutoCommit(false);
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, client.getLogin());
-            ps.setString(2, client.getPassword());
-            ps.setString(3, client.getRole());
-            ps.executeUpdate();
-            ResultSet generatedKeysCompte = ps.getGeneratedKeys();
+
+            // Insertion dans la table Compte
+            psCompte.setString(1, client.getLogin());
+            psCompte.setString(2, client.getPassword());
+            psCompte.setString(3, client.getRole());
+            psCompte.executeUpdate();
+
+            // Récupération de l'ID généré
+            ResultSet generatedKeysCompte = psCompte.getGeneratedKeys();
             if (generatedKeysCompte.next()) {
-                sql = "INSERT INTO client (cli_nom, cli_prenom, cli_email, cli_adresse, cli_ville, cli_code_postale, cpt_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                compteId = generatedKeysCompte.getInt(1);
-                ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, client.getNom());
-                ps.setString(2, client.getPrenom());
-                ps.setString(3, client.getEmail());
-                ps.setString(4, client.getAdresse());
-                ps.setString(5, client.getVille());
-                ps.setString(6, client.getCodePostal());
-                ps.setInt(7, compteId);
-                ps.executeUpdate();
-                ResultSet generatedKeysClient = ps.getGeneratedKeys();
+                int compteId = generatedKeysCompte.getInt(1);
+
+                // Insertion dans la table Client
+                psClient.setString(1, client.getNom());
+                psClient.setString(2, client.getPrenom());
+                psClient.setString(3, client.getEmail());
+                psClient.setString(4, client.getAdresse());
+                psClient.setString(5, client.getVille());
+                psClient.setString(6, client.getCodePostal());
+                psClient.setInt(7, compteId);
+                psClient.executeUpdate();
+
+                // Récupération de l'ID Client
+                ResultSet generatedKeysClient = psClient.getGeneratedKeys();
                 if (generatedKeysClient.next()) {
                     int clientId = generatedKeysClient.getInt(1);
                     client.setClientId(clientId);
@@ -114,13 +126,10 @@ public class ClientDAOImp implements ClientDAO {
                 }
             }
             connection.rollback();
+            throw new SQLException("Insertion échouée : aucune clé générée.");
         } catch (SQLException e) {
-            connection.rollback();
-            throw new RuntimeException(e);
-        } finally {
-            connection.setAutoCommit(true);
+            throw new RuntimeException("Erreur lors de l'insertion : " + e.getMessage(), e);
         }
-        return compteId;
     }
 
     @Override
@@ -145,6 +154,7 @@ public class ClientDAOImp implements ClientDAO {
                 ps.setString(4, client.getAdresse());
                 ps.setString(5, client.getVille());
                 ps.setString(6, client.getCodePostal());
+
                 ps.setInt(7, client.getClientId());
                 rowsAffected = ps.executeUpdate();
 
@@ -202,4 +212,17 @@ public class ClientDAOImp implements ClientDAO {
                 throw new RuntimeException(e);
             }
         }    }
+
+    public boolean emailExiste(String email) throws SQLException {
+        String sql = "SELECT * FROM client WHERE cli_email = ?";
+        try(
+                Connection connection = DatabaseConnection.getInstanceDB();
+                PreparedStatement ps = connection.prepareStatement(sql);
+                ) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        }
+    }
+
 }
