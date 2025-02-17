@@ -20,79 +20,50 @@ public class AuteurTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "Dupont",
-            "Marie",
-            "Sartre",
-            "Dupont ",
-    })
+    @ValueSource(strings = {"Dupont", "Marie", "Sartre", "Dupont ",})
     void setNomValid(String nom) {
         assertDoesNotThrow(() -> auteur.setNom(nom));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "12345",
-            "Jean123",
-    })
+    @ValueSource(strings = {"12345","Jean123",})
     void setNomRegexInvalid(String nom) {
         assertThrows(RegexValidationException.class, () -> auteur.setNom(nom));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
-    })
+    @ValueSource(strings = {"Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",})
     void setNomLongueurMaxInvalid(String nom) {
         assertThrows(LongueurMaximaleException.class, () -> auteur.setNom(nom));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "A",
-            "",
-            " ",
-            "@"
-    })
+    @ValueSource(strings = {"A",""," ","@"})
     void setAutNomLongueurMinInvalid(String nom) {
         assertThrows(LongueurMinimaleException.class, () -> auteur.setNom(nom));
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "Dupont",
-            "Marie",
-            "Sartre",
-            "Dupont ",
-    })
+    @ValueSource(strings = {"Dupont","Marie","Sartre","Dupont "})
     void setPrenomValid(String prenom) {
         assertDoesNotThrow(() -> auteur.setPrenom(prenom));
     }
 
-
     @ParameterizedTest
-    @ValueSource(strings = {
-            "12345",
-            "Jean123",
-            "mlmlk@"
-    })
+    @ValueSource(strings = {"12345","Jean123","mlmlk@"})
     void setPrenomInvalid(String prenom) {
         assertThrows(RegexValidationException.class, () -> auteur.setPrenom(prenom));
     }
 
-
-
     @ParameterizedTest
-    @ValueSource(strings = {
-            "Jonmsdfsdrfsdfsdfsdvxcvxcvxcvxcvxcvxqsdfsdfsdfsdqfsdfsdfsdqfsqdfsdfsdf",
+    @ValueSource(strings = {"Jonmsdfsdrfsdfsdfsdvxcvxcvxcvxcvxcvxqsdfsdfsdfsdqfsdfsdfsdqfsqdfsdfsdf",
             "Jean Dupont Jean Dupont Jean Dupont Jean Dupont Jean Dupont",
     })
     void setPrenomLongueurMaximaleInvalid(String prenom) {
         assertThrows(LongueurMaximaleException.class, () -> auteur.setPrenom(prenom));
     }
 
-
-        @ParameterizedTest
+    @ParameterizedTest
     @ValueSource(strings = {"/photo.jpg", "/image.png", "/portrait.jpeg"})
     void setAutPhotoValid(String autPhoto) {
         assertDoesNotThrow(() -> auteur.setPhoto(autPhoto));
@@ -107,6 +78,5 @@ public class AuteurTest {
     @Test
     void setAutPhotoNullInvalid() {
         assertThrows(NullValueException.class, () -> auteur.setPhoto(null));
-
     }
 }

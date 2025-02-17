@@ -61,6 +61,7 @@
                         <th>Image</th>
                         <th>Titre</th>
                         <th>Auteur</th>
+                        <th>Quantite</th>
                         <th>Mise en avant</th>
                         <th>Actions</th>
                     </tr>
@@ -73,6 +74,7 @@
                                      style="width: 50px; height: 50px;"></td>
                             <td><c:out value="${livre.titre}"/></td>
                             <td><c:out value="${livre.auteur.prenom}"/> <c:out value="${livre.auteur.nom}"/></td>
+                            <td><c:out value="${livre.quantite}"/> </td>
                             <td>
                                 <div class="form-check form-switch fs-5">
                                     <input class="form-check-input" type="checkbox" role="switch"

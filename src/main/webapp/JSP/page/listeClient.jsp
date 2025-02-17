@@ -26,24 +26,34 @@
             <c:import url="/WEB-INF/JSP/menu_libraire.jsp"/>
             <div class="col-8">
                 <h1 class="d-flex justify-content-center my-3">Liste des clients</h1>
+                <c:if test="${param.info == 'success'}">
+                    <div class="alert alert-success" role="alert">
+                        La modification a été pris en compte avec succès.
+                    </div>
+                </c:if>
                 <table class="table table-bordered mt-5">
                     <thead>
                     <tr>
-                        <th>Libraire</th>
+                        <th>ID</th>
+                        <th>Clients</th>
                         <th>Email</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="client" items="${requestScope.clients}">
-                        <tr>
+                        <tr id="row${client.clientId}">
                             <td><c:out value="${client.clientId}"/></td>
                             <td><c:out value="${client.nom}"/></td>
                             <td><c:out value="${client.email}"/></td>
                             <td>
                                 <a class="btn btn-outline-primary rounded-0"
-                                   href="${pageContext.request.contextPath}/ModifClient">Modifier</a>
-                                <a class="btn btn-outline-danger rounded-0" href="">Supprimer</a>
+                                   href="${pageContext.request.contextPath}/ModifClient?id=${client.clientId}">Modifier</a>
+                                <button type="button" class="btn btn-outline-danger rounded-0"
+                                        hx-on:click="confirmDelete(<c:out value='${client.clientId}'/>,
+                                        'ModifClient?id=${client.clientId}&csrf=${requestScope.csrfToken}')">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
                     </c:forEach>

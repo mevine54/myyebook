@@ -48,16 +48,13 @@ class EmprunterTest {
         client.setClientId(1);
         Libraire libraire = new Libraire();
         libraire.setLibId(1);
-        Reservation reservation = new Reservation();
-        reservation.setResId(1);
-        Exemplaire exemplaire = new Exemplaire();
-        exemplaire.setExemplaireId(1);
+        Livre livre = new Livre();
 
         Emprunter emprunter = new Emprunter(
-                1, client, libraire, exemplaire,
+                1, client, libraire, livre,
+                LocalDateTime.of(2021, 5, 1, 12, 0, 0),
                 LocalDateTime.of(2021, 6, 1, 12, 0, 0),
-                LocalDateTime.of(2021, 6, 8, 12, 0, 0),
-                reservation
+                LocalDateTime.of(2021, 6, 8, 12, 0, 0)
         );
         try {
             emprunterDAOImpl.insert(emprunter);

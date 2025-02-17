@@ -49,7 +49,7 @@ public class LivreDAOImpTest {
         try {
             Auteur auteur = auteurDAOImp.get(1);
             Categorie categorie = categorieDAOImp.get(1);
-            Livre livre = new Livre(null,"titreLivre","resume losdfsdfdsf","image.jpg",false,auteur,categorie);
+            Livre livre = new Livre(null,"titreLivre","resume losdfsdfdsf","image.jpg",false,auteur,categorie,5);
             Integer id  = livreDAOImp.insert(livre);
             log.info("L'id du livre insere est "+ id);
         } catch (SQLException e) {

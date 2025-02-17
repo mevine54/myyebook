@@ -55,7 +55,7 @@
 
                     </div>
                     <div class="row mb-3">
-                        <div class="col">
+                        <div class="col-12">
                             <label for="categorie" class="form-label">Categories</label>
                             <select class="form-select" id="categorie" name="categorie" required>
                                 <option value="" selected disabled>Veuillez selectionez une option</option>
@@ -64,7 +64,13 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        <div class="mt-3 input-group mb-3">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="quantite">Quantité (0-100):</label>
+                                <input type="number" class="form-control" id="quantite" name="quantite" min="0" max="100" />
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 input-group mb-3">
                             <label class="input-group-text" for="img">Choisissez une nouvelle couverture</label>
                             <input type="file" id="img" name="img" class="form-control bi bi-file-image fill-exclamation"
                                    accept="image/png, image/jpeg" required>

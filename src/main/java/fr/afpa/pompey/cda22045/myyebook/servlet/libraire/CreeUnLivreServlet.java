@@ -62,8 +62,8 @@ public class CreeUnLivreServlet extends HttpServlet {
         Integer categorieId = Integer.valueOf(request.getParameter("categorie"));
         boolean estEnavant = Boolean.parseBoolean(request.getParameter("estEnavant"));
         String resumeStr = request.getParameter("resume");
+        String quantiteStr = request.getParameter("quantite");
         Part imgPart = request.getPart("img");
-        String idStr = request.getParameter("id");
 
         log.info(nomStr + " " + auteurId + " " + categorieId + " " + resumeStr + " " + imgPart.getSubmittedFileName());
         //TODO:    Gerer le chargement d'image
@@ -87,6 +87,7 @@ public class CreeUnLivreServlet extends HttpServlet {
                 // Creation d'un livre
                 Categorie categorie = categorieDAOImpl.get(categorieId);
                 Auteur auteur = auteurDAOImpl.get(auteurId);
+                int quantite = Integer.parseInt(quantiteStr);
                 Livre livre = new Livre(
                         null,
                         nomStr,
@@ -94,7 +95,8 @@ public class CreeUnLivreServlet extends HttpServlet {
                         newFileName,
                         estEnavant,
                         auteur,
-                        categorie
+                        categorie,
+                        quantite
                 );
                 livreDAOImpl.insert(livre);
                 response.sendRedirect(request.getContextPath() + "/ListeLivre?info=success");

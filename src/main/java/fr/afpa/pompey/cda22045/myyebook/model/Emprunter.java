@@ -10,25 +10,30 @@ import java.time.LocalDateTime;
 @Getter
 public class Emprunter {
     private Integer id;
-    private Reservation reservation;
     private Client client;
     private Libraire libraire;
-    private Exemplaire exemplaire;
+    private Livre livre;
     private LocalDateTime datetimeEmprunt;
     private LocalDateTime datetimeRetour;
+    private LocalDateTime datetimeReservation;
+
+
 
     public Emprunter() {
     }
 
-    public Emprunter( Integer id, Client client, Libraire libraire, Exemplaire exemplaire, LocalDateTime datetimeEmprunt, LocalDateTime datetimeRetour, Reservation reservation) {
+    public Emprunter( Integer id, Client client, Libraire libraire, Livre livre,LocalDateTime datetimeReservation,  LocalDateTime datetimeEmprunt, LocalDateTime datetimeRetour) {
         setId(id);
         setClient(client);
         setLibraire(libraire);
-        setExemplaire(exemplaire);
+        setLivre(livre);
+        setDatetimeReservation(datetimeReservation);
+        setDatetimeEmprunt(datetimeReservation);
         setDatetimeEmprunt(datetimeEmprunt);
         setDatetimeRetour(datetimeRetour);
-        setReservation(reservation);
     }
+
+
 
     public void setId(Integer id) {
         if ( id!=null && id <= 0) {
@@ -44,11 +49,11 @@ public class Emprunter {
         this.client = client;
     }
 
-    public void setExemplaire(Exemplaire exemplaire) {
-        if (exemplaire == null) {
-            throw new NullValueException("l 'exemplaire ne peut pas être null");
+    public void setLivre(Livre livre) {
+        if (livre == null) {
+            throw new NullValueException("le livre ne peut pas être null");
         }
-        this.exemplaire = exemplaire;
+        this.livre = livre;
     }
 
     public void setLibraire(Libraire libraire) {
@@ -58,29 +63,27 @@ public class Emprunter {
         this.libraire = libraire;
     }
 
-    public void setReservation(Reservation reservation) {
-        if (reservation != null && reservation.getDatetime().isAfter(datetimeEmprunt)  ) {
-//            log.info(reservation.getDatetime());
-//            log.info(datetimeEmprunt);
 
-            throw new IncoherenteDateException("La date de reservation ne peut pas etre posterieur à la date d'emprunt");
+    private void setDatetimeReservation(LocalDateTime datetimeReservation) {
+        if (datetimeReservation == null) {
+            throw new NullValueException("la date de reservation ne peut pas être null");
+        } else if (  datetimeEmprunt != null  && datetimeReservation.isBefore(datetimeEmprunt) ) {
+            throw new IncoherenteDateException("La date de reservation ne peut pas être avant la date d'emprunt");
         }
-        this.reservation = reservation;
+        this.datetimeReservation = datetimeReservation;
     }
+
 
     public void setDatetimeEmprunt(LocalDateTime datetimeEmprunt) {
 
-        if (datetimeEmprunt == null) {
-            throw new NullValueException("la date d emprunt ne peut pas être null");
-        } else if (datetimeEmprunt.isAfter(LocalDateTime.now())) {
+        if ( datetimeEmprunt != null && datetimeEmprunt.isAfter(LocalDateTime.now())) {
             throw new IncoherenteDateException("La date d'emprunt ne peut pas être dans le futur");
         }
-
         this.datetimeEmprunt = datetimeEmprunt;
     }
 
     public void setDatetimeRetour(LocalDateTime datetimeRetour) {
-        if ( datetimeRetour != null && datetimeRetour.isBefore(datetimeEmprunt) ) {
+        if ( datetimeRetour != null && datetimeEmprunt != null &&  datetimeRetour.isBefore(datetimeEmprunt) ) {
             throw new IncoherenteDateException("La date de retour ne peut pas être avant la date d'emprunt");
         }
         this.datetimeRetour = datetimeRetour;
@@ -90,14 +93,13 @@ public class Emprunter {
     public String toString() {
         return "Emprunter{" +
                 "id=" + id +
-                ", reservation=" + reservation +
                 ", client=" + client +
                 ", libraire=" + libraire +
-                ", exemplaire=" + exemplaire +
+                ", livre=" + livre +
                 ", datetimeEmprunt=" + datetimeEmprunt +
                 ", datetimeRetour=" + datetimeRetour +
+                ", datetimeReservation=" + datetimeReservation +
                 '}';
-
     }
 }
 

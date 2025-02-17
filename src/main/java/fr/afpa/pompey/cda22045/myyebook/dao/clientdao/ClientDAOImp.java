@@ -115,12 +115,13 @@ public class ClientDAOImp implements ClientDAO {
                     return clientId;
                 }
             }
-            connection.rollback();
         } catch (SQLException e) {
             connection.rollback();
             throw new RuntimeException(e);
         } finally {
-            connection.setAutoCommit(true);
+            if(connection != null){
+                connection.setAutoCommit(true);
+            }
         }
         return compteId;
     }
@@ -161,7 +162,13 @@ public class ClientDAOImp implements ClientDAO {
             log.info(e.getMessage());
             throw new RuntimeException(e);
         } finally {
-            connection.setAutoCommit(true);
+            if (connection != null && !connection.isClosed()) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    log.warn("Impossible de rétablir l'autocommit", e);
+                }
+            }
         }
         return 0;
     }

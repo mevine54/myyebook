@@ -1,8 +1,9 @@
 package fr.afpa.pompey.cda22045.myyebook.servlet.libraire;
 
-import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAO;
 import fr.afpa.pompey.cda22045.myyebook.dao.clientdao.ClientDAOImp;
+import fr.afpa.pompey.cda22045.myyebook.dao.emprunterdao.EmprunterDAOImpl;
 import fr.afpa.pompey.cda22045.myyebook.model.Client;
+import fr.afpa.pompey.cda22045.myyebook.model.Emprunter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +17,8 @@ import java.util.List;
 @WebServlet(name = "ListeClientServlet", value = "/ListeClient")
 public class ListeClientServlet extends HttpServlet {
 
-    private ClientDAOImp clientDAO;
+    private ClientDAOImp clientDAOImp;
+    private EmprunterDAOImpl emprunterDAOImpl;
     @Override
     public void init() {
 

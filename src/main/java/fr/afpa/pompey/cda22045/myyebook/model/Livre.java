@@ -17,6 +17,7 @@ public class Livre {
     private String image;
     private Auteur auteur;
     private Categorie categorie;
+    private int quantite;
 
     // Constructeur
     public Livre() {}
@@ -25,7 +26,7 @@ public class Livre {
 //        setId(id);
 //    }
 
-    public Livre(Integer id, String titre, String resume, String image,boolean estEnAvant, Auteur auteur, Categorie categorie) {
+    public Livre(Integer id, String titre, String resume, String image,boolean estEnAvant, Auteur auteur, Categorie categorie,int quantite) {
         setId(id);
         setTitre(titre);
         setResume(resume);
@@ -33,7 +34,10 @@ public class Livre {
         setAuteur(auteur);
         setCategorie(categorie);
         setEstEnAvant(estEnAvant);
+        setQuantite(quantite);
     }
+
+
 
 
     public void setId(Integer id) {
@@ -75,7 +79,7 @@ public class Livre {
     public void setImage(String image) {
         int longueurMin = 6;
 
-        String regex  = ".*[a-zA-Z0-9_àâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]*\\.(jpg|png|gif|jpeg|bmp)$";
+        String regex  = ".*[a-zA-Z0-9_àâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ\\-]*\\.(jpg|png|gif|jpeg|bmp|jfif)$";
         if (image == null) {
             throw new NullValueException("Le chemin de la couverture ne peut pas etre null");
         } else if (image.length() < longueurMin) {
@@ -101,6 +105,13 @@ public class Livre {
 
     }
 
+    public void setQuantite(int quantite) {
+        if ( quantite < 0) {
+            throw new IllegalArgumentException("La quantite doit etre supérieur à zéro");
+        }
+        this.quantite = quantite;
+    }
+
     public void setEstEnAvant(boolean estEnAvant) {
         this.estEnAvant = estEnAvant;
     }
@@ -115,9 +126,9 @@ public class Livre {
                 ", image='" + image + '\'' +
                 ", auteur=" + auteur +
                 ", categorie=" + categorie +
+                ", quantite=" + quantite +
                 '}';
     }
-
 }
 
 

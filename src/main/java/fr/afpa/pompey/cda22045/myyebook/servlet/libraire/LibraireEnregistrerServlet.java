@@ -40,7 +40,6 @@ public class LibraireEnregistrerServlet extends HttpServlet {
         String prenom = request.getParameter("prenom");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        log.info("nom: " +nom + " Prenom " + prenom + " login " + login + " password " + password);
 
         // Enregistrer le libraire
         Compte compteLibraire = new Compte(

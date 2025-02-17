@@ -22,6 +22,11 @@
 <main>
     <%-- INSERER LE CONTENU ICI / Modifier le titre,css,js si besoin--%>
         <div class="container">
+                            <c:if test="${param.info == 'cred-invalid'}">
+                                <div class="alert alert-danger" role="alert">
+                                    Identifiant et ou mot de passe invalide
+                                </div>
+                            </c:if>
             <form class="col-lg-5 mx-auto border border-info p-5 text-center mt-5" method="POST" action="connexion">
 <%--                <input type="hidden" name="csrfToken" value="<c:out value="${requestScope.csrfToken}" />">--%>
                 <div class="col">
